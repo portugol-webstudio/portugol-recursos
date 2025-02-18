@@ -1,0 +1,202 @@
+{
+  "$ref": "#/definitions/bibliotecasSchema",
+  "definitions": {
+    "bibliotecasSchema": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "bibliotecas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome da biblioteca (ex: Texto)"
+              },
+              "descrição": {
+                "type": "string",
+                "description": "Descrição da biblioteca"
+              },
+              "metadados": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Metadados da biblioteca"
+              },
+              "constantes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {
+                      "type": "string",
+                      "description": "Nome da constante"
+                    },
+                    "valor": {
+                      "description": "Valor da constante"
+                    },
+                    "descrição": {
+                      "type": "string",
+                      "description": "Descrição da constante, suporta valor em markdown"
+                    },
+                    "tipo": {
+                      "type": "object",
+                      "properties": {
+                        "primitivo": {
+                          "type": "string",
+                          "enum": [
+                            "cadeia",
+                            "caracter",
+                            "inteiro",
+                            "logico",
+                            "real",
+                            "vazio",
+                            "*"
+                          ],
+                          "description": "Tipo primitivo"
+                        },
+                        "dimensão": {
+                          "type": "string",
+                          "enum": [
+                            "vetor",
+                            "matriz"
+                          ],
+                          "description": "Dimensão do tipo, vazio caso escalar"
+                        }
+                      },
+                      "required": [
+                        "primitivo"
+                      ],
+                      "additionalProperties": false,
+                      "description": "Tipo da constante"
+                    },
+                    "referência": {
+                      "type": "string",
+                      "description": "Referência da função"
+                    }
+                  },
+                  "required": [
+                    "nome",
+                    "descrição",
+                    "tipo"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "funções": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {
+                      "type": "string",
+                      "description": "Nome da função"
+                    },
+                    "descrição": {
+                      "type": "string",
+                      "description": "Descrição da função, suporta valor em markdown"
+                    },
+                    "retorno": {
+                      "type": "object",
+                      "properties": {
+                        "tipo": {
+                          "type": "object",
+                          "properties": {
+                            "primitivo": {
+                              "$ref": "#/definitions/bibliotecasSchema/properties/bibliotecas/items/properties/constantes/items/properties/tipo/properties/primitivo"
+                            },
+                            "dimensão": {
+                              "$ref": "#/definitions/bibliotecasSchema/properties/bibliotecas/items/properties/constantes/items/properties/tipo/properties/dimensão"
+                            }
+                          },
+                          "required": [
+                            "primitivo"
+                          ],
+                          "additionalProperties": false,
+                          "description": "Tipo de retorno da função"
+                        },
+                        "descrição": {
+                          "type": "string",
+                          "description": "Descrição do retorno da função, suporta valor em markdown"
+                        }
+                      },
+                      "required": [
+                        "tipo"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "parâmetros": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "nome": {
+                            "type": "string",
+                            "description": "Nome do parâmetro"
+                          },
+                          "tipo": {
+                            "type": "object",
+                            "properties": {
+                              "primitivo": {
+                                "$ref": "#/definitions/bibliotecasSchema/properties/bibliotecas/items/properties/constantes/items/properties/tipo/properties/primitivo"
+                              },
+                              "dimensão": {
+                                "$ref": "#/definitions/bibliotecasSchema/properties/bibliotecas/items/properties/constantes/items/properties/tipo/properties/dimensão"
+                              }
+                            },
+                            "required": [
+                              "primitivo"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Tipo do parâmetro"
+                          },
+                          "descrição": {
+                            "type": "string",
+                            "description": "Descrição do parâmetro, suporta valor em markdown"
+                          }
+                        },
+                        "required": [
+                          "nome",
+                          "tipo",
+                          "descrição"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "referência": {
+                      "type": "string",
+                      "description": "Referência da função"
+                    }
+                  },
+                  "required": [
+                    "nome",
+                    "descrição",
+                    "retorno",
+                    "parâmetros"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "nome",
+              "descrição",
+              "constantes",
+              "funções"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "bibliotecas"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
