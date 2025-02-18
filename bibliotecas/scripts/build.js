@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import url from "node:url";
 import yaml from "yaml";
+import { createTypeAlias, printNode, zodToTs } from "zod-to-ts";
 import { schema } from "./schema.js";
 
 const baseDir = path.join(path.dirname(url.fileURLToPath(import.meta.url)), "..");
@@ -33,4 +34,14 @@ await fs.writeFile(
   "# yaml-language-server: $schema=./bibliotecas.schema.json\n" + yaml.stringify(mergedLibs),
 );
 
-await fs.writeFile(path.join(baseDir, "bibliotecas.json"), JSON.stringify(mergedLibs, undefined, 2));
+await fs.writeFile(path.join(baseDir, "bibliotecas.json"), JSON.stringify(mergedLibs, undefined, 2) + "\n");
+
+const identifier = "Schema";
+const { node } = zodToTs(schema, identifier);
+const typeAlias = createTypeAlias(node, identifier);
+const nodeString = printNode(typeAlias);
+
+await fs.writeFile(
+  path.join(baseDir, "index.d.ts"),
+  nodeString + `\n\nexport const bibliotecas: Schema["bibliotecas"];\n`,
+);

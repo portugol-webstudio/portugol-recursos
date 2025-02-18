@@ -1,1 +1,1 @@
-export { bibliotecas } from "./bibliotecas.json" with { type: "json" };
+export { bibliotecas } from "./bibliotecas.json";
