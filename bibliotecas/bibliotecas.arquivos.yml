@@ -66,8 +66,8 @@ bibliotecas:
           tipo:
             primitivo: logico
           descrição: |
-            "**verdadeiro** se o arquivo tiver chegado ao fim. Caso contrário
-            retorna **falso**"
+            `verdadeiro` se o arquivo tiver chegado ao fim. Caso contrário
+            retorna `falso`
         parâmetros:
           - nome: endereco
             descrição: o endereço de memória do arquivo
@@ -82,7 +82,7 @@ bibliotecas:
         retorno:
           tipo:
             primitivo: cadeia
-          descrição: Uma **cadeia** contendo o conteúdo da linha lida.
+          descrição: Uma `cadeia` contendo o conteúdo da linha lida.
         parâmetros:
           - nome: endereco
             descrição: o endereço de memória do arquivo
@@ -109,8 +109,7 @@ bibliotecas:
 
       - nome: substituir_texto
         descrição: |
-          Pesquisa por um determinado texto no arquivo e substitui todas as ocorrências
-          por um texto alternativo
+          Pesquisa por um determinado texto no arquivo e substitui todas as ocorrências por um texto alternativo
         retorno:
           tipo:
             primitivo: vazio
@@ -129,8 +128,7 @@ bibliotecas:
               primitivo: cadeia
           - nome: primeira_ocorrencia
             descrição: |
-              confirma se substituirá apenas a primeira ocorrência no texto, caso
-              contrário, substituirá todas
+              confirma se substituirá apenas a primeira ocorrência no texto, caso contrário, substituirá todas
             tipo:
               primitivo: logico
 
@@ -139,7 +137,8 @@ bibliotecas:
         retorno:
           tipo:
             primitivo: logico
-          descrição: "**verdadeiro** se o arquivo existir"
+          descrição: |
+            `verdadeiro` se o arquivo existir
         parâmetros:
           - nome: caminho_arquivo
             descrição: o caminho do arquivo que se quer verificar
@@ -159,30 +158,23 @@ bibliotecas:
 
       - nome: selecionar_arquivo
         descrição: |
-          Abre uma janela que permite ao usuário navegar nos diretórios do computador
-          e selecionar um arquivo
+          Abre uma janela que permite ao usuário navegar nos diretórios do computador e selecionar um arquivo
         retorno:
           tipo:
             primitivo: cadeia
           descrição: |
-            O arquivo selecionado ou uma **cadeia** vazia caso o usuário tenha
-            cancelado.
+            O arquivo selecionado ou uma `cadeia` vazia caso o usuário tenha cancelado.
         parâmetros:
           - nome: formatos_suportados
             descrição: |
-              "Define os formatos de arquivos que poderão ser selecionados. Um
-              formato de arquivo é formado por uma descrição e uma lista de extensões válidas.
-              A descrição deve estar separada da lista de extensões pelo caracter '|'
-              e cada extensão deverá estar separada da outra pelo caracter ','. Ex.: 'Arquivos
-              de texto|txt', 'Arquivos de imagem|png,jpg,jpeg,bmp'"
+              Define os formatos de arquivos que poderão ser selecionados. Um formato de arquivo é formado por uma descrição e uma lista de extensões válidas.
+              A descrição deve estar separada da lista de extensões pelo caracter '|' e cada extensão deverá estar separada da outra pelo caracter ','. Ex.: 'Arquivos de texto|txt', 'Arquivos de imagem|png,jpg,jpeg,bmp'
             tipo:
               primitivo: cadeia
               dimensão: vetor
           - nome: aceitar_todos_arquivos
             descrição: |
-              Quando **verdadeiro**, inclui automaticamente um formato que permite
-              selecionar qualquer arquivo. Este formato também será incluído se nenhum outro
-              formato for informado no parâmetro 'formatos_suportados'
+              Quando `verdadeiro`, inclui automaticamente um formato que permite selecionar qualquer arquivo. Este formato também será incluído se nenhum outro formato for informado no parâmetro 'formatos_suportados'
             tipo:
               primitivo: logico
 

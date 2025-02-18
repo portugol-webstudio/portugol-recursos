@@ -109,7 +109,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com o dia no mês com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 26.
+            um `inteiro` com o dia no mês com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 26.
 
       - nome: dia_semana_atual
         descrição: Recupera o dia da semana de 1 a 7.
@@ -118,7 +118,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com o dia da semana. Ex: 1, para Domingo.
+            um `inteiro` com o dia da semana. Ex: 1, para Domingo.
 
       - nome: mes_atual
         descrição: Recupera o mês atual do computador de 1 a 12.
@@ -127,7 +127,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com o mês com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 10.
+            um `inteiro` com o mês com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 10.
 
       - nome: ano_atual
         descrição: Recupera o ano atual do computador.
@@ -136,7 +136,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com o ano. Ex: 2012.
+            um `inteiro` com o ano. Ex: 2012.
 
       - nome: hora_atual
         descrição: Recupera os dígitos da hora atual do computador.
@@ -149,7 +149,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com a hora atual no formato 12h ou 24h com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 22 para 24h, se o parâmetro for falso ou 10 para 12h, se o parâmetro for verdadeiro.
+            um `inteiro` com a hora atual no formato 12h ou 24h com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 22 para 24h, se o parâmetro for falso ou 10 para 12h, se o parâmetro for verdadeiro.
 
       - nome: minuto_atual
         descrição: Recupera os dígitos do minuto atual do computador.
@@ -158,7 +158,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com os minutos atuais com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 45.
+            um `inteiro` com os minutos atuais com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 45.
 
       - nome: segundo_atual
         descrição: Recupera os dígitos dos segundos atuais do computador.
@@ -167,7 +167,7 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com os segundos atuais com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 32.
+            um `inteiro` com os segundos atuais com dois dígitos, se forem menores que 10 apenas com um dígito. Ex: 32.
 
       - nome: milisegundo_atual
         descrição: Recupera os dígitos dos milissegundos atuais do computador.
@@ -176,13 +176,13 @@ bibliotecas:
           tipo:
             primitivo: inteiro
           descrição: |
-            um **inteiro** com os milissegundos atuais, com um, dois ou três dígitos. Ex: 426.
+            um `inteiro` com os milissegundos atuais, com um, dois ou três dígitos. Ex: 426.
 
       - nome: dia_semana_completo
         descrição: De acordo com o valor de 1 a 7 informado retornará um dia da semana completo.
         parâmetros:
           - nome: numero_dia
-            descrição: um **inteiro** referente a um dia da semana
+            descrição: um `inteiro` referente a um dia da semana
             tipo:
               primitivo: inteiro
           - nome: caixa_alta
@@ -203,7 +203,7 @@ bibliotecas:
         descrição: De acordo com o valor de 1 a 7 informado retornará um dia da semana de forma curta.
         parâmetros:
           - nome: numero_dia
-            descrição: um **inteiro** referente a um dia da semana
+            descrição: um `inteiro` referente a um dia da semana
             tipo:
               primitivo: inteiro
           - nome: caixa_alta
@@ -218,13 +218,13 @@ bibliotecas:
           tipo:
             primitivo: cadeia
           descrição: |
-            uma **cadeia** com o dia da semana de forma curta. Ex: Segunda, para Segunda-Feira.
+            uma `cadeia` com o dia da semana de forma curta. Ex: Segunda, para Segunda-Feira.
 
       - nome: dia_semana_abreviado
         descrição: De acordo com o valor de 1 a 7 informado retornará um dia da semana abreviado.
         parâmetros:
           - nome: numero_dia
-            descrição: um **inteiro** referente a um dia da semana
+            descrição: um `inteiro` referente a um dia da semana
             tipo:
               primitivo: inteiro
           - nome: caixa_alta
@@ -239,4 +239,4 @@ bibliotecas:
           tipo:
             primitivo: cadeia
           descrição: |
-            uma **cadeia** com o dia da semana abreviado. Ex: Seg, para Segunda-Feira.
+            uma `cadeia` com o dia da semana abreviado. Ex: Seg, para Segunda-Feira.
