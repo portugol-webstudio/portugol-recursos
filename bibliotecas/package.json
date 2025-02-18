@@ -19,7 +19,8 @@
     "url": "https://github.com/portugol-webstudio/portugol-recursos/issues"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "homepage": "https://github.com/portugol-webstudio/portugol-recursos#readme",
   "main": "index.js",
