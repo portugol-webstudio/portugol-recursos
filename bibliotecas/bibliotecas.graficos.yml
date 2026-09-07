@@ -8,32 +8,32 @@ bibliotecas:
       - nome: COR_PRETO
         tipo:
           primitivo: inteiro
-        valor: 0
+        valor: -16777216
         descrição: constante que representa a cor 'preto'
       - nome: COR_BRANCO
         tipo:
           primitivo: inteiro
-        valor: 16777215
+        valor: -1
         descrição: constante que representa a cor 'branca'
       - nome: COR_AZUL
         tipo:
           primitivo: inteiro
-        valor: 255
+        valor: -16776961
         descrição: constante que representa a cor 'azul'
       - nome: COR_VERMELHO
         tipo:
           primitivo: inteiro
-        valor: 16711680
+        valor: -65536
         descrição: constante que representa a cor 'vermelho'
       - nome: COR_VERDE
         tipo:
           primitivo: inteiro
-        valor: 65280
+        valor: -16711936
         descrição: constante que representa a cor 'verde'
       - nome: COR_AMARELO
         tipo:
           primitivo: inteiro
-        valor: 16776960
+        valor: -256
         descrição: constante que representa a cor 'amarelo'
       - nome: GRADIENTE_DIREITA
         tipo:
@@ -763,7 +763,7 @@ bibliotecas:
           - nome: tamanho
             descrição: o tamanho da fonte a ser utilizada
             tipo:
-              primitivo: inteiro
+              primitivo: real
         retorno:
           tipo:
             primitivo: vazio

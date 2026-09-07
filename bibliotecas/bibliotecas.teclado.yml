@@ -673,13 +673,13 @@ bibliotecas:
       - nome: TECLA_WINDOWS
         tipo:
           primitivo: inteiro
-        valor: 157
+        valor: 524
         descrição: Código numérico da tecla de acesso ao menu Iniciar no teclado
 
       - nome: TECLA_MENU_CONTEXTO
         tipo:
           primitivo: inteiro
-        valor: 158
+        valor: 525
         descrição: Código numérico da tecla MENU DE CONTEXTO no teclado
 
     funções:
