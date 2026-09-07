@@ -1,8 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import url from "node:url";
 import { z } from "zod";
-import zodToJsonSchema from "zod-to-json-schema";
 
 const tipo = z.object({
   primitivo: z.enum(["cadeia", "caracter", "inteiro", "logico", "real", "vazio", "*"]).describe("Tipo primitivo"),
@@ -49,7 +47,8 @@ export const schema = z.object({
   ),
 });
 
-const jsonSchema = zodToJsonSchema(schema, "bibliotecasSchema");
-const baseDir = path.join(path.dirname(url.fileURLToPath(import.meta.url)), "..");
+const jsonSchema = schema.toJSONSchema();
+const baseDirectory = path.join(import.meta.dirname, "..");
 
-await fs.writeFile(path.join(baseDir, "bibliotecas.schema.json"), JSON.stringify(jsonSchema, undefined, 2));
+// eslint-disable-next-line unicorn/no-top-level-side-effects
+await fs.writeFile(path.join(baseDirectory, "bibliotecas.schema.json"), JSON.stringify(jsonSchema, undefined, 2));
