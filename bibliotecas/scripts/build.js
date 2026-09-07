@@ -6,8 +6,12 @@ import { createTypeAlias, printNode, zodToTs } from "zod-to-ts";
 import { schema } from "./schema.js";
 
 const baseDir = path.join(path.dirname(url.fileURLToPath(import.meta.url)), "..");
+const generatedFiles = new Set(["bibliotecas.yml", "bibliotecas.json", "index.d.ts"]);
+
 const allFiles = await fs.readdir(baseDir);
-const libFiles = allFiles.filter(file => file.startsWith("bibliotecas.") && file.endsWith(".yml"));
+const libFiles = allFiles.filter(
+  file => file.startsWith("bibliotecas.") && file.endsWith(".yml") && !generatedFiles.has(file),
+);
 
 /**
  * @type {import('zod').z.infer<typeof schema>}
