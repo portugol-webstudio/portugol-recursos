@@ -1,0 +1,31 @@
+{
+  "name": "@portugol-recursos/ajuda",
+  "description": "Tópicos da Ajuda do Portugol em Markdown",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/portugol-webstudio/portugol-recursos.git"
+  },
+  "keywords": [
+    "portugol",
+    "webstudio"
+  ],
+  "author": "Douglas Gadêlha <dgadelha@live.com>",
+  "contributors": [
+    "Danilo Gadêlha <dngadelha@outlook.com>"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/portugol-webstudio/portugol-recursos/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "homepage": "https://github.com/portugol-webstudio/portugol-recursos#readme",
+  "files": [
+    "topicos.json",
+    "topicos",
+    "recursos"
+  ]
+}
