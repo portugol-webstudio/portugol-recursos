@@ -1,93 +1,73 @@
-
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
+/*
+ * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itaja√≠
+ *
+ * Este arquivo de c√≥digo fonte √© livre para utiliza√ß√£o, c√≥pia e/ou modifica√ß√£o
+ * desde que este cabe√ßalho, contendo os direitos autorais e a descri√ß√£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as v√≠deoaulas do Portugol
+ * Studio para auxili√°-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	Este exemplo ilustra a passagem de par‚metros para uma funÁ„o. O exemplo
- * 	demonstra tanto a passagem de par‚metro por valor, quanto a passagem de 
- * 	par‚metro por referÍncia.
- * 	
- * 	Quando um par‚metro È passado por valor, o seu valor È copiado para dentro  
- * 	da funÁ„o. Desta forma, se a funÁ„o altera o valor do par‚metro, o valor sÛ
- * 	È alterado dentro da funÁ„o, mas È mantido o valor original fora dela.
- * 	
- * 	Por outro lado, quando um par‚metro È passado por referÍncia, qualquer alteraÁ„o  
- * 	dentro da funÁ„o È imediatamente refletida na vari·vel fora da funÁ„o. Isto porque,
- * 	na verdade, o que a funÁ„o recebe n„o È uma cÛpia do valor contido na vari·vel, mas 
- * 	sim, uma referÍncia (um atalho) para a vari·vel original. No Portugol, a passagem de
- * 	par‚metro por referÍncia È representada pelo operador '&'.
- * 	
- * 	Caso n„o compreenda estes conceitos, experimente depurar o programa e visualizar
- * 	como o valor das vari·veis s„o alterados na ·rvore estrutural ‡ esquerda. Se ainda
- * 	assim tiver dificuldades, peÁa a ajuda de um professor ou alguÈm experiente em 
- * 	programaÁ„o.
- * 
+ *
+ * Descri√ß√£o:
+ *
+ *   Este exemplo ilustra a passagem de par√¢metros para uma fun√ß√£o. O exemplo
+ *   demonstra tanto a passagem de par√¢metro por valor, quanto a passagem de
+ *   par√¢metro por refer√™ncia.
+ *
+ *   Quando um par√¢metro √© passado por valor, o seu valor √© copiado para dentro
+ *   da fun√ß√£o. Desta forma, se a fun√ß√£o altera o valor do par√¢metro, o valor s√≥
+ *   √© alterado dentro da fun√ß√£o, mas √© mantido o valor original fora dela.
+ *
+ *   Por outro lado, quando um par√¢metro √© passado por refer√™ncia, qualquer altera√ß√£o
+ *   dentro da fun√ß√£o √© imediatamente refletida na vari√°vel fora da fun√ß√£o. Isto porque,
+ *   na verdade, o que a fun√ß√£o recebe n√£o √© uma c√≥pia do valor contido na vari√°vel, mas
+ *   sim, uma refer√™ncia (um atalho) para a vari√°vel original. No Portugol, a passagem de
+ *   par√¢metro por refer√™ncia √© representada pelo operador '&'.
+ *
+ *   Caso n√£o compreenda estes conceitos, experimente alterar o programa e observar
+ *   os valores exibidos. Se ainda assim tiver dificuldades, pe√ßa a ajuda de um
+ *   professor ou de algu√©m experiente em programa√ß√£o.
+ *
  * Autores:
- * 
- * 	Giordana Maria da Costa Valle
- * 	Carlos Alexandre Krueger
- * 	
+ *
+ *   Giordana Maria da Costa Valle
+ *   Carlos Alexandre Krueger
+ *
  * Data: 01/06/2013
  */
- 
-programa
-{
-	inclua biblioteca Util --> util
-	
-	funcao inicio()
-	{
-		inteiro vet = 0 // Declara uma vari·vel
-		
-		preenche (vet)
-		
-		escreva("Variavel antes:\n")
-		exibe (vet)
 
-		escreva("\n\nVariavel apÛs:\n")		
-		exibe (vet)
+programa {
+  inclua biblioteca Util --> util
 
-		escreva("\n")
-	}
+  funcao inicio() {
+    inteiro vet = 0 // Declara uma vari√°vel
 
-	// Preenche a variavel com um n˙mero aleatÛrio. Neste caso, a varivavel È
-	// passada por referÍncia
-	funcao preenche (inteiro &v) 
-	{
-		v = util.sorteia (1, 100)
-	}
+    escreva("Vari√°vel antes:\n")
+    exibe(vet)
 
-	// Exibe o valor contido na variavel. Neste caso, a variavel È 
-	// passada por valor
-	funcao exibe (inteiro v) 
-	{
-			escreva (v, " ")
+    preenche(vet)
 
-			// O valor È alterado dentro da funÁ„o, mas fora da funÁ„o
-			// o valor permanece o mesmo, pois a variavel foi passada por valor
-			v = 5
-	}
+    escreva("\n\nVari√°vel ap√≥s:\n")
+    exibe(vet)
+
+    escreva("\n")
+  }
+
+  // Preenche a vari√°vel com um n√∫mero aleat√≥rio. Neste caso, a vari√°vel √©
+  // passada por refer√™ncia
+  funcao preenche(inteiro &v) {
+    v = util.sorteia(1, 100)
+  }
+
+  // Exibe o valor contido na vari√°vel. Neste caso, a vari√°vel √©
+  // passada por valor
+  funcao exibe(inteiro v) {
+    escreva(v, " ")
+
+    // O valor √© alterado dentro da fun√ß√£o, mas fora da fun√ß√£o
+    // o valor permanece o mesmo, pois a vari√°vel foi passada por valor
+    v = 5
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1909; 
- * @DOBRAMENTO-CODIGO = [1];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */

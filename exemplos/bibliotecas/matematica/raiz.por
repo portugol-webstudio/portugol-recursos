@@ -1,59 +1,42 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
+/*
+ * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÃ­
+ *
+ * Este arquivo de cÃ³digo fonte Ã© livre para utilizaÃ§Ã£o, cÃ³pia e/ou modificaÃ§Ã£o
+ * desde que este cabeÃ§alho, contendo os direitos autorais e a descriÃ§Ã£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as vÃ­deoaulas do Portugol
+ * Studio para auxiliÃ¡-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	Este exemplo demonstra como obter a raíz de um número usando a função "raiz" da
- * 	biblioteca "Matematica".
- * 
+ *
+ * DescriÃ§Ã£o:
+ *
+ *   Este exemplo demonstra como obter a raiz de um nÃºmero usando a funÃ§Ã£o "raiz" da
+ *   biblioteca "Matematica".
+ *
  * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
+ *
+ *   Luiz Fernando Noschang (noschang@univali.br)
+ *
  * Data: 18/07/2014
  */
- 
-programa
-{
-	inclua biblioteca Matematica --> mat
-	
-	funcao inicio()
-	{
-		real numero
-		real raiz
 
-		numero = 4.0
-		raiz = mat.raiz(numero, 2.0) // Obtém a raíz quadrada do número
-		
-		escreva("A raíz quadrada de ", numero , " é: ", raiz, "\n")
+programa {
+  inclua biblioteca Matematica --> mat
 
-		numero = 27.0
-		raiz = mat.raiz(numero, 3.0) // Obtém a raíz cúbica do número
+  funcao inicio() {
+    real numero
+    real raiz
 
-		escreva("A raíz cúbica de ", numero , " é: ", raiz, "\n")
-	}
+    numero = 4.0
+    raiz = mat.raiz(numero, 2.0) // ObtÃ©m a raiz quadrada do nÃºmero
+
+    escreva("A raiz quadrada de ", numero, " Ã©: ", raiz, "\n")
+
+    numero = 27.0
+    raiz = mat.raiz(numero, 3.0) // ObtÃ©m a raiz cÃºbica do nÃºmero
+
+    escreva("A raiz cÃºbica de ", numero, " Ã©: ", raiz, "\n")
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 825; 
- * @DOBRAMENTO-CODIGO = [1];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */

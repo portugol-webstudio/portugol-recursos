@@ -1,40 +1,31 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar a funÃ§Ã£o "arquivo_existe" da biblioteca
+ * "Arquivos" para verificar se um arquivo existe antes de abri-lo. Tentar abrir para
+ * leitura um arquivo que nÃ£o existe causa um erro na execuÃ§Ã£o do programa.
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Arquivos --> a
+
+  funcao inicio() {
+    // Este arquivo estÃ¡ na mesma pasta do exemplo
+    verificar("./placar.txt")
+
+    // Este arquivo nÃ£o existe
+    verificar("./arquivo_inexistente.txt")
+  }
+
+  funcao verificar(cadeia caminho) {
+    se (a.arquivo_existe(caminho)) {
+      // Como o arquivo existe, Ã© seguro abri-lo para leitura
+      inteiro endereco = a.abrir_arquivo(caminho, a.MODO_LEITURA)
+
+      escreva("O arquivo \"", caminho, "\" existe. Primeira linha:\n")
+      escreva(a.ler_linha(endereco), "\n\n")
+
+      a.fechar_arquivo(endereco)
+    } senao {
+      escreva("O arquivo \"", caminho, "\" nÃ£o existe\n\n")
+    }
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

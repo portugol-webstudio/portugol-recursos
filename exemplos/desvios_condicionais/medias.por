@@ -1,78 +1,57 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
+/*
+ * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÃ­
+ *
+ * Este arquivo de cÃ³digo fonte Ã© livre para utilizaÃ§Ã£o, cÃ³pia e/ou modificaÃ§Ã£o
+ * desde que este cabeÃ§alho, contendo os direitos autorais e a descriÃ§Ã£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as vÃ­deoaulas do Portugol
+ * Studio para auxiliÃ¡-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	Este exemplo pede ao usuário que informe três médias. Logo após, calcula 
- * 	e exibe a média final destas notas. Por últmo, verifica se alguma das 
- * 	médias parciais é menor que a média final e a exibe (caso exista).
- * 
+ *
+ * DescriÃ§Ã£o:
+ *
+ *   Este exemplo pede ao usuÃ¡rio que informe trÃªs mÃ©dias. Logo apÃ³s, calcula
+ *   e exibe a mÃ©dia final destas notas. Por Ãºltimo, verifica se alguma das
+ *   mÃ©dias parciais Ã© menor que a mÃ©dia final e a exibe (caso exista).
+ *
  * Autores:
- * 
- * 	Giordana Maria da Costa Valle
- * 	Carlos Alexandre Krueger
- * 	
+ *
+ *   Giordana Maria da Costa Valle
+ *   Carlos Alexandre Krueger
+ *
  * Data: 01/06/2013
  */
 
-programa
-{
-	inclua biblioteca Matematica --> mat
-	
-	funcao inicio ()
-	{
-		real m1, m2, m3, media
+programa {
+  inclua biblioteca Matematica --> mat
 
-		escreva ("Informe a média 1: " )
-		leia (m1)
-		escreva( "Informe a média 2: ")
-		leia (m2)
-		escreva ("Informe a média 3: ")
-		leia (m3)
+  funcao inicio() {
+    real m1, m2, m3, media
 
-		media = (m1 + m2 + m3) / 3 
+    escreva("Informe a mÃ©dia 1: ")
+    leia(m1)
+    escreva("Informe a mÃ©dia 2: ")
+    leia(m2)
+    escreva("Informe a mÃ©dia 3: ")
+    leia(m3)
 
-		limpa()
-		escreva ("A média final é: ", mat.arredondar(media, 2), "\n\n")
+    media = (m1 + m2 + m3) / 3
 
+    limpa()
+    escreva("A mÃ©dia final Ã©: ", mat.arredondar(media, 2), "\n\n")
 
-		se (m1 < media)
-		{ 
-			escreva ("A média 1 é menor que a média final\n") 
-		}
-		
-		se (m2 < media) 
-		{
-			escreva ("A média 2 é menor que a média final\n")
-		}
-		
-		se (m3 < media)
-		{
-			escreva ("A média 3 é menor que a média final\n")
-		}		
-	}
+    se (m1 < media) {
+      escreva("A mÃ©dia 1 Ã© menor que a mÃ©dia final\n")
+    }
+
+    se (m2 < media) {
+      escreva("A mÃ©dia 2 Ã© menor que a mÃ©dia final\n")
+    }
+
+    se (m3 < media) {
+      escreva("A mÃ©dia 3 Ã© menor que a mÃ©dia final\n")
+    }
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 997; 
- * @DOBRAMENTO-CODIGO = [1];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */

@@ -1,40 +1,26 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar as funÃ§Ãµes "carregar_som" e "reproduzir_som"
+ * da biblioteca "Sons" para tocar um som. Os sons ficam na mesma pasta do exemplo.
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Sons --> s
+  inclua biblioteca Util --> u
+
+  funcao inicio() {
+    // Carrega o arquivo de som e guarda o seu endereÃ§o. O endereÃ§o Ã© usado
+    // para se referir a este som nas outras funÃ§Ãµes da biblioteca
+    inteiro som = s.carregar_som("caixa.mp3")
+
+    para (inteiro vez = 1; vez <= 4; vez++) {
+      escreva("Tocando o som pela ", vez, "Âª vez\n")
+
+      // Reproduz o som uma vez (o parÃ¢metro falso indica que o som nÃ£o deve se repetir)
+      s.reproduzir_som(som, falso)
+      u.aguarde(500)
+    }
+
+    // Libera o som da memÃ³ria quando ele nÃ£o for mais utilizado
+    s.liberar_som(som)
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

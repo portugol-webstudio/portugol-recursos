@@ -1,40 +1,46 @@
-
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar a fun√ß√£o "ler_botao" da biblioteca "Mouse".
+ * Diferente da fun√ß√£o "botao_pressionado", a fun√ß√£o "ler_botao" pausa o programa at√©
+ * que um bot√£o do mouse seja clicado (pressionado e solto) e retorna o c√≥digo desse bot√£o.
+ *
+ * A biblioteca "Mouse" s√≥ funciona com o modo gr√°fico iniciado.
+ *
+ * Clique 5 vezes na janela para encerrar o programa.
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Graficos --> g
+  inclua biblioteca Mouse --> m
+  inclua biblioteca Util --> u
+
+  funcao inicio() {
+    g.iniciar_modo_grafico(verdadeiro)
+    g.definir_dimensoes_janela(500, 400)
+    g.definir_titulo_janela("Ler bot√£o")
+
+    cadeia mensagem = "Clique com qualquer bot√£o do mouse"
+
+    para (inteiro cliques = 1; cliques <= 5; cliques++) {
+      g.definir_cor(g.COR_PRETO)
+      g.limpar()
+
+      g.definir_cor(g.COR_BRANCO)
+      g.desenhar_texto(40, 160, mensagem)
+      g.desenhar_texto(40, 200, "Clique " + cliques + " de 5")
+      g.renderizar()
+
+      // O programa fica parado nesta linha at√© que um bot√£o seja clicado
+      inteiro botao = m.ler_botao()
+
+      se (botao == m.BOTAO_ESQUERDO) {
+        mensagem = "Voc√™ clicou com o bot√£o esquerdo"
+      } senao se (botao == m.BOTAO_DIREITO) {
+        mensagem = "Voc√™ clicou com o bot√£o direito"
+      } senao se (botao == m.BOTAO_MEIO) {
+        mensagem = "Voc√™ clicou com o bot√£o do meio"
+      }
+    }
+
+    g.encerrar_modo_grafico()
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

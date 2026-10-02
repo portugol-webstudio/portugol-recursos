@@ -1,91 +1,64 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
+/*
+ * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÃ­
+ *
+ * Este arquivo de cÃ³digo fonte Ã© livre para utilizaÃ§Ã£o, cÃ³pia e/ou modificaÃ§Ã£o
+ * desde que este cabeÃ§alho, contendo os direitos autorais e a descriÃ§Ã£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as vÃ­deoaulas do Portugol
+ * Studio para auxiliÃ¡-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	Este exemplo demonstra o uso do desvio condicional para criar uma mini 
- * 	calculadora. O programa pede ao usuário que informe dois números reais 
- * 	e a operação a ser executada entre estes números (soma, divisão, etc.).
- *   Por fim, é exibido o valor resultante da operação entre os dois números.
- * 
+ *
+ * DescriÃ§Ã£o:
+ *
+ *   Este exemplo demonstra o uso do desvio condicional para criar uma mini
+ *   calculadora. O programa pede ao usuÃ¡rio que informe dois nÃºmeros reais
+ *   e a operaÃ§Ã£o a ser executada entre estes nÃºmeros (soma, divisÃ£o, etc.).
+ *   Por fim, Ã© exibido o valor resultante da operaÃ§Ã£o entre os dois nÃºmeros.
+ *
  * Autores:
- * 
- * 	Giordana Maria da Costa Valle
- * 	Carlos Alexandre Krueger
- * 	
+ *
+ *   Giordana Maria da Costa Valle
+ *   Carlos Alexandre Krueger
+ *
  * Data: 01/06/2013
- */ 
-
-programa
-{
-	funcao inicio()
-	{
-		caracter operador
-		
-		real resultado = 0.0, operando1, operando2
-
-		escreva("Digite o primeiro número: ")
-		leia(operando1)
-
-		escreva("Digite o segundo número: ")
-		leia(operando2)
-
-		escreva("\n")
-		
-		escreva("Agora digite uma das operações ( + - * / ): ")
-		leia(operador)
-
-		/* Verifica qual foi a operação selecionada */
-		
-		se (operador == '+')
-		{
-			resultado = operando1 + operando2
-			
-		}
-		senao  se(operador == '-')
-		{
-			resultado = operando1 - operando2
-			
-		}
-		senao se(operador == '/')
-		{
-			resultado = operando1 / operando2
-			
-		}
-		senao se(operador == '*')
-		{
-			resultado = operando1 * operando2
-		}	
-
-		limpa()
-		
-		escreva("Resultado:\n\n")
-		escreva(operando1, " ", operador, " ", operando2, " = ", resultado)
-		
-		escreva("\n")
-	}
-}
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1034; 
- * @DOBRAMENTO-CODIGO = [1];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
  */
+
+programa {
+  funcao inicio() {
+    caracter operador
+
+    real resultado = 0.0, operando1, operando2
+
+    escreva("Digite o primeiro nÃºmero: ")
+    leia(operando1)
+
+    escreva("Digite o segundo nÃºmero: ")
+    leia(operando2)
+
+    escreva("\n")
+
+    escreva("Agora digite uma das operaÃ§Ãµes ( + - * / ): ")
+    leia(operador)
+
+    /* Verifica qual foi a operaÃ§Ã£o selecionada */
+
+    se (operador == '+') {
+      resultado = operando1 + operando2
+    } senao se (operador == '-') {
+      resultado = operando1 - operando2
+    } senao se (operador == '/') {
+      resultado = operando1 / operando2
+    } senao se (operador == '*') {
+      resultado = operando1 * operando2
+    }
+
+    limpa()
+
+    escreva("Resultado:\n\n")
+    escreva(operando1, " ", operador, " ", operando2, " = ", resultado)
+
+    escreva("\n")
+  }
+}

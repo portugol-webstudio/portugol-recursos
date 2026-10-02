@@ -1,119 +1,90 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
+/*
+ * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÃ­
+ *
+ * Este arquivo de cÃ³digo fonte Ã© livre para utilizaÃ§Ã£o, cÃ³pia e/ou modificaÃ§Ã£o
+ * desde que este cabeÃ§alho, contendo os direitos autorais e a descriÃ§Ã£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as vÃ­deoaulas do Portugol
+ * Studio para auxiliÃ¡-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	Este exemplo ilustra a passagem de parâmetros para uma função. O exemplo
- * 	demonstra tanto a passagem de parâmetro por valor, quanto a passagem de 
- * 	parâmetro por referência.
- * 	
- * 	Quando um parâmetro é passado por valor, o seu valor é copiado para dentro  
- * 	da função. Desta forma, se a função altera o valor do parâmetro, o valor só
- * 	é alterado dentro da função, mas é mantido o valor original fora dela.
- * 	
- * 	Por outro lado, quando um parâmetro é passado por referência, qualquer alteração  
- * 	dentro da função é imediatamente refletida na variável fora da função. Isto porque,
- * 	na verdade, o que a função recebe não é uma cópia do valor contido na variável, mas 
- * 	sim, uma referência (um atalho) para a variável original. No Portugol, a passagem de
- * 	parâmetro por referência é representada pelo operador '&'.
- * 	
- * 	Caso não compreenda estes conceitos, experimente depurar o programa e visualizar
- * 	como o valor das variáveis são alterados na árvore estrutural à esquerda. Se ainda
- * 	assim tiver dificuldades, peça a ajuda de um professor ou alguém experiente em 
- * 	programação.
- * 
+ *
+ * DescriÃ§Ã£o:
+ *
+ *   Este exemplo ilustra a passagem de vetores como parÃ¢metros para uma funÃ§Ã£o.
+ *
+ *   VariÃ¡veis comuns sÃ£o passadas por valor, a menos que se use o operador '&'.
+ *   JÃ¡ os vetores e as matrizes sÃ£o sempre passados por referÃªncia, mesmo sem o
+ *   operador '&': a funÃ§Ã£o recebe uma referÃªncia para o vetor original e nÃ£o uma
+ *   cÃ³pia dele. Por isso, qualquer alteraÃ§Ã£o feita nos elementos do vetor dentro da
+ *   funÃ§Ã£o Ã© refletida no vetor fora dela.
+ *
+ *   No exemplo, a funÃ§Ã£o "preenche" sorteia os valores do vetor e a funÃ§Ã£o "ordena"
+ *   os coloca em ordem crescente. O vetor Ã© exibido antes e depois da ordenaÃ§Ã£o,
+ *   mostrando que as alteraÃ§Ãµes feitas pelas funÃ§Ãµes valem para o vetor original.
+ *
+ *   Caso nÃ£o compreenda estes conceitos, experimente alterar o programa e observar
+ *   os valores exibidos. Se ainda assim tiver dificuldades, peÃ§a a ajuda de um
+ *   professor ou de alguÃ©m experiente em programaÃ§Ã£o.
+ *
  * Autores:
- * 
- * 	Giordana Maria da Costa Valle
- * 	Carlos Alexandre Krueger
- * 	
+ *
+ *   Giordana Maria da Costa Valle
+ *   Carlos Alexandre Krueger
+ *
  * Data: 01/06/2013
  */
- 
-programa
-{
-	inclua biblioteca Util --> util
-	
-	funcao inicio()
-	{
-		inteiro vet [10] // Declara um vetor com 10 posições
-		
-		preenche (vet)
-		
-		escreva("Vetor antes da ordenação:\n")
-		exibe (vet)
 
-		ordena (vet)
+programa {
+  inclua biblioteca Util --> util
 
-		escreva("\n\nVetor após a ordenação:\n")		
-		exibe (vet)
+  funcao inicio() {
+    inteiro vet[10] // Declara um vetor com 10 posiÃ§Ãµes
 
-		escreva("\n")
-	}
+    preenche(vet)
 
-	// Preenche o vetor com números aleatórios. Neste caso, o vetor é
-	// passado por referência
-	// vetores não precisam do & pois eles sempre são passados por referencia automaticamente
-	funcao preenche (inteiro v[]) 
-	{
-		para (inteiro i = 0; i < 10; i++)
-		{
-			v[i] = util.sorteia (1, 100)			
-		}
-	}
-	
-	funcao exibe (inteiro v[]) 
-	{
-		para(inteiro i = 0; i < 10; i++)
-		{
-			escreva (v[i], " ")
-		}
-	}
+    escreva("Vetor antes da ordenaÃ§Ã£o:\n")
+    exibe(vet)
 
-	// Ordena o vetor em ordem crescente.
-	funcao ordena (inteiro v[])
-	{
-		para (inteiro i = 0; i < 10; i++)
-		{
-			para (inteiro j = 0; j < 9; j++)
-			{
-				se (v [j] > v[j+1])
-				{
-					troca (v, j, j+1)
-				}
-			}
-		}
-	}
-	
-	funcao troca (inteiro v[], inteiro a, inteiro b)
-	{
-		inteiro c = v[a]
-		
-		v[a] = v[b]
-		v[b] = c
-	}
+    ordena(vet)
+
+    escreva("\n\nVetor apÃ³s a ordenaÃ§Ã£o:\n")
+    exibe(vet)
+
+    escreva("\n")
+  }
+
+  // Preenche o vetor com nÃºmeros aleatÃ³rios. Neste caso, o vetor Ã©
+  // passado por referÃªncia. Vetores nÃ£o precisam do &, pois eles sempre sÃ£o
+  // passados por referÃªncia automaticamente
+  funcao preenche(inteiro v[]) {
+    para (inteiro i = 0; i < 10; i++) {
+      v[i] = util.sorteia(1, 100)
+    }
+  }
+
+  funcao exibe(inteiro v[]) {
+    para (inteiro i = 0; i < 10; i++) {
+      escreva(v[i], " ")
+    }
+  }
+
+  // Ordena o vetor em ordem crescente
+  funcao ordena(inteiro v[]) {
+    para (inteiro i = 0; i < 10; i++) {
+      para (inteiro j = 0; j < 9; j++) {
+        se (v[j] > v[j + 1]) {
+          troca(v, j, j + 1)
+        }
+      }
+    }
+  }
+
+  funcao troca(inteiro v[], inteiro a, inteiro b) {
+    inteiro c = v[a]
+
+    v[a] = v[b]
+    v[b] = c
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1922; 
- * @DOBRAMENTO-CODIGO = [1];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */
