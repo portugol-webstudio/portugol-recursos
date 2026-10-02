@@ -38,6 +38,7 @@
     "sherif": "^1.13.0"
   },
   "workspaces": [
+    "ajuda",
     "bibliotecas"
   ]
 }
