@@ -1,1905 +1,1574 @@
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2016 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
+/*
+ * Copyright (C) 2016 - UNIVALI - Universidade do Vale do Itaja√≠
+ *
+ * Este arquivo de c√≥digo fonte √© livre para utiliza√ß√£o, c√≥pia e/ou modifica√ß√£o
+ * desde que este cabe√ßalho, contendo os direitos autorais e a descri√ß√£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as v√≠deoaulas do Portugol
+ * Studio para auxili√°-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	Este exemplo È um jogo de programar o caminho de um personagem
- * 	escrito em Portugol. O exemplo demonstra como utilizar algumas das bibliotecas 
- * 	existentes no Portugol. Neste exemplo, tambÈm È possÌvel ver algumas tÈcnicas 
- * 	utilizadas na criaÁ„o de jogos.
- * 	
+ *
+ * Descri√ß√£o:
+ *
+ *   Este exemplo √© um jogo de programar o caminho de um personagem
+ *   escrito em Portugol. O exemplo demonstra como utilizar algumas das bibliotecas
+ *   existentes no Portugol. Neste exemplo, tamb√©m √© poss√≠vel ver algumas t√©cnicas
+ *   utilizadas na cria√ß√£o de jogos.
+ *
  * Autores:
- * 
- * 	Adson Marques da Silva Esteves(shinadson@gmail.com)
- * 	
+ *
+ *   Adson Marques da Silva Esteves(shinadson@gmail.com)
+ *
  * Data: 11/03/2016
  */
 
-programa
-{
-	inclua biblioteca Graficos --> g
-	inclua biblioteca Util --> u
-	inclua biblioteca Teclado --> t
-	inclua biblioteca Matematica --> m
-	inclua biblioteca Mouse --> mo
-	inclua biblioteca Arquivos --> a
-	inclua biblioteca Texto --> tx
-	inclua biblioteca Tipos --> tp
-	inclua biblioteca Sons --> sm
-
-		//constantes de personagem selecionado
-		const inteiro BOY = 1
-		const inteiro GIRL = 2
-		//constante de numero de pixels andados		
-		const real quantoanda = 1.0
-
-		//constantes de direÁ„o
-		const inteiro DIREITA = 1
-		const inteiro DESCE = 2
-		const inteiro ESQUERDA = 3
-		const inteiro SOBE = 4
-		const inteiro leste = 3
-		const inteiro sul = 1
-		const inteiro oeste = 2
-		const inteiro norte = 0
-
-		//constantes de obejeto clicado
-		const inteiro COMANDO_DIREITA = 1
-		const inteiro COMANDO_DESCE = 2
-		const inteiro COMANDO_ESQUERDA = 3
-		const inteiro COMANDO_SOBE = 4
-		const inteiro COMANDO_LOOP= 8
-		const inteiro COMANDO_LOOP_inicio = 8		
-		const inteiro COMANDO_LOOP_fim = 9
-		const inteiro BOTAO_PLAY = 5
-		const inteiro BOTAO_RESET = 6
-		const inteiro BOTAO_EXCLUIR =7
-		const inteiro BOTAO_PARAR = 10
-		const inteiro BOTAO_AUMENTAR_LOOP = 11
-		const inteiro BOTAO_DIMINUIR_LOOP = 12
-		
-
-		//constantes de tamanho de objeto
-		const real tamtile[2]={31.0, 31.0}
-		const real tam_mat_comandos[2]={87.5, 51.5}
-		const real tam_comandos[2]={70.0, 41.0}
-		const real tam_botoes[2]={32.0, 38.0}
-		const real tam_quadro_programavel[2]={518.0, 164.0}
-		const real tam_setas[2]={20.0, 15.0}
-		const inteiro tam_matriz_quadro[2]={22, 7}
-
-		//constantes de posicao de objeto
-		const real posicao_mapa[2]={367.0, 0.0}
-		const real posicao_mapa_cerca[2]={403.0, 48.0}
-		const real posicao_mapa_char[2]={367.0, 0.0}
-		const real posicao_quadro[2]={23.0, 387.0}
-		const real posicao_comandos[2]={595.0, 436.0}
-		const real posicao_botoes[3]={420.0, 484.0, 557.0}
-		const real posicao_setas[3]={539.0, 390.0, 436.0}
-
-		const inteiro TAXA_DE_ATUALIZACAO = 60
-
-	//variaveis de imagem
-	inteiro selecao_boy=0, selecao_girl=0, img_ajuda=0, img_fundo=0
-	inteiro img_boy=0, img_girl=0, imagem_charf = 0, imagem_chara = 0, imagem_chars=0, imagem_char=0, imagem_exemplo=0, img_venceu=0
-	inteiro img_mapa = 0, img_objects = 0, img_quadros =0, img_quadros_adjacentes=0,  img_comandos = 0,img_comandos_menor=0
-	inteiro img_botoes=0, img_setas=0, img_botao_excluir=0, img_numeros=0, img_quadro_pontuacao=0, img_borda=0, img_botao_parar=0, img_mouse=0, img_carregando=0, img_pronto=0, img_continue=0
-	inteiro happy = 0, happy2 =0, endgame = 0
-
-	//variaveis que permitem troca de sprite do personagem para permitir animaÁ„o
-	inteiro indice_imagem=0, indice_imagem_exemplo=0
-	//limita a troca de imagens
-	inteiro imagemporturnos=1, imagemporturnos_exemplo=1, frames = 0, tempo_quadro = 0, tempo_restante =0, tempo_inicio=0, fps = 0
-
-	//variaveis de posicao de objeto/persoangem
-	real posicao_objeto_x = 0.0, posicao_objeto_y= 0.0, posicao_isometrica_objeto_x = 0.0, posicao_isometrica_objeto_y= 0.0
-	inteiro char_posicao_original_x_matriz=0, char_posicao_original_y_matriz=0
-	real char_x=0.0, char_y=0.0, char_isometrico_x=0.0, char_isometrico_y=0.0
-	inteiro posicao_matx=0, posicao_maty=0
-
-	//variaveis que permitem movimentaÁ„o do personagem e do quadro respectivamente	
-	real incrementovertical=0.0, incrementohorizontal=0.0
-	real fator_mexer_quadro=0.0, fator_mexer_matriz_comandos=0.0
-	
-	//variaveis que contÈm a verificaÁ„o se o tile seguinte est· ocupado
-	logico lado_ocupado=falso
-	//variaveis que contÈm o lado que o personagem est· virado
-	inteiro direcao=leste
-	inteiro direcao_exemplo=leste
-
-	//variaveis que permitem comandos com loops
-	inteiro fator_dentro_loop=10000// define se comando est· dentro de um loop para desenhar risco de loop atras dele
-	//pilhas que permitem loops retornarem
-	inteiro pilha_de_posicao_dos_loops_x[]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-	inteiro pilha_de_posicao_dos_loops_y[]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}		
-	inteiro pilha_de_posicao_fim_x[]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-	inteiro pilha_de_posicao_fim_y[]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-	//pilha que permite verificar o numero de vezes que se passou pelo loop
-	inteiro pilha_de_numero_de_loops[]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-	//topo das pilhas
-	inteiro topo_pilha_de_posicao=0
-	inteiro topo_pilha_de_numero_de_loops=0
-	
-	//contÈm a posicao atual do comando executado no momento
-	inteiro pos_quadro_x=0, pos_quadro_y=0
-
-	//variavel que contÈm se um comando foi pego para evitar cliques em outros objetos enquanto estiver carregando um comando
-	logico pegou_comando=falso
-	//variavel que sabe se o mouse est· em cima de um objeto para mudar a cursor
-	logico em_cima_de_um_objeto=falso
-	// variavel que cotÈm qual objeto est· sendo clicado no momento
-	inteiro objeto_clicado=0
-
-	//variavel que diz quando tem obejto bloqueando ou n„o para poder andar
-	logico pode_andar=falso
-
-	//variaveis de inicio do play, parar e quando chega ao fim da fase
-	logico comecou_a_rodar=falso
-	logico chegou_no_fim=falso
-	logico parou = falso
-
-	//verificam o tempo para realizar o duplo clique
-	inteiro click_timing=0
-	logico clicou=falso
-
-	//contÈm as posiÁıes do mouse
-	inteiro posicao_x_mouse=0, posicao_y_mouse=0
-
-	//variaveis que contÈm pontuaÁ„o
-	inteiro tempo_inicial=0
-	inteiro pontos_tempo=0, pontos_instrucoes=0, pontos_deletados=0, pontos_limpou=0, pontos_play=0, pontos_loops=0, pontos_loop_dentro=0
-	real pontuacoes[]={0.0,0.0,0.0}
-	inteiro pontos_minimos_instrucoes = 0, pontos_loops_minimos = 0, pontos_loop_dentro_minimo = 0
-
-	//variaveis para leitura de mapas em arquivos
-	inteiro digitos_por_tile=8, digitos_parte=2
-	inteiro NUMERO_LINHAS=8, NUMERO_COLUNAS=8
-	cadeia nome_arquivo=""
-
-	//variavel do nÌvel atual
-	inteiro nivel=1
-	logico acabou_fases=falso
-
-	//posiÁıes dos diferentes sprites na sprite sheet
-	inteiro sprite[4][10]={	{32,  80, 62,  80, 91,  80, 123,  80, 154,  80},
-						{32, 160, 62, 160, 91, 160, 123, 160, 154, 160},
-						{32, 240, 62, 240, 91, 240, 123, 240, 154, 240},
-						{32, 320, 62, 320, 91, 320, 123, 320, 154, 320}}
-							
-	//mapa de posiÁ„o dos objetos
-	inteiro mapa[8][8]={{0, 0, 0, 0, 0, 0, 0, 0}, 
-					{0, 0, 0, 0, 0, 0, 0, 0}, 
-					{0, 0, 0, 0, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0, 0, 0, 0}, 
-					{0, 0, 0, 0, 0, 0, 0, 0}} 
-	//mapa de posiÁ„o do personagem
-	inteiro mapa_char[8][8]={{0, 0, 0, 0, 0, 0, 0, 0}, 
-					  	{0, 0, 0, 0, 0, 0, 0, 0}, 
-					  	{0, 0, 0, 0, 0, 0, 0, 0},
-					  	{0, 0, 0, 0, 0, 0, 0, 0},
-					  	{0, 0, 0, 0, 0, 0, 0, 0},
-					  	{0, 0, 0, 0, 0, 0, 0, 0},
-					  	{0, 0, 0, 0, 0, 0, 0, 0}, 
-					  	{0, 0, 0, 0, 0, 0, 0, 0}}
-	//mapa de posiÁ„o de cercas horizontais
-	inteiro mapa_cerca_horizontal[9][8] = { {0, 0, 0, 0, 0, 0, 0, 0}, 
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0}, 
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0},
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0},
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0},
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0},
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0},
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0}, 
-					  	 			{0, 0, 0, 0, 0, 0, 0, 0}}
-	//mapa de posiÁ„o de cercas verticais
-	//OBS: foi necess·rio 2 mapas para cercas pois as cercas ficam na borda dos tiles e uma matriz horizontal e vertical podem acabar partindo de um mesmo ponto
-	inteiro mapa_cerca_vertical[8][9] = { 	{0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-						  	 		{0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-						  	 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-						  	 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-						  	 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-						  	 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-					  		 		{0, 0, 0, 0, 0, 0, 0, 0, 0}, 
-						  	 		{0, 0, 0, 0, 0, 0, 0, 0, 0}}
-	//mapa dos comandos que s„o posicionados no quadro
-	inteiro mat_pos_quadro_programavel[][]={{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0},
-									{0, 0, 0, 0, 0, 0, 0}}
-	//mapa dos comandos que est„o posicionados no quadro exemplo para serem selecionados									
-	inteiro mat_pos_quadro_comandos[2][2]= {{oeste, norte},
-									{sul, leste}}
-	
-
-	funcao telainicial()
-	{
-		iniciar_jogo()
-	}
-	
-	funcao iniciar_jogo()
-	{
-		//Quando inicia um novo jogo/fase
-		tempo_inicial=u.tempo_decorrido()//seta um novo tempo
-		limpar_campo()//limpa mapas
-		abrir_novo_nivel()//abre o nivel a entrar
-		se(acabou_fases)//verifica se terminou todas as fases e manda para a tela final
-		{
-			tela_venceu()
-		}					
-		definir_posicao_original()//grava a posiÁ„o original do personagem para futuras checagens
-		posicao_inicial()//coloca o personagem em sua posiÁ„o original
-		faca
-		{
-		jogar()
-		}enquanto(nao chegou_no_fim)//Continuar· a jogar enquanto o personagem n„o estiver chegado ao fim da fase
-		proxima_fase()//se chegou ao final, sair· do loop e ir· a prÛxima fase
-	}
-
-	funcao conta_fps()
-	{
-		frames++
-		g.definir_cor(g.COR_PRETO)	
-		g.desenhar_texto(50, 50, "FPS: "+fps)
-		se(pontos_tempo<u.tempo_decorrido()/1000-tempo_inicial/1000)
-		{
-			fps=frames						
-			frames=0			
-		}
-	}
-
-	funcao iniciar_sincronia_da_taxa_de_atualizacao()
-	{
-		tempo_inicio = u.tempo_decorrido() + tempo_restante
-	}
-
-	funcao finalizar_sincronia_da_taxa_de_atualizacao()
-	{
-		inteiro tempo_decorrido = u.tempo_decorrido() - tempo_inicio
-		tempo_restante = tempo_quadro - tempo_decorrido 
-
-		enquanto (TAXA_DE_ATUALIZACAO > 0 e tempo_restante > 0)
-		{
-			tempo_decorrido = u.tempo_decorrido() - tempo_inicio
-			tempo_restante = tempo_quadro - tempo_decorrido
-		}
-	}
-	
-	funcao limpar_campo()
-	{
-		//zera todos mapas, deixando livres para novo mapa
-		inteiro i, j
-		para(i=0; i<8; i++)
-		{
-			para(j=0; j<8; j++)
-			{
-			       mapa[i][j]=0
-			       mapa_char[i][j]=0
-			       mapa_cerca_horizontal[i][j]=0
-			       mapa_cerca_vertical[i][j]=0
-			}
-			mapa_cerca_vertical[i][j]=0
-		}
-		para(j=0; j<8;j++)
-		{
-			mapa_cerca_horizontal[i][j]=0	
-		}
-	}
-		
-	funcao abrir_novo_nivel()
-	{
-		nome_arquivo="./fases/"+"nivel"+nivel+".lvl" //coloca o caminho onde est· o arquivo
-		cadeia formatos[] =
-		{
-			"Arquivos de Level|lvl" //tipo de arquivo a ser aberto
-		}
-		
-		carregar_nivel(nome_arquivo)// abre o arquivo e coloca os mapas novos
-
-	}
-	
-	funcao carregar_nivel(cadeia nome_arquivo)
-	{		
-		se(a.arquivo_existe(nome_arquivo))
-		{
-			inteiro arquivo, linha = 0, coluna=0
-			cadeia texto_linha
-			
-			arquivo = a.abrir_arquivo(nome_arquivo, a.MODO_LEITURA)//abre o arquivo para lÍ-lo
-			
-			enquanto(linha<NUMERO_LINHAS)
-			{
-				texto_linha = a.ler_linha(arquivo)
-				para(coluna=0; coluna<NUMERO_COLUNAS; coluna++)
-				{
-					cadeia temp = tx.extrair_subtexto(texto_linha, coluna*digitos_por_tile, coluna*digitos_por_tile+digitos_por_tile)
-					
-					cadeia tchar=tx.extrair_subtexto(temp, 0, digitos_parte)
-					cadeia ttile=tx.extrair_subtexto(temp, digitos_parte, digitos_parte*2)
-					cadeia tcerca_h=tx.extrair_subtexto(temp, digitos_parte*2, digitos_parte*3)
-					cadeia tcerca_v=tx.extrair_subtexto(temp, digitos_parte*3, digitos_parte*4)
-					
-					mapa_char[linha][coluna]= tp.cadeia_para_inteiro(tchar, 16)%10
-					mapa[linha][coluna] = tp.cadeia_para_inteiro(ttile, 16)/10					
-					direcao_inicial(tp.cadeia_para_inteiro(tchar, 16))					
-					mapa_cerca_horizontal[linha][coluna]= tp.cadeia_para_inteiro(tcerca_h, 16)
-					mapa_cerca_vertical[linha][coluna]= tp.cadeia_para_inteiro(tcerca_v, 16)
-					
-				}
-				cadeia temp = tx.extrair_subtexto(texto_linha, (coluna)*digitos_por_tile, (coluna)*digitos_por_tile+digitos_por_tile)
-				cadeia tcerca_v=tx.extrair_subtexto(temp, digitos_parte*3, digitos_parte*4)
-				mapa_cerca_vertical[linha][coluna]= tp.cadeia_para_inteiro(tcerca_v, 16)
-				
-				linha++
-			}
-			texto_linha = a.ler_linha(arquivo)
-			para(coluna=0; coluna<NUMERO_COLUNAS;coluna++)
-			{
-				cadeia temp = tx.extrair_subtexto(texto_linha, coluna*digitos_por_tile, coluna*digitos_por_tile+digitos_por_tile)
-				cadeia tcerca_h=tx.extrair_subtexto(temp, digitos_parte*3, digitos_parte*4)
-				mapa_cerca_horizontal[linha][coluna]= tp.cadeia_para_inteiro(tcerca_h, 16)			
-			}
-			//No arquivo os tiles est„o por 4 Hexadecimais, sendo cada um para um mapa diferente, 
-			//assim cada funÁ„o acima quebra o numero no arquivo 
-			//e coloca para cada lugar no seu respectivo mapa
-			pontos_minimos_instrucoes = tp.cadeia_para_inteiro(a.ler_linha(arquivo), 16)
-			pontos_loops_minimos = tp.cadeia_para_inteiro(a.ler_linha(arquivo), 16)
-			pontos_loop_dentro_minimo = tp.cadeia_para_inteiro(a.ler_linha(arquivo), 16)
-			a.fechar_arquivo(arquivo)
-		}
-		senao
-		{
-			acabou_fases=verdadeiro
-		}
-	}
-	
-	funcao direcao_inicial(inteiro d)
-	{
-		//define a direÁ„o do personagem baseado com o que est· no arquivo da fase
-		d=d/10
-		escolha(d)
-		{
-			caso 1 : direcao=leste pare
-			caso 2 : direcao=norte pare
-			caso 3 : direcao=sul pare
-			caso 4 : direcao=oeste pare
-		}
-	}
-	
-	funcao jogar()
-	{
-		//comaÁa a jogar
-		faca
-		{
-//			iniciar_sincronia_da_taxa_de_atualizacao()
-			pega_comando()//funÁ„o que permite pegar um comando e colocar no quadro
-			desenhar()//funÁ„o que desenha o que precisa na tela
-			acha_mouse()//atualiza a posiÁ„o do mouse
-			reseta_cursor()
-//			finalizar_sincronia_da_taxa_de_atualizacao()
-			se(deu_reset())
-			{
-				resetar()// se o objeto da lixeira for clicado o quadro de comandos È limpado
-			}
-		}enquanto(nao deu_play())// permitir· pegar comandos atÈ que se dÍ play
-		posicao_inicial()//retorna o personagem a sua posiÁ„o inicial
-		rodar_caminho()//roda os comandos no quadro
-	}
-
-	funcao logico deu_play()
-	{
-		//Verifica o clique no bot„o PLAY
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e pegou_comando==falso)
-		{
-			objeto_clicado=BOTAO_PLAY
-			retorne falso
-		}
-		se((objeto_clicado==BOTAO_PLAY e mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1]))==falso)
-		{
-			//Se clicou e quando desclicou o mouse ainda estava no bot„o PLAY, retorna verdadeiro, ou seja clicou verdadeiramente
-			objeto_clicado=0
-			pontos_play++
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-
-	funcao logico deu_reset()
-	{
-		//Verifica o clique no bot„o RESET
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[0], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e pegou_comando==falso)
-		{
-			objeto_clicado=BOTAO_RESET
-			retorne falso
-		}
-		se((objeto_clicado==BOTAO_RESET e mouse_esta_sobre_objeto(posicao_botoes[0], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[0], posicao_botoes[2], tam_botoes[0], tam_botoes[1]))==falso)
-		{
-			//Se clicou e quando desclicou o mouse ainda estava no bot„o RESET, retorna verdadeiro, ou seja clicou verdadeiramente
-			pontos_limpou++
-			objeto_clicado=0
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-
-	funcao logico deu_parar()
-	{
-		//Verifica o clique no bot„o PARAR
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e pegou_comando==falso)
-		{
-			objeto_clicado=BOTAO_PARAR
-			retorne falso
-		}
-		se((objeto_clicado==BOTAO_PARAR e mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1]))==falso)
-		{
-			//Se clicou e quando desclicou o mouse ainda estava no bot„o PARAR, retorna verdadeiro, ou seja clicou verdadeiramente
-			objeto_clicado=0
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-	 
-	funcao pega_comando()
-	{
-		//Verifica se um comando foi pego pelo mouse
-		se(mouse_esta_sobre_comandos() e nao pegou_comando e nao clicou)
-		{
-			objeto_clicado=comando_que_foi_clicado()
-			se(objeto_clicado!=0)
-			{
-				clicou=verdadeiro
-				click_timing=u.tempo_decorrido()
-			}
-		}
-		se(um_comando_esta_selecionado() e (objeto_foi_clicado(pegou_comando)==falso))
-		{
-			se(mouse_esta_sobre_objeto(posicao_quadro[0], posicao_quadro[1], tam_quadro_programavel[0], tam_quadro_programavel[1]))
-			{
-				//se tem um comando e est· em cima do quadro, o comando È colocado no quadro
-				coloca_comando_no_quadro()
-			}
-			pegou_comando=falso
-			objeto_clicado=0
-		}
-		se(mouse_esta_sobre_comandos() e (nao pegou_comando) e clicou e (u.tempo_decorrido()-click_timing<500))
-		{
-			objeto_clicado=comando_que_foi_clicado()
-			se(objeto_clicado!=0)
-			{				
-				coloca_comando_no_quadro()
-				clicou=falso
-				click_timing=1000
-			}
-		}
-		se(u.tempo_decorrido()-click_timing>=500)
-		{
-			clicou=falso
-		}
-	}
-
-	funcao logico um_comando_esta_selecionado()
-	{
-		//verifica se tem um comando no mouse
-		se(objeto_clicado==COMANDO_SOBE)
-		{
-			retorne verdadeiro
-		}
-		
-		se(objeto_clicado==COMANDO_DESCE)
-		{
-			retorne verdadeiro
-		}
-		
-		se(objeto_clicado==COMANDO_DIREITA)
-		{
-			retorne verdadeiro
-		}
-		
-		se(objeto_clicado==COMANDO_ESQUERDA)
-		{
-			retorne verdadeiro
-		}
-		
-		se(objeto_clicado==COMANDO_LOOP)
-		{
-			retorne verdadeiro
-		}
-
-		retorne falso
-	}
-
-	funcao coloca_comando_no_quadro()
-	{
-		//Pega o comando e coloca no quadro
-		//Dependendo da posiÁ„o onde È colocado, ele pode receber  fator de estar dentro do loop ou n„o
-		//Se J· se tem um comando no local onde È colocado, uma posiÁ„o È aberta no local para se colocar o novo comando
-		//Se È um loop a ser colocado, deve-se alocar 2 posiÁıes no quadro pra colocar o inicio e o fim do loop
-		inteiro fator_numero_de_loops=1
-		pontos_instrucoes++
-		para(inteiro i=0; i<tam_matriz_quadro[0]; i++)
-		{
-			para(inteiro j=0; j<tam_matriz_quadro[1]; j++)
-			{		
-				se(mouse_esta_sobre_objeto(j*tam_comandos[0]+posicao_quadro[0], i*tam_comandos[1]+posicao_quadro[1], tam_comandos[0], tam_comandos[1]))
-				{
-					se(mat_pos_quadro_programavel[i][j]!=0)
-					{
-						abrir_espaco_matriz(i, j)
-						se(j+1>6)
-						{
-							se(mat_pos_quadro_programavel[i+1][0]%10==COMANDO_LOOP_fim ou mat_pos_quadro_programavel[i+1][0]>fator_dentro_loop)
-							{
-								fator_numero_de_loops=(mat_pos_quadro_programavel[i+1][0]/fator_dentro_loop)
-								se(mat_pos_quadro_programavel[i+1][0]%10==COMANDO_LOOP_fim)
-								{
-									fator_numero_de_loops=(mat_pos_quadro_programavel[i+1][0]/fator_dentro_loop)+1
-								}
-								se(objeto_clicado==COMANDO_LOOP)
-								{
-									abrir_espaco_matriz(i+1, 0)
-									mat_pos_quadro_programavel[i][j]=COMANDO_LOOP_inicio+(fator_dentro_loop*fator_numero_de_loops)
-									mat_pos_quadro_programavel[i+1][0]=COMANDO_LOOP_fim+(fator_dentro_loop*fator_numero_de_loops)
-									pontos_loops++
-									pontos_loop_dentro++
-									retorne
-								}	
-								mat_pos_quadro_programavel[i][j]=objeto_clicado+(fator_dentro_loop*fator_numero_de_loops)
-								pontos_loop_dentro++
-								retorne
-							}
-							se(objeto_clicado==COMANDO_LOOP)
-							{
-								abrir_espaco_matriz(i+1, 0)
-								mat_pos_quadro_programavel[i][j]=COMANDO_LOOP_inicio
-								mat_pos_quadro_programavel[i+1][0]=COMANDO_LOOP_fim
-								pontos_loops++
-								retorne
-							}
-							mat_pos_quadro_programavel[i][j]=objeto_clicado
-							retorne	
-						}
-						se(mat_pos_quadro_programavel[i][j+1]%10==COMANDO_LOOP_fim ou mat_pos_quadro_programavel[i][j+1]>fator_dentro_loop)
-						{
-							fator_numero_de_loops=(mat_pos_quadro_programavel[i][j+1]/fator_dentro_loop)
-							se(mat_pos_quadro_programavel[i][j+1]%10==COMANDO_LOOP_fim)
-							{
-								fator_numero_de_loops=(mat_pos_quadro_programavel[i][j+1]/fator_dentro_loop)+1
-							}
-							se(objeto_clicado==COMANDO_LOOP)
-							{
-								abrir_espaco_matriz(i, j+1)
-								mat_pos_quadro_programavel[i][j]=COMANDO_LOOP_inicio+(fator_dentro_loop*fator_numero_de_loops)
-								mat_pos_quadro_programavel[i][j+1]=COMANDO_LOOP_fim+(fator_dentro_loop*fator_numero_de_loops)
-								pontos_loops++
-								pontos_loop_dentro++
-								retorne
-							}	
-							mat_pos_quadro_programavel[i][j]=objeto_clicado+(fator_dentro_loop*fator_numero_de_loops)
-							pontos_loop_dentro++
-							retorne
-						}
-						se(objeto_clicado==COMANDO_LOOP)
-						{
-							abrir_espaco_matriz(i, j+1)
-							mat_pos_quadro_programavel[i][j]=COMANDO_LOOP_inicio
-							mat_pos_quadro_programavel[i][j+1]=COMANDO_LOOP_fim
-							pontos_loops++
-							retorne
-						}
-						mat_pos_quadro_programavel[i][j]=objeto_clicado
-						retorne
-					}
-				}
-				se(mat_pos_quadro_programavel[i][j]==0)
-				{
-					se(objeto_clicado==COMANDO_LOOP)
-					{
-						se(j+1>6)
-						{
-							mat_pos_quadro_programavel[i][j]=COMANDO_LOOP_inicio
-							mat_pos_quadro_programavel[i+1][0]=COMANDO_LOOP_fim
-							pontos_loops++
-							retorne
-						}
-						mat_pos_quadro_programavel[i][j]=COMANDO_LOOP_inicio
-						mat_pos_quadro_programavel[i][j+1]=COMANDO_LOOP_fim
-						pontos_loops++
-						retorne
-					}			
-					mat_pos_quadro_programavel[i][j]=objeto_clicado
-					retorne
-				}
-			}
-		}
-	}
-
-	funcao abrir_espaco_matriz(inteiro i, inteiro j)
-	{
-		//permite abrir um espaÁo no quadro de comandos caso j· se tenha um comando no local onde ser· colocado o novo
-		para(inteiro k=tam_matriz_quadro[0]-1; k>=i; k--)
-		{
-			para(inteiro l=tam_matriz_quadro[1]-1; l>=0; l--)
-			{
-				se(k==i e l==j)
-				{
-					retorne
-				}
-				se(l-1<0)
-				{
-					mat_pos_quadro_programavel[k][l]=mat_pos_quadro_programavel[k-1][6]
-				}
-				senao
-				{
-					mat_pos_quadro_programavel[k][l]=mat_pos_quadro_programavel[k][l-1]
-				}
-			}
-		}
-	}
-		
-	funcao rodar_caminho()
-	{
-		//movimenta o persoangem de acordo com os comandos no quadros
-		posicao_inicial()//coloca na posiÁ„o inicial
-		comecou_a_rodar=verdadeiro//define que o personagem est· se movimentando
-		acha_char()//atualiza as variaveis com a posiÁ„o do personagem
-		faca
-		{
-			
-			reseta_cursor()
-			se(nao eh_um_loop())//se o comando atual n„o for um inicio ou fim de loop
-			{
-			
-				roda_char_()//troca a direÁ„o dele
-				acha_char()//atualiza a posiÁ„o do persoangem
-				se(verifica_tile())//verifica colisıes
-				{
-					proximo_tile()//a posiÁ„o do personagem no mapa vai ao prÛximo tile antes da imagem
-					pode_andar=verdadeiro	
-				}
-				senao
-				{
-					pode_andar=falso
-				}
-				para(inteiro a=0; a<31; a++)//o personagem anda 31 vezes a variavel quanto_anda
-				{
-					se(pode_andar)
-					{
-						mover()//move a imagem do personagem
-					}
-					se(a==16)//Essa CondiÁ„o permite que o char n„o seja desenhado sobre um objeto antes de chegar no tile prÛximo
-					{
-						acha_char()//atualiza a posiÁ„o do personagem
-					}
-					desenhar()//redesenha a tela
-					parou=deu_parar()
-					se(parou)
-					{
-						pare
-					}
-				}			
-			}
-			acha_mouse()//atualiza posiÁ„o do mouse
-			
-			se(parou)
-			{
-				pare
-			}
-		}enquanto(nao terminou_rodar_comandos())//continuar· a andar enquanto nao chegar ao fim do quadrod e comandos
-		parou=falso
-		indice_imagem=0
-		//se chegou ao fim n„o precisa mais andar
-		comecou_a_rodar=falso
-		se(venceu())//verifica se o personagem est· no tile final, se sim È pulado para a prÛxima fase
-		{
-			proxima_fase()		
-		}
-	}
-
-	funcao acha_mouse()
-	{
-		//Atualiza com as posiÁıes x e y do mouse
-		posicao_x_mouse=mo.posicao_x()
-		posicao_y_mouse=mo.posicao_y()
-	}
-
-	funcao reseta_cursor()
-	{
-		//permite que a reverificaÁ„o "se o mouse est· sobre objeto" de cada um dos objetos possa mudar o cursor caso seja falso
-		em_cima_de_um_objeto=falso
-	}
-	
-	funcao logico eh_um_loop()
-	{
-		se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==COMANDO_LOOP_inicio)
-		{
-			//se o comando atual È o inicio de um loop, a posiÁ„o dele È colocada na pilha
-			pilha_de_posicao_dos_loops_x[topo_pilha_de_posicao]=pos_quadro_x
-			pilha_de_posicao_dos_loops_y[topo_pilha_de_posicao]=pos_quadro_y
-			topo_pilha_de_posicao++
-			retorne verdadeiro
-		}
-		senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==COMANDO_LOOP_fim)
-		{
-			se(pilha_de_posicao_fim_x[topo_pilha_de_numero_de_loops]!=pos_quadro_x ou pilha_de_posicao_fim_y[topo_pilha_de_numero_de_loops]!=pos_quadro_y)
-			{
-				//se o comando atual È o fim de um loop e o for diferente do topo da pilha da posiÁ„o dos loops finais, ent„o ele È adicionado a pilha dos finais
-				topo_pilha_de_numero_de_loops++
-				pilha_de_numero_de_loops[topo_pilha_de_numero_de_loops]=(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10000)/10
-				pilha_de_posicao_fim_x[topo_pilha_de_numero_de_loops]=pos_quadro_x
-				pilha_de_posicao_fim_y[topo_pilha_de_numero_de_loops]=pos_quadro_y
-			}
-			se(pilha_de_numero_de_loops[topo_pilha_de_numero_de_loops]==0)
-			{
-				//se o comando atual È o fim de um loop e o numero de vezes para retornar acabou, ent„o as pilhas s„o diminuidas e retorna para o loop n„o se repetir
-				se(topo_pilha_de_posicao>0)
-				{
-					topo_pilha_de_posicao--
-				}
-				se(topo_pilha_de_numero_de_loops>0)
-				{
-					topo_pilha_de_numero_de_loops--
-				}
-				retorne verdadeiro
-			}
-			//diminui o numero do loop e retorna a posiÁ„o na pilha de posicao de loops
-			pilha_de_numero_de_loops[topo_pilha_de_numero_de_loops]-=1
-			pos_quadro_y=pilha_de_posicao_dos_loops_y[topo_pilha_de_posicao-1]
-			pos_quadro_x=pilha_de_posicao_dos_loops_x[topo_pilha_de_posicao-1]
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-
-	funcao logico terminou_rodar_comandos()
-	{
-		//verifica se chegou ao fim dos comandos colocados no quadro
-		se(pos_quadro_x==tam_matriz_quadro[1]-1)
-		{
-			//se chegou ao fim da linha vai pra prÛxima			
-			pos_quadro_y++
-			pos_quadro_x=0
-		}
-		senao se(pos_quadro_y==tam_matriz_quadro[0]-1 e pos_quadro_x==tam_matriz_quadro[1]-1)
-		{
-			//se chegou a ultima linha e ultima coluna termina
-			retorne verdadeiro
-		}
-		senao
-		{
-			//passa pra proxima coluna
-			pos_quadro_x++
-		}
-		se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]==0)
-		{
-			//se nao tem comandos temrina
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-	
-	funcao roda_char_()
-	{
-			//direciona o personagem ao lado do comando atual
-			se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==SOBE)
-			{
-				incrementohorizontal = 0.0
-				incrementovertical = -quantoanda
-				direcao=norte
-			}
-			se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==DESCE)
-			{
-				incrementohorizontal = 0.0
-				incrementovertical = quantoanda	
-				direcao=sul
-			}
-			se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==ESQUERDA)
-			{
-				incrementohorizontal = -quantoanda
-				incrementovertical = 0.0	
-				direcao=oeste
-			}
-			se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==DIREITA)
-			{
-				incrementohorizontal = quantoanda
-				incrementovertical =0.0
-				direcao=leste
-			}
-			
-	}
-
-	funcao ajusta_matriz_cercas()
-	{
-		//extende os tiles das cercas para cobrirem o tamanho que precisam
-		//as cercas s„o divididas em 2 e 4 partes
-		para(inteiro i=0; i<9; i++)
-		{
-			para(inteiro j=0; j<8; j++)
-			{
-				escolha(mapa_cerca_horizontal[i][j])
-				{
-					caso 1: 	mapa_cerca_horizontal[i][j+1]=11 pare
-					
-					caso 3:	mapa_cerca_horizontal[i][j+1]=13
-							mapa_cerca_horizontal[i][j+2]=23
-							mapa_cerca_vertical[i-1][j+3]=33
-							mapa_cerca_vertical[i-2][j+3]=43 pare
-				}
-				escolha(mapa_cerca_vertical[j][i])
-				{
-					caso 4: 	mapa_cerca_vertical[j+1][i]=14 pare
-
-					caso 6:	mapa_cerca_vertical[j+1][i]=16
-							mapa_cerca_vertical[j+2][i]=26
-							mapa_cerca_horizontal[j+3][i-1]=36
-							mapa_cerca_horizontal[j+3][i-2]=46 pare			
-				}
-			}
-		}	
-	}
-	
-	funcao desenhar()
-	{			
-			//funÁıes de desenho
-			iniciar_sincronia_da_taxa_de_atualizacao()
-			g.limpar()
-			g.definir_cor(0x99FF66)
-			g.desenhar_retangulo(0, 0, 800, 600, falso, verdadeiro)
-			ajusta_matriz_cercas()
-			desenha_mapa()
-			mexe_quadro()
-			desenha_quadro()
-			desenha_comandos()
-			desenha_exemplo()
-			desenha_botoes()
-			desenha_comando_no_mouse()
-			conta_fps()
-			pontos_tempo=u.tempo_decorrido()/1000-tempo_inicial/1000
-			desenha_pontuacao()			
-			desenha_mouse()			
-			g.renderizar()
-			finalizar_sincronia_da_taxa_de_atualizacao()
-	}
-
-	funcao desenha_mouse()
-	{
-		acha_mouse()
-		se((posicao_x_mouse>0 e posicao_y_mouse>0) e (posicao_x_mouse<800 e posicao_y_mouse<600))
-		{
-			se(pegou_comando)
-			{
-				g.desenhar_porcao_imagem(posicao_x_mouse, posicao_y_mouse, 50, 0, 22, 28, img_mouse)
-			}
-			senao se(em_cima_de_um_objeto)
-			{
-				g.desenhar_porcao_imagem(posicao_x_mouse-11, posicao_y_mouse, 24, 0, 25, 28, img_mouse)
-			}
-			senao
-			{
-				g.desenhar_porcao_imagem(posicao_x_mouse, posicao_y_mouse, 0, 0, 25, 28, img_mouse)
-			}
-		}
-		
-	}
-	
-	funcao desenha_mapa()
-	{
-		//desenha o mapa e seus objetos
-		g.desenhar_imagem(154, 88, img_mapa)
-		desenha_saida()
-		para(inteiro i=0; i<8;i++)
-		{
-			para(inteiro j=0;j<8;j++)
-			{	//passa por todos os mapas para desenhar cada tile necess·rio
-				posicao_objeto(j, i)
-		          desenha_cerca(mapa_cerca_horizontal[i][j])
-		          desenha_cerca(mapa_cerca_vertical[i][j])
-				desenha_tile(mapa[i][j])
-//				debug_mapa(mat_pos_quadro_comandos[i][j])
-//				g.renderizar()
-//				u.aguarde(100)
-				se(posicao_maty==i e posicao_matx==j)
-				{
-					desenha_char()		
-				}
-			}
-		}
-
-    		para(inteiro z=0; z<8;z++)
-    		{
-    			posicao_objeto(8, z)
-    			desenha_cerca(mapa_cerca_vertical[z][8])
-    			posicao_objeto(z, 8)
-    			desenha_cerca(mapa_cerca_horizontal[8][z])
-    		}
-	}
-
-	funcao desenha_saida()
-	{
-		//a saida precisa ser desenhada antes de tudo, pois como esta presa no chao todo o objeto sobrepoe ela
-		para(inteiro i=0; i<8;i++)
-		{
-			para(inteiro j=0;j<8;j++)
-			{
-				se(mapa[i][j]==4)
-				{
-					posicao_objeto(j, i)
-					se(posicao_matx==j e posicao_maty==i)
-					{
-						g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa[0], posicao_isometrica_objeto_y+posicao_mapa[1]+2,  284, 0, 71, 125, img_objects)		
-					}
-					senao
-					{
-						g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa[0], posicao_isometrica_objeto_y+posicao_mapa[1]+2,  213, 0, 71, 125, img_objects)	
-					}
-				}
-			}
-		}
-	}
-
-	funcao desenha_tile(inteiro s)
-	{
-		//desenha objeto no tile dependendo do numero que estiver no mapa
-		escolha(s){
-			caso  1 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa[0], posicao_isometrica_objeto_y+posicao_mapa[1],  142, 0, 71, 125, img_objects) pare 
-			caso  2 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa[0], posicao_isometrica_objeto_y+posicao_mapa[1],    0, 0, 71, 117, img_objects) pare 
-			caso  3 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa[0], posicao_isometrica_objeto_y+posicao_mapa[1],   71, 0, 71, 125, img_objects) pare 
-		}
-	}
-
-	funcao desenha_cerca(inteiro s)
-	{
-		//desenha a cerca que estiver no tile do mapa de cercas
-		escolha(s)
-		{
-			//Os n˙meros para saber o quanto cortar da cerca e quanto levantar ela, foram baseados em tentativa e erro
-			
-			caso  1 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]	,     6, 128,  32,  78, img_objects) pare
-			caso 11 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-17	,    35, 128,  32,  78, img_objects) pare
-			caso  2 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]	,    75, 128,  44,  62, img_objects) pare 
-			caso  3 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]	,   118, 128,  34,  95, img_objects) pare
-			caso 13 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-16	,   147, 128,  32,  95, img_objects) pare
-			caso 23 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-33	,   176, 128,  32,  95, img_objects) pare
-			caso 33 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-32	,   239, 128, -31,  95, img_objects) pare 
-			caso 43 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-18	,   268, 128, -31,  95, img_objects) pare 
-			caso  4 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]	,   269, 223, -32,  78, img_objects) pare 
-			caso 14 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-17	,   237, 223, -32,  78, img_objects) pare 
-			caso  5 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]	,   202, 223, -44,  62, img_objects) pare 
-			caso  6 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]	,   156, 223, -34,  95, img_objects) pare 
-			caso 16 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-17	,   126, 223, -32,  95, img_objects) pare 
-			caso 26 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-34	,    96, 223, -32,  95, img_objects) pare 
-			caso 36 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-36	,   	34, 223,  31,  95, img_objects) pare 
-			caso 46 : g.desenhar_porcao_imagem(posicao_isometrica_objeto_x+posicao_mapa_cerca[0], posicao_isometrica_objeto_y+posicao_mapa_cerca[1]-18	,     4, 223,  31,  95, img_objects) pare 
-			
-		}	
-	}
-	
-	funcao posicao_objeto(inteiro x, inteiro y)
-	{
-		//consegue as posiÁıes em 2D, e transforma em posiÁıes em isometrico para o objeto
-		posicao_objeto_x=x*tamtile[0]
-		posicao_objeto_y=y*tamtile[1]
-		objeto_doisD_para_isometrico()
-	}
-
-	funcao desenha_char()
-	{
-		//desenha o char a partir do mapa de posiÁıes dos sprites do char declarado no comeÁo, com isso, posiÁıes e direÁ„o, pode-se trocar as variaveis da posiÁ„o
-		//da imagem do char na folha de sprites de acordo com a direÁ„o que estiver o char atualmente
-		g.desenhar_porcao_imagem(char_isometrico_x+posicao_mapa_char[0]+55, char_isometrico_y+posicao_mapa_char[1]+115, sprite[direcao][indice_imagem*2],sprite[direcao][indice_imagem*2+1] , -32, -80, imagem_chars)
-		se(comecou_a_rodar)
-		{	
-			se(imagemporturnos%5==0)
-			{
-				indice_imagem = (indice_imagem + 1) % 5
-			}
-			imagemporturnos++  
-		}
-	}
-	
-	funcao desenha_quadro()
-	{
-		
-		se(fator_mexer_quadro>tam_quadro_programavel[1]/2-1.5)
-		{
-			fator_mexer_quadro=0 //permite que quando chegar no fim da imagem do quadro, retorne ao comeÁo dela
-		}
-		se(fator_mexer_quadro<0)
-		{
-			fator_mexer_quadro=tam_quadro_programavel[1]/2-1.5 //permite que quando voltar no comeÁo da imagem do quadro, retorne ao fim dela
-		}
-		// 36 È a altura da placa "programa"
-		g.desenhar_imagem(posicao_quadro[0], posicao_quadro[1]-36, img_quadros_adjacentes)//placa programa
-		g.desenhar_porcao_imagem(posicao_quadro[0], posicao_quadro[1], 0, fator_mexer_quadro, tam_quadro_programavel[0], tam_quadro_programavel[1]/2, img_quadros)//metade do quadro parte de cima
-		g.desenhar_porcao_imagem(posicao_quadro[0], posicao_quadro[1]+tam_quadro_programavel[1]/2, 0, fator_mexer_quadro, tam_quadro_programavel[0], tam_quadro_programavel[1]/2, img_quadros)//metade do quadro parte de baixo
-		g.desenhar_imagem(posicao_setas[0], posicao_setas[1], img_setas)
-		para(inteiro i=0; i<tam_matriz_quadro[0]; i++)
-		{
-			para(inteiro j=0; j<tam_matriz_quadro[1]; j++)
-			{
-				desenha_comando_no_quadro(mat_pos_quadro_programavel[i][j], i, j)
-				
-			}
-		}
-	}
-	
-	funcao desenha_comando_no_quadro(inteiro s, inteiro i, inteiro j)
-	{	
-		//desenha os comandos do quadro que forem sendo colocados
-		real fator_saiu_do_quadro=0.0
-		real fator_saiu_por_cima=0.0
-		//os calculos abaixo definem se um comando est· dentro ou foram da ·rea do quadro quando ele È movido pelas setas no programa
-		//os fatores v„o ser usados na hora de imprimir os comandos no quadro, pois eles definir„o o quanto ser· das imagens caso
-		//apenas uma parte delas ser· necess·ria ser desenhada
-		se((i*(tam_comandos[1])+fator_mexer_matriz_comandos)<0)
-		{
-			fator_saiu_do_quadro=(i*(tam_comandos[1])+fator_mexer_matriz_comandos)
-			se(-fator_saiu_do_quadro>tam_comandos[1])
-			{
-				fator_saiu_do_quadro=-tam_comandos[1]
-			}
-			fator_saiu_por_cima=fator_saiu_do_quadro
-		}
-		se((i*(tam_comandos[1])+fator_mexer_matriz_comandos)>tam_quadro_programavel[1]-tam_comandos[1])
-		{
-			fator_saiu_do_quadro=(tam_quadro_programavel[1]-(i*(tam_comandos[1])+fator_mexer_matriz_comandos))-tam_comandos[1]
-			se(fator_saiu_do_quadro<-tam_comandos[1])
-			{
-				fator_saiu_do_quadro=-tam_comandos[1]
-			}
-		}
-		//a condiÁ„o abaixo define se um comando est· dentro do loop e desenha um risco atras dele para dar a impress„o de continuidade do loop
-		se(s>fator_dentro_loop)
-		{
-			g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 1*tam_comandos[0], 2*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor)
-		}
-		//a escolha abaixo desenha o comando a partir de sua posiÁ„o e o quanto est· dentro ou fora do quadro
-		escolha(s%10)
-		{
-			caso  ESQUERDA : g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 0*tam_comandos[0], 0*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor) pare
-			caso  DESCE 	: g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 0*tam_comandos[0], 1*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor) pare 
-			caso  SOBE 	: g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 1*tam_comandos[0], 0*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor) pare 
-			caso  DIREITA 	: g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 1*tam_comandos[0], 1*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor) pare
-			caso  COMANDO_LOOP_inicio : g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 0*tam_comandos[0], 2*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor) pare
-			caso  COMANDO_LOOP_fim : g.desenhar_porcao_imagem(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 2*tam_comandos[0], 2*tam_comandos[1]-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_comandos_menor) pare
-		}
-		//comentario com a funÁao para verificar os numeros do quadro de comandos
-//		debug_quadro_comandos(s, posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos))
-		
-		//verificam se os botıes excluir e numero de loops foram clicados e modifica quadro
-		se(comecou_a_rodar==falso)
-		{
-			verifica_botao_excluir(i, j, fator_saiu_por_cima, fator_saiu_do_quadro)			
-		}
-		verifica_botoes_numero_loop(i, j, fator_saiu_por_cima, fator_saiu_do_quadro)
-		//desenha a borda do comando atual sendo executado
-		se(j==pos_quadro_x e i==pos_quadro_y e comecou_a_rodar==verdadeiro)
-		{
-			g.desenhar_porcao_imagem(posicao_quadro[0]+(pos_quadro_x*tam_comandos[0]), posicao_quadro[1]+(pos_quadro_y*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, 0, 0-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro, img_borda)	
-		}
-	}
-	
-	funcao desenha_comandos()
-	{
-		//desenha a imagem dos comandos que podem ser pegos(s„o os comandos que ficam com o personagem ‡ direita)
-		g.desenhar_imagem(posicao_quadro[0]+tam_quadro_programavel[0]+tam_setas[0], posicao_quadro[1], img_comandos)
-	}
-
-	funcao desenha_comando_no_mouse()
-	{
-		//desenha o objeto que foi clicado e est· sendo arrastado pelo mouse, no mouse
-		acha_mouse()
-		se(objeto_clicado==ESQUERDA)
-		{
-			g.desenhar_porcao_imagem(posicao_x_mouse-(tam_mat_comandos[0]/2), posicao_y_mouse-(tam_mat_comandos[1]/2), 0*tam_mat_comandos[0]+35, 0*tam_mat_comandos[1]+50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
-		}
-		se(objeto_clicado==DESCE)
-		{
-			g.desenhar_porcao_imagem(posicao_x_mouse-(tam_mat_comandos[0]/2), posicao_y_mouse-(tam_mat_comandos[1]/2),  0*tam_mat_comandos[0]+35, 1*tam_mat_comandos[1]+50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
-		}
-		se(objeto_clicado==SOBE)
-		{
-			g.desenhar_porcao_imagem(posicao_x_mouse-(tam_mat_comandos[0]/2), posicao_y_mouse-(tam_mat_comandos[1]/2), 1*tam_mat_comandos[0]+35, 0*tam_mat_comandos[1]+50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
-		}
-		se(objeto_clicado==DIREITA)
-		{
-			g.desenhar_porcao_imagem(posicao_x_mouse-(tam_mat_comandos[0]/2), posicao_y_mouse-(tam_mat_comandos[1]/2), 1*tam_mat_comandos[0]+35, 1*tam_mat_comandos[1]+50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
-		}
-		se(objeto_clicado==COMANDO_LOOP)
-		{
-			g.desenhar_porcao_imagem(posicao_x_mouse-(tam_mat_comandos[0]/2), posicao_y_mouse-(tam_mat_comandos[1]/2), 0*tam_mat_comandos[0], 2*tam_mat_comandos[1]+50, tam_mat_comandos[0]*3-20, tam_mat_comandos[1], img_comandos)
-		}
-	}
-	
-	funcao desenha_exemplo()
-	{
-		//desenha o personagem exemplo, que fica junto ao quadro de comandos ‡ direita
-		g.desenhar_porcao_imagem(posicao_comandos[0]+tam_mat_comandos[0]+20, posicao_comandos[1]+tam_mat_comandos[1]+10, sprite[direcao_exemplo][indice_imagem_exemplo*2],sprite[direcao_exemplo][indice_imagem_exemplo*2+1] , -32, -80, imagem_exemplo)	
-		se(mouse_esta_sobre_comandos())
-		{
-			se(imagemporturnos_exemplo%4==0)
-			{
-			indice_imagem_exemplo = (indice_imagem_exemplo + 1) % 5
-			}
-			imagemporturnos_exemplo++
-		}	
-	}
-
-	funcao desenha_botoes()
-	{
-		//desenha os botoes play e excluir
-		g.desenhar_porcao_imagem(posicao_botoes[0], posicao_botoes[2], 34, 0, tam_botoes[0], tam_botoes[1], img_botoes)
-		se(comecou_a_rodar)
-		{
-			g.desenhar_imagem(posicao_botoes[1], posicao_botoes[2], img_botao_parar)
-		}
-		senao
-		{
-			g.desenhar_porcao_imagem(posicao_botoes[1]+5, posicao_botoes[2], 0, 0, tam_botoes[0], tam_botoes[1], img_botoes)	
-		}
-	}
-
-	funcao desenha_pontuacao()
-	{
-		//desenha as pontuaÁıes no topo
-		cadeia texto_pontuacao="Tempo: "+ pontos_tempo +" | InstruÁıes: "+ pontos_instrucoes +" | Loops: "+pontos_loops +" | Deletados: "+ pontos_deletados + " | Limpou: "+ pontos_limpou + " | Plays: "+ pontos_play +" | Comandos no loop: " +pontos_loop_dentro
-
-		inteiro fator_centralizar=400
-		fator_centralizar-=(tx.numero_caracteres(texto_pontuacao)/2)*7.5
-		
-		g.desenhar_imagem(0, 0, img_quadro_pontuacao)
-		g.definir_cor(g.COR_PRETO)
-		g.definir_tamanho_texto(17.0)
-		g.desenhar_texto(fator_centralizar, 10, texto_pontuacao)	
-		g.definir_cor(0x99FF66)
-	}
-
-	funcao desenha_numero_loop(inteiro x, inteiro y, inteiro numero, real fator_saiu_do_quadro, real fator_saiu_por_cima)
-	{
-		//descobre o numero do loop, e o desenha ao lado do prÛprio
-		
-		inteiro numeros[]={0,0,0,0}, j
-		inteiro fator_centralizar=0, fator_separar=0
-
-		para(inteiro i=u.numero_elementos(numeros)-1; i>=0;i--)
-		{
-			//È retirado cada final do numero recebido e colocado em um vetor, para cada um ser desenhado separadamente
-			numeros[i]=numero%10
-			numero=numero/10
-		}
-		para(j=0; j<u.numero_elementos(numeros); j++)
-		{
-			//necess·rio para o desenho n„o comeÁar com zeros na frente, o j ter· a posiÁ„o certa a se comeÁar a desenhar
-			se(numeros[j] != 0)
-			{
-				pare
-			}
-		}
-		
-		se(j<u.numero_elementos(numeros) e j !=0)
-		{
-			fator_centralizar=10/j
-		}
-		
-		para(inteiro g = j; g<u.numero_elementos(numeros);g++)
-		{
-			g.desenhar_porcao_imagem(x+fator_separar*10-fator_centralizar, y, numeros[g]*10, 0-fator_saiu_por_cima, 10, 20+fator_saiu_do_quadro, img_numeros)
-			fator_separar++
-		}
-	}
-	
-	funcao mexe_quadro()
-	{
-		//define quanto os comandos ir„o se mexer e quanto o quadro tambÈm ir·.
-		//se est· no limite do inicio ou do fim do quadro, ambos n„o poder„o se mover
-		se(nao pegou_comando)
-		{
-			se(fator_mexer_matriz_comandos<0 )
-			{
-				se(esta_clicando_na_seta()==SOBE)
-				{
-					fator_mexer_quadro-=2
-					fator_mexer_matriz_comandos+=2
-				}
-			}
-			se((21*(tam_comandos[1])+fator_mexer_matriz_comandos)>tam_quadro_programavel[1]-tam_comandos[1])
-			{
-				se(esta_clicando_na_seta()==DESCE)
-				{
-					fator_mexer_quadro+=2
-					fator_mexer_matriz_comandos-=2
-				}
-			}
-		}	
-	}
-
-	funcao verifica_botoes_numero_loop(inteiro i, inteiro j, real fator_saiu_por_cima, real fator_saiu_do_quadro)
-	{
-		//verifica se o comando do fim do loop foi clicado nos botıes + e -, e desenha o for necess·rio.
-		inteiro numero=mat_pos_quadro_programavel[i][j]
-		se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_fim)
-		{
-			
-			se(mouse_esta_sobre_objeto(posicao_quadro[0]+(j*tam_comandos[0])+11, posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima+13, 16, 16) e nao pegou_comando e comecou_a_rodar==falso)
-			{
-				se((objeto_foi_clicado(verdadeiro) e (mat_pos_quadro_programavel[i][j]%(fator_dentro_loop/10)>10)))
-				{
-					objeto_clicado=BOTAO_DIMINUIR_LOOP
-				}
-				se((objeto_foi_clicado(verdadeiro)==falso e (mat_pos_quadro_programavel[i][j]%(fator_dentro_loop/10)>10)) e objeto_clicado==BOTAO_DIMINUIR_LOOP)
-				{
-					objeto_clicado=0
-					mat_pos_quadro_programavel[i][j]-=10
-				}
-				
-			}
-
-			se(mouse_esta_sobre_objeto(posicao_quadro[0]+(j*tam_comandos[0])+46, posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima+13, 16, 16) e nao pegou_comando e comecou_a_rodar==falso)
-			{
-				se(objeto_foi_clicado(verdadeiro))
-				{
-					objeto_clicado=BOTAO_AUMENTAR_LOOP
-				}
-				se(objeto_foi_clicado(verdadeiro)==falso e objeto_clicado==BOTAO_AUMENTAR_LOOP)
-				{
-					objeto_clicado=0
-					mat_pos_quadro_programavel[i][j]+=10
-				}
-			}
-				
-			se(numero>fator_dentro_loop)
-			{
-				numero=numero%fator_dentro_loop
-			}
-			desenha_numero_loop(posicao_quadro[0]+(j*tam_comandos[0])+30, posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, numero/10, fator_saiu_do_quadro, fator_saiu_por_cima)
-		}
-	}
-
-	funcao verifica_botao_excluir(inteiro i, inteiro j, real fator_saiu_por_cima, real fator_saiu_do_quadro)
-	{
-		//verifica se o x do comando foi clicado e assim tenta exclui-lo do local, se um loop, ele tambÈm levar· o comeÁo do loop
-		//porÈm n„o ser· retirado os comandos dentro do loop
-		se(mat_pos_quadro_programavel[i][j]!=0)
-		{
-			se((mouse_esta_sobre_objeto(posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, tam_comandos[0], tam_comandos[1]+fator_saiu_do_quadro) e mat_pos_quadro_programavel[i][j]!=0)  e pegou_comando==falso)
-			{
-				g.desenhar_imagem(posicao_quadro[0]+(j*tam_comandos[0])+tam_comandos[0]-17, posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima, img_botao_excluir)
-				se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_quadro[0]+(j*tam_comandos[0])+tam_comandos[0]-17, posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima,17.0, 17.0)))
-				{
-					objeto_clicado=BOTAO_EXCLUIR
-				}
-				se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_quadro[0]+(j*tam_comandos[0])+tam_comandos[0]-17, posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos)-fator_saiu_por_cima,17.0, 17.0))==falso e objeto_clicado==BOTAO_EXCLUIR)
-				{
-					pontos_instrucoes--
-					pontos_deletados++
-					objeto_clicado=0
-					se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_inicio ou mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_fim)
-					{
-						retirar_loop(i, j, mat_pos_quadro_programavel[i][j]%10)
-					}
-					senao
-					{
-						retirar_comando(i, j)	
-					}
-				}
-			}
-		}
-	}
-	
-	funcao inteiro esta_clicando_na_seta()
-	{
-		//retorna se alguma seta que move o quadro foi clicada
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_setas[0], posicao_setas[1], tam_setas[0], tam_setas[1])))
-		{
-			retorne SOBE
-		}
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_setas[0], posicao_setas[2], tam_setas[0], tam_setas[1])))
-		{
-			retorne DESCE
-		}
-		retorne 0
-	}
-	
-	funcao logico mouse_esta_sobre_comandos()
-	{
-		//retorna se o mouse est· sobre algum dos comandos ‡ direita
-		se(mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))
-		{
-				direcao_exemplo=oeste
-				retorne verdadeiro
-		}
-		se(mouse_esta_sobre_objeto(posicao_comandos[0]+tam_mat_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))
-		{
-				direcao_exemplo=norte
-				retorne verdadeiro
-		}
-		se(mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1]+tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))
-		{
-				direcao_exemplo=sul
-				retorne verdadeiro
-		}
-		se(mouse_esta_sobre_objeto(posicao_comandos[0]+tam_mat_comandos[0], posicao_comandos[1]+tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))
-		{
-				direcao_exemplo=leste
-				retorne verdadeiro
-		}
-		se(mouse_esta_sobre_objeto(posicao_comandos[0]-35, posicao_comandos[1]+2*tam_mat_comandos[1], tam_mat_comandos[0]*2, tam_mat_comandos[1]))
-		{
-				retorne verdadeiro
-		}
-		indice_imagem_exemplo=0
-		retorne falso
-	}
-
-	funcao inteiro comando_que_foi_clicado()
-	{
-		//verifica se algum comando foi clicado, e retorna o qual
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])))
-		{
-				pegou_comando=verdadeiro
-				retorne COMANDO_ESQUERDA
-		}
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0]+tam_mat_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])))
-		{
-				pegou_comando=verdadeiro
-				retorne COMANDO_SOBE
-		}
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1]+tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])))
-		{
-				pegou_comando=verdadeiro
-				retorne COMANDO_DESCE
-		}
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0]+tam_mat_comandos[0], posicao_comandos[1]+tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])))
-		{
-				pegou_comando=verdadeiro
-				retorne COMANDO_DIREITA
-		}
-		se(objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0]-35, posicao_comandos[1]+2*tam_mat_comandos[1], tam_mat_comandos[0]*2, tam_mat_comandos[1])))
-		{		
-				pegou_comando=verdadeiro
-				retorne COMANDO_LOOP
-		}
-		retorne 0
-	}
-	
-	funcao logico mouse_esta_sobre_objeto(real posicao_x_objeto, real posicao_y_objeto, real tamanho_x_objeto, real tamanho_y_objeto)
-	{
-		//funcao generica que retorna se o mouse est· sobre um objeto, precisa-se saber a posiÁ„o e o tamanho do objeto
-		acha_mouse()
-		se(posicao_x_mouse>posicao_x_objeto e posicao_x_mouse<posicao_x_objeto+tamanho_x_objeto)
-		{
-			se(posicao_y_mouse>posicao_y_objeto e posicao_y_mouse<posicao_y_objeto+tamanho_y_objeto)
-			{
-				em_cima_de_um_objeto=verdadeiro
-				retorne verdadeiro
-			}
-		}
-		retorne falso	
-	}
-
-	funcao logico objeto_foi_clicado(logico esta_no_objeto)
-	{
-		//funÁ„o genÈrica que retorna se o objeto foi clicado, precisa-se da confirmaÁ„o se o mouse est· sobre o objeto
-		//utilizada normalmente com a funÁ„o mouse_esta_sobre_objeto()
-		se(esta_no_objeto e mo.botao_pressionado(mo.BOTAO_ESQUERDO))
-		{
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-	
-	funcao logico verifica_tile()
-	{
-		//verifica o tile
-		acha_char()
-		retorne verifica_proximo(posicao_maty, posicao_matx)
-		
-	}
-
-	funcao logico verifica_proximo(inteiro y, inteiro x)
-	{
-		//verifica se o prÛximo tile est· apto para andar
-			se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==DIREITA)
-			{
-				se(x+1<8)
-				{
-					se((mapa[y][x+1]==0 ou mapa[y][x+1]==4) e mapa_cerca_vertical[y][x+1]%10==0)
-					{
-						retorne verdadeiro
-					}
-				}
-			}
-			senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==ESQUERDA)
-			{
-				se(x-1>-1)
-				{
-					se((mapa[y][x-1]==0 ou mapa[y][x-1]==4) e mapa_cerca_vertical[y][x]%10==0)
-					{
-						retorne verdadeiro
-					}
-				}
-			}
-			senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==SOBE)
-			{
-				se(y-1>-1)
-				{
-					se((mapa[y-1][x]==0 ou mapa[y-1][x]==4) e mapa_cerca_horizontal[y][x]%10==0)
-					{
-						retorne verdadeiro
-					}
-				}
-			}
-			senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==DESCE)
-			{	
-				se(y+1<8)
-				{
-					se((mapa[y+1][x]==0 ou mapa[y+1][x]==4) e mapa_cerca_horizontal[y+1][x]%10==0)
-					{
-						retorne verdadeiro
-					}
-				}
-			}
-		
-		retorne falso
-		
-		
-	}
-	
-	funcao proximo_tile()
-	{
-		//faz o char andar para o prÛximo tile
-		se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==DIREITA)
-		{
-			mapa_char[posicao_maty][posicao_matx+1]=1
-			mapa_char[posicao_maty][posicao_matx]=0
-		}
-		senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==ESQUERDA)
-		{
-			mapa_char[posicao_maty][posicao_matx-1]=1
-			mapa_char[posicao_maty][posicao_matx]=0
-		}
-		senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==SOBE)
-		{
-			mapa_char[posicao_maty-1][posicao_matx]=1
-			mapa_char[posicao_maty][posicao_matx]=0
-		}
-		senao se(mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x]%10==DESCE)
-		{
-			mapa_char[posicao_maty+1][posicao_matx]=1
-			mapa_char[posicao_maty][posicao_matx]=0
-		}	
-	}
-	
-	funcao objeto_doisD_para_isometrico()
-	{
-		//transforma as posiÁıes 2D de um objeto, para Isometrica
-		posicao_isometrica_objeto_x = posicao_objeto_x - posicao_objeto_y
-  		posicao_isometrica_objeto_y = (posicao_objeto_x + posicao_objeto_y) /1.75
-	}
-	
-	funcao char_doisD_para_isometrico()
-	{
-		//transforma as posiÁıes do char de 2D para isometrica
-		char_isometrico_x = char_x - char_y
-  		char_isometrico_y = (char_x + char_y) / 1.75
-	}
-
-	funcao mover()
-	{
-		//faz o incrmento na posiÁ„o da imagem do char
-		char_x+= incrementohorizontal
-		char_y+= incrementovertical
-		char_doisD_para_isometrico()
-	}
-
-	funcao acha_char()
-	{
-		//encontra a posiÁ„o do char e a coloca em variaveis
-		para(inteiro i=0; i<8; i++){
-				para(inteiro j=0; j<8; j++){
-					se(mapa_char[i][j]==1)
-					{
-						posicao_maty=i
-						posicao_matx=j
-					}
-				}
-			}		
-	}
-
-	funcao logico venceu()
-	{
-		//verifica se o char chegou ao fim do mapa
-		acha_char()
-		se(mapa[posicao_maty][posicao_matx]==4)
-		{
-			retorne verdadeiro
-		}
-		retorne falso
-	}
-	
-	funcao resetar()
-	{
-		//retorna o char ao inicio e limpa a matriz de comandos
-		posicao_inicial()
-		limpar_caminho_matriz()
-	}
-
-	funcao retirar_comando(inteiro i, inteiro j)
-	{
-		//funÁ„o que retira um comando do quadro
-		se(mat_pos_quadro_programavel[i][j]>fator_dentro_loop e (mat_pos_quadro_programavel[i][j]%10!=COMANDO_LOOP_inicio e mat_pos_quadro_programavel[i][j]%10!=COMANDO_LOOP_fim))
-		{
-			pontos_loop_dentro--
-		}
-		para(; i<tam_matriz_quadro[0]; i++)
-		{
-			para(; j<tam_matriz_quadro[1]; j++)
-			{					
-				se(j==tam_matriz_quadro[1]-1)
-				{
-					mat_pos_quadro_programavel[i][j]=mat_pos_quadro_programavel[i+1][0]
-				}
-				senao
-				{
-					mat_pos_quadro_programavel[i][j]=mat_pos_quadro_programavel[i][j+1]	
-				}
-				se(mat_pos_quadro_programavel[i][j]==0)
-				{
-					retorne
-				}				
-			}
-			j=0		
-		}
-	}
-
-	funcao retirar_loop(inteiro i, inteiro j, inteiro tipo_a_deletar)
-	{
-		//funÁ„o que retira um loop do quadro.
-		//o inicio e o final do loop s„o retirados sem retirar os comandos dentre ele
-		inteiro pular_loop_interno=0
-		pontos_loops--
-		se(mat_pos_quadro_programavel[i][j]>fator_dentro_loop e mat_pos_quadro_programavel[i][j]-fator_dentro_loop<fator_dentro_loop)
-		{
-			pontos_loop_dentro--
-		}
-		retirar_comando(i, j)
-		se(tipo_a_deletar==COMANDO_LOOP_inicio)
-		{
-			para(; i<tam_matriz_quadro[0]; i++)
-			{
-				para(; j<tam_matriz_quadro[1]; j++)
-				{					
-					se(mat_pos_quadro_programavel[i][j]>fator_dentro_loop)
-					{
-						mat_pos_quadro_programavel[i][j]-=fator_dentro_loop
-						se(mat_pos_quadro_programavel[i][j]<fator_dentro_loop e mat_pos_quadro_programavel[i][j]%10!=COMANDO_LOOP_fim)
-						{
-							pontos_loop_dentro--
-						}						
-					}
-					se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_inicio)
-					{
-						pular_loop_interno++
-					}
-					senao se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_fim e pular_loop_interno>0)
-					{
-						pular_loop_interno--
-					}
-					senao se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_fim e pular_loop_interno==0)
-					{
-						retirar_comando(i, j)
-						retorne
-					}
-				}
-				j=0
-			}
-		}
-		senao
-		{
-			se(j==0)
-			{
-				j=6
-				i--
-			}
-			senao
-			{
-				j--
-			}
-			para(; i>=0; i--)
-			{
-				para(; j>=0; j--)
-				{
-					
-					se(mat_pos_quadro_programavel[i][j]>fator_dentro_loop)
-					{
-						mat_pos_quadro_programavel[i][j]-=fator_dentro_loop
-						se(mat_pos_quadro_programavel[i][j]<fator_dentro_loop e mat_pos_quadro_programavel[i][j]%10!=COMANDO_LOOP_inicio)
-						{
-							pontos_loop_dentro--
-						}						
-					}
-					se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_fim)
-					{
-						pular_loop_interno++
-					}
-					senao se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_inicio e pular_loop_interno>0)
-					{
-						pular_loop_interno--
-					}
-					senao se(mat_pos_quadro_programavel[i][j]%10==COMANDO_LOOP_inicio e pular_loop_interno==0)
-					{
-						retirar_comando(i, j)
-						retorne
-					}
-				}
-				j=6
-			}
-		}
-	}
-	
-	funcao limpar_caminho_matriz()
-	{
-		//limpa o quadro de comandos
-		para(inteiro i=0; i<u.numero_linhas(mat_pos_quadro_programavel); i++)
-		{
-			para(inteiro j=0; j<u.numero_colunas(mat_pos_quadro_programavel); j++)
-			{				
-				pontos_instrucoes=0
-				mat_pos_quadro_programavel[i][j]=0
-			}
-		}
-	}
-
-	funcao posicao_inicial()
-	{
-		//retorna o char para sua posiÁ„o inicial
-		acha_char()
-		
-		char_x=char_posicao_original_x_matriz*tamtile[0]
-		char_y=char_posicao_original_y_matriz*tamtile[1]
-
-		mapa_char[posicao_maty][posicao_matx]=0
-		mapa_char[char_posicao_original_y_matriz][char_posicao_original_x_matriz]=1
-		acha_char()
-		pos_quadro_x=0
-		pos_quadro_y=0
-		
-		char_doisD_para_isometrico()
-	}
-
-	funcao definir_posicao_original()
-	{
-		//define a posiÁ„o inicial do char
-		acha_char()
-		char_posicao_original_x_matriz=posicao_matx
-		char_posicao_original_y_matriz=posicao_maty
-	}
-
-	funcao debug_mapa(inteiro s)
-	{
-			//essa funÁ„o permite desenhar os numeros que lhe forem enviados
-			//ela È chamada no desenho do campo, È normalmente utilizada para verificar se os numeros nas matrizes est„o certos
-			g.definir_cor(g.COR_PRETO)
-			g.desenhar_texto(posicao_isometrica_objeto_x+posicao_mapa[0], posicao_isometrica_objeto_y+posicao_mapa[1], tp.inteiro_para_cadeia(s, 10))	
-			g.definir_cor(0x99FF66)	
-	}
-
-	funcao debug_quadro_comandos(inteiro s, inteiro x, inteiro y)
-	{
-		g.definir_cor(g.COR_PRETO)
-		g.desenhar_texto(x, y, tp.inteiro_para_cadeia(s, 10))	
-		g.definir_cor(0x99FF66)
-	}
-
-	funcao proxima_fase()
-	{
-		//inicia prÛxima fase
-		calcula_pontos()
-		nivel++
-		limpar_caminho_matriz()
-		iniciar_jogo()
-	}
-	
-	funcao calcula_pontos()
-	{
-		pontuacoes[nivel-1]=1-((pontos_instrucoes - pontos_minimos_instrucoes) * 0.01) - (pontos_deletados * 0.01) - (pontos_limpou * 0.01) - (pontos_play * 0.01) - ((pontos_loops - pontos_loops_minimos) * 0.02) - ((pontos_loop_dentro - pontos_loop_dentro_minimo) * 0.02) - (pontos_tempo * 0.0005)
-	}
-
-	funcao tela_venceu()
-	{
-		real pontuacao_final = 0.0
-
-		para(inteiro i =0; i<u.numero_elementos(pontuacoes); i++)
-		{
-			pontuacao_final+=pontuacoes[i]
-		}
-		pontuacao_final = pontuacao_final/u.numero_elementos(pontuacoes)
-		enquanto(objeto_foi_clicado(mouse_esta_sobre_objeto(286, 526, 230, 50))==falso)
-		{						
-			g.desenhar_imagem(0, 0, img_fundo)
-			g.desenhar_imagem(100, 270, imagem_char)
-			g.definir_cor(g.COR_PRETO)
-			g.definir_tamanho_texto(24.0)
-			g.desenhar_imagem(370, 327, endgame)
-			g.desenhar_texto(590, 485, ""+m.arredondar(pontuacao_final*10, 2))			
-			g.desenhar_imagem(-80, 0, happy)
-			g.desenhar_imagem(400, -11, happy2)
-			desenha_mouse()
-			g.renderizar()
-			reseta_cursor()
-		}
-	}
-
-	funcao inteiro selecao_de_personagem()
-	{
-		//desenha a tela de seleÁ„o de persoangem
-		//E retorna o personagem selecionado
-		inteiro char_selecionado=0
-		cadeia pasta_selecao="./selecao_personagem/"
-		mo.ocultar_cursor()
-		img_fundo=g.carregar_imagem(pasta_selecao + "tela_fundo.png")
-		img_boy= g.carregar_imagem(pasta_selecao + "personagem_boy.png")
-		img_girl= g.carregar_imagem(pasta_selecao + "personagem_girl.png")
-		selecao_boy=g.carregar_imagem(pasta_selecao + "personagem_boy_selecao.png")
-		selecao_girl=g.carregar_imagem(pasta_selecao + "personagem_girl_selecao.png")
-		img_ajuda=g.carregar_imagem(pasta_selecao + "tela_ajuda.png")
-
-		enquanto(char_selecionado==0)
-		{
-			reseta_cursor()
-			g.desenhar_imagem(0, 0, img_fundo)
-			g.desenhar_imagem(14, 135, img_boy)
-			g.desenhar_imagem(487, 150, img_girl)
-			se(mouse_esta_sobre_objeto(14.0, 135.0, 395.0, 465.0))
-			{
-				g.desenhar_imagem(14, 135, selecao_boy)
-				se(objeto_foi_clicado(verdadeiro))
-				{
-					objeto_clicado=BOY
-				}
-				se(nao objeto_foi_clicado(verdadeiro) e objeto_clicado==BOY)
-				{
-					objeto_clicado=0
-					retorne BOY
-				}
-			}
-			se(mouse_esta_sobre_objeto(487.0, 150.0, 298.0, 465.0))
-			{
-				g.desenhar_imagem(487, 150, selecao_girl)
-				se(objeto_foi_clicado(verdadeiro))
-				{
-					objeto_clicado=GIRL
-				}
-				se(nao objeto_foi_clicado(verdadeiro) e objeto_clicado==GIRL)
-				{
-					objeto_clicado=0
-					retorne GIRL
-				}
-			}
-			desenha_mouse()
-			g.renderizar()
-		}
-		retorne 0
-	}
-
-	funcao carregar_personagem(inteiro char)
-	{
-		//vai para tela de tutorial e carrega as imagens do persoangem selecionado
-		g.limpar()
-		g.desenhar_imagem(0, 0, img_ajuda)
-		g.desenhar_imagem(286, 526, img_carregando)
-		g.renderizar()
-		cadeia pasta = "./girl/"
-		se(char==1)
-		{
-			pasta = "./boy/"	
-		}
-		imagem_charf = g.carregar_imagem(pasta + "char_f.png")
-		imagem_chara = g.carregar_imagem(pasta + "char_a.png")
-		imagem_chars = g.carregar_imagem(pasta + "chars.png")
-		imagem_char = g.carregar_imagem(pasta + "personagem.png")
-		imagem_exemplo = g.carregar_imagem(pasta + "chars.png")
-		
-		enquanto(objeto_foi_clicado(mouse_esta_sobre_objeto(286, 526, 230, 50))==falso)
-		{			
-			g.limpar()			
-			g.desenhar_imagem(0, 0, img_ajuda)
-			g.desenhar_imagem(286, 526, img_pronto)
-			desenha_mouse()
-			g.renderizar()
-			reseta_cursor()
-		}
-		
-	}
-	
-	funcao carregar_imagens()
-	{
-		//carrega as imagens necess·rias
-		cadeia pasta_objetos = "./objetos/"
-		img_mapa = g.carregar_imagem("./mapa/mapa_vazio.png")
-		img_objects = g.carregar_imagem(pasta_objetos + "objects.png")
-		img_quadros = g.carregar_imagem(pasta_objetos + "quadro.png")
-		img_quadros_adjacentes = g.carregar_imagem(pasta_objetos + "quadros_adjacentes.png")
-		img_comandos = g.carregar_imagem(pasta_objetos + "comandos.png")
-		img_comandos_menor = g.carregar_imagem(pasta_objetos +"comandos_menor.png")
-		img_botoes = g.carregar_imagem(pasta_objetos + "botoes.png")
-		img_botao_excluir = g.carregar_imagem(pasta_objetos + "botao_excluir.png")
-		img_botao_parar = g.carregar_imagem(pasta_objetos + "botao_parar.png")
-		img_setas = g.carregar_imagem(pasta_objetos + "setas.png")
-		img_numeros = g.carregar_imagem(pasta_objetos + "numeros.png")
-		img_quadro_pontuacao = g.carregar_imagem(pasta_objetos + "quadro_pontuacao.png")
-		img_borda=g.carregar_imagem(pasta_objetos + "comando_ativado_borda.png")
-		img_mouse=g.carregar_imagem(pasta_objetos + "mouse.png")
-		img_carregando= g.carregar_imagem(pasta_objetos + "botao_carregando.png")
-		img_pronto= g.carregar_imagem(pasta_objetos + "botao_pronto.png")
-		img_continue=g.carregar_imagem(pasta_objetos + "botao_continue.png")
-		happy=g.carregar_imagem(pasta_objetos + "happy.gif")
-		happy2=g.carregar_imagem(pasta_objetos + "happy2.gif")
-		endgame=g.carregar_imagem(pasta_objetos + "endgame.png")
-		
-	}
-
-	funcao inicializar()
-	{
-		se (TAXA_DE_ATUALIZACAO > 0)
-		{
-			tempo_quadro = 1000 / TAXA_DE_ATUALIZACAO
-		}
-		//inicia o modo gr·fico
-		g.iniciar_modo_grafico(verdadeiro)
-		g.definir_dimensoes_janela(800, 600)
-		g.definir_titulo_janela("Programe")
-	}
-
-	funcao inicio()
-	{
-		//funÁ„o inicial
-		//joga para as funÁıes correspondentes
-		inicializar()
-		carregar_imagens()
-		carregar_personagem(selecao_de_personagem())
-		telainicial()	
-	}
+programa {
+  inclua biblioteca Graficos --> g
+  inclua biblioteca Util --> u
+  inclua biblioteca Teclado --> t
+  inclua biblioteca Matematica --> m
+  inclua biblioteca Mouse --> mo
+  inclua biblioteca Arquivos --> a
+  inclua biblioteca Texto --> tx
+  inclua biblioteca Tipos --> tp
+  inclua biblioteca Sons --> sm
+
+  // Constantes de personagem selecionado
+  const inteiro BOY = 1
+  const inteiro GIRL = 2
+  // Constante de n√∫mero de pixels andados
+  const real quantoanda = 1.0
+
+  // Constantes de dire√ß√£o
+  const inteiro DIREITA = 1
+  const inteiro DESCE = 2
+  const inteiro ESQUERDA = 3
+  const inteiro SOBE = 4
+  const inteiro leste = 3
+  const inteiro sul = 1
+  const inteiro oeste = 2
+  const inteiro norte = 0
+
+  // Constantes de objeto clicado
+  const inteiro COMANDO_DIREITA = 1
+  const inteiro COMANDO_DESCE = 2
+  const inteiro COMANDO_ESQUERDA = 3
+  const inteiro COMANDO_SOBE = 4
+  const inteiro COMANDO_LOOP = 8
+  const inteiro COMANDO_LOOP_inicio = 8
+  const inteiro COMANDO_LOOP_fim = 9
+  const inteiro BOTAO_PLAY = 5
+  const inteiro BOTAO_RESET = 6
+  const inteiro BOTAO_EXCLUIR = 7
+  const inteiro BOTAO_PARAR = 10
+  const inteiro BOTAO_AUMENTAR_LOOP = 11
+  const inteiro BOTAO_DIMINUIR_LOOP = 12
+
+  // Constantes de tamanho de objeto
+  const real tamtile[2] = {31.0, 31.0}
+  const real tam_mat_comandos[2] = {87.5, 51.5}
+  const real tam_comandos[2] = {70.0, 41.0}
+  const real tam_botoes[2] = {32.0, 38.0}
+  const real tam_quadro_programavel[2] = {518.0, 164.0}
+  const real tam_setas[2] = {20.0, 15.0}
+  const inteiro tam_matriz_quadro[2] = {22, 7}
+
+  // Constantes de posi√ß√£o de objeto
+  const real posicao_mapa[2] = {367.0, 0.0}
+  const real posicao_mapa_cerca[2] = {403.0, 48.0}
+  const real posicao_mapa_char[2] = {367.0, 0.0}
+  const real posicao_quadro[2] = {23.0, 387.0}
+  const real posicao_comandos[2] = {595.0, 436.0}
+  const real posicao_botoes[3] = {420.0, 484.0, 557.0}
+  const real posicao_setas[3] = {539.0, 390.0, 436.0}
+
+  const inteiro TAXA_DE_ATUALIZACAO = 60
+
+  // Vari√°veis de imagem
+  inteiro selecao_boy = 0, selecao_girl = 0, img_ajuda = 0, img_fundo = 0
+  inteiro img_boy = 0, img_girl = 0, imagem_charf = 0, imagem_chara = 0, imagem_chars = 0, imagem_char = 0, imagem_exemplo = 0, img_venceu = 0
+  inteiro img_mapa = 0, img_objects = 0, img_quadros = 0, img_quadros_adjacentes = 0, img_comandos = 0, img_comandos_menor = 0
+  inteiro img_botoes = 0, img_setas = 0, img_botao_excluir = 0, img_numeros = 0, img_quadro_pontuacao = 0, img_borda = 0, img_botao_parar = 0, img_mouse = 0, img_carregando = 0, img_pronto = 0, img_continue = 0
+  inteiro happy = 0, happy2 = 0, endgame = 0
+
+  // Vari√°veis que permitem troca de sprite do personagem para permitir anima√ß√£o
+  inteiro indice_imagem = 0, indice_imagem_exemplo = 0
+  // Limita a troca de imagens
+  inteiro imagemporturnos = 1, imagemporturnos_exemplo = 1, frames = 0, tempo_quadro = 0, tempo_restante = 0, tempo_inicio = 0, fps = 0
+
+  // Vari√°veis de posi√ß√£o de objeto/personagem
+  real posicao_objeto_x = 0.0, posicao_objeto_y = 0.0, posicao_isometrica_objeto_x = 0.0, posicao_isometrica_objeto_y = 0.0
+  inteiro char_posicao_original_x_matriz = 0, char_posicao_original_y_matriz = 0
+  real char_x = 0.0, char_y = 0.0, char_isometrico_x = 0.0, char_isometrico_y = 0.0
+  inteiro posicao_matx = 0, posicao_maty = 0
+
+  // Vari√°veis que permitem movimenta√ß√£o do personagem e do quadro respectivamente
+  real incrementovertical = 0.0, incrementohorizontal = 0.0
+  real fator_mexer_quadro = 0.0, fator_mexer_matriz_comandos = 0.0
+
+  // Vari√°veis que cont√™m a verifica√ß√£o se o tile seguinte est√° ocupado
+  logico lado_ocupado = falso
+  // Vari√°veis que cont√™m o lado que o personagem est√° virado
+  inteiro direcao = leste
+  inteiro direcao_exemplo = leste
+
+  // Vari√°veis que permitem comandos com loops
+  inteiro fator_dentro_loop = 10000 // Define se o comando est√° dentro de um loop para desenhar risco de loop atr√°s dele
+  // Pilhas que permitem loops retornarem
+  inteiro pilha_de_posicao_dos_loops_x[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+  inteiro pilha_de_posicao_dos_loops_y[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+  inteiro pilha_de_posicao_fim_x[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+  inteiro pilha_de_posicao_fim_y[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+  // Pilha que permite verificar o n√∫mero de vezes que se passou pelo loop
+  inteiro pilha_de_numero_de_loops[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+  // Topo das pilhas
+  inteiro topo_pilha_de_posicao = 0
+  inteiro topo_pilha_de_numero_de_loops = 0
+
+  // Cont√©m a posi√ß√£o atual do comando executado no momento
+  inteiro pos_quadro_x = 0, pos_quadro_y = 0
+
+  // Vari√°vel que cont√©m se um comando foi pego para evitar cliques em outros objetos enquanto estiver carregando um comando
+  logico pegou_comando = falso
+  // Vari√°vel que sabe se o mouse est√° em cima de um objeto para mudar o cursor
+  logico em_cima_de_um_objeto = falso
+  // Vari√°vel que cont√©m qual objeto est√° sendo clicado no momento
+  inteiro objeto_clicado = 0
+
+  // Vari√°vel que diz quando tem objeto bloqueando ou n√£o para poder andar
+  logico pode_andar = falso
+
+  // Vari√°veis de in√≠cio do play, parar e quando chega ao fim da fase
+  logico comecou_a_rodar = falso
+  logico chegou_no_fim = falso
+  logico parou = falso
+
+  // Verificam o tempo para realizar o duplo clique
+  inteiro click_timing = 0
+  logico clicou = falso
+
+  // Cont√©m as posi√ß√µes do mouse
+  inteiro posicao_x_mouse = 0, posicao_y_mouse = 0
+
+  // Vari√°veis que cont√™m pontua√ß√£o
+  inteiro tempo_inicial = 0
+  inteiro pontos_tempo = 0, pontos_instrucoes = 0, pontos_deletados = 0, pontos_limpou = 0, pontos_play = 0, pontos_loops = 0, pontos_loop_dentro = 0
+  real pontuacoes[] = {0.0, 0.0, 0.0}
+  inteiro pontos_minimos_instrucoes = 0, pontos_loops_minimos = 0, pontos_loop_dentro_minimo = 0
+
+  // Vari√°veis para leitura de mapas em arquivos
+  inteiro digitos_por_tile = 8, digitos_parte = 2
+  inteiro NUMERO_LINHAS = 8, NUMERO_COLUNAS = 8
+  cadeia nome_arquivo = ""
+
+  // Vari√°vel do n√≠vel atual
+  inteiro nivel = 1
+  logico acabou_fases = falso
+
+  // Posi√ß√µes dos diferentes sprites na sprite sheet
+  inteiro sprite[4][10] = {
+    {32, 80, 62, 80, 91, 80, 123, 80, 154, 80},
+    {32, 160, 62, 160, 91, 160, 123, 160, 154, 160},
+    {32, 240, 62, 240, 91, 240, 123, 240, 154, 240},
+    {32, 320, 62, 320, 91, 320, 123, 320, 154, 320}
+  }
+
+  // Mapa de posi√ß√£o dos objetos
+  inteiro mapa[8][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  }
+  // Mapa de posi√ß√£o do personagem
+  inteiro mapa_char[8][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  }
+  // Mapa de posi√ß√£o de cercas horizontais
+  inteiro mapa_cerca_horizontal[9][8] = {
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+  }
+  // Mapa de posi√ß√£o de cercas verticais
+  // OBS: foram necess√°rios 2 mapas para cercas, pois as cercas ficam na borda dos tiles e uma matriz horizontal e vertical podem acabar partindo de um mesmo ponto
+  inteiro mapa_cerca_vertical[8][9] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0}
+  }
+  // Mapa dos comandos que s√£o posicionados no quadro
+  inteiro mat_pos_quadro_programavel[][] = {
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0}
+  }
+  // Mapa dos comandos que est√£o posicionados no quadro exemplo para serem selecionados
+  inteiro mat_pos_quadro_comandos[2][2] = {
+    {oeste, norte},
+    {sul, leste}
+  }
+
+  funcao telainicial() {
+    iniciar_jogo()
+  }
+
+  funcao iniciar_jogo() {
+    // Quando inicia um novo jogo/fase
+    tempo_inicial = u.tempo_decorrido() // Seta um novo tempo
+    limpar_campo() // Limpa mapas
+    abrir_novo_nivel() // Abre o n√≠vel a entrar
+    se (acabou_fases) { // Verifica se terminou todas as fases e manda para a tela final
+      tela_venceu()
+    }
+    definir_posicao_original() // Grava a posi√ß√£o original do personagem para futuras checagens
+    posicao_inicial() // Coloca o personagem em sua posi√ß√£o original
+    faca {
+      jogar()
+    } enquanto (nao chegou_no_fim) // Continuar√° a jogar enquanto o personagem n√£o tiver chegado ao fim da fase
+    proxima_fase() // Se chegou ao final, sair√° do loop e ir√° √† pr√≥xima fase
+  }
+
+  funcao conta_fps() {
+    frames++
+    g.definir_cor(g.COR_PRETO)
+    g.desenhar_texto(50, 50, "FPS: " + fps)
+    se (pontos_tempo < u.tempo_decorrido() / 1000 - tempo_inicial / 1000) {
+      fps = frames
+      frames = 0
+    }
+  }
+
+  funcao iniciar_sincronia_da_taxa_de_atualizacao() {
+    tempo_inicio = u.tempo_decorrido() + tempo_restante
+  }
+
+  funcao finalizar_sincronia_da_taxa_de_atualizacao() {
+    inteiro tempo_decorrido = u.tempo_decorrido() - tempo_inicio
+    tempo_restante = tempo_quadro - tempo_decorrido
+
+    enquanto (TAXA_DE_ATUALIZACAO > 0 e tempo_restante > 0) {
+      tempo_decorrido = u.tempo_decorrido() - tempo_inicio
+      tempo_restante = tempo_quadro - tempo_decorrido
+    }
+  }
+
+  funcao limpar_campo() {
+    // Zera todos os mapas, deixando-os livres para novo mapa
+    inteiro i, j
+    para (i = 0; i < 8; i++) {
+      para (j = 0; j < 8; j++) {
+        mapa[i][j] = 0
+        mapa_char[i][j] = 0
+        mapa_cerca_horizontal[i][j] = 0
+        mapa_cerca_vertical[i][j] = 0
+      }
+      mapa_cerca_vertical[i][j] = 0
+    }
+    para (j = 0; j < 8; j++) {
+      mapa_cerca_horizontal[i][j] = 0
+    }
+  }
+
+  funcao abrir_novo_nivel() {
+    nome_arquivo = "./fases/" + "nivel" + nivel + ".lvl" // Coloca o caminho onde est√° o arquivo
+    cadeia formatos[] = {
+      "Arquivos de Level|lvl" // Tipo de arquivo a ser aberto
+    }
+
+    carregar_nivel(nome_arquivo) // Abre o arquivo e coloca os mapas novos
+  }
+
+  funcao carregar_nivel(cadeia nome_arquivo) {
+    se (a.arquivo_existe(nome_arquivo)) {
+      inteiro arquivo, linha = 0, coluna = 0
+      cadeia texto_linha
+
+      arquivo = a.abrir_arquivo(nome_arquivo, a.MODO_LEITURA) // Abre o arquivo para l√™-lo
+
+      enquanto (linha < NUMERO_LINHAS) {
+        texto_linha = a.ler_linha(arquivo)
+        para (coluna = 0; coluna < NUMERO_COLUNAS; coluna++) {
+          cadeia temp = tx.extrair_subtexto(texto_linha, coluna * digitos_por_tile, coluna * digitos_por_tile + digitos_por_tile)
+
+          cadeia tchar = tx.extrair_subtexto(temp, 0, digitos_parte)
+          cadeia ttile = tx.extrair_subtexto(temp, digitos_parte, digitos_parte * 2)
+          cadeia tcerca_h = tx.extrair_subtexto(temp, digitos_parte * 2, digitos_parte * 3)
+          cadeia tcerca_v = tx.extrair_subtexto(temp, digitos_parte * 3, digitos_parte * 4)
+
+          mapa_char[linha][coluna] = tp.cadeia_para_inteiro(tchar, 16) % 10
+          mapa[linha][coluna] = tp.cadeia_para_inteiro(ttile, 16) / 10
+          direcao_inicial(tp.cadeia_para_inteiro(tchar, 16))
+          mapa_cerca_horizontal[linha][coluna] = tp.cadeia_para_inteiro(tcerca_h, 16)
+          mapa_cerca_vertical[linha][coluna] = tp.cadeia_para_inteiro(tcerca_v, 16)
+        }
+        cadeia temp = tx.extrair_subtexto(texto_linha, (coluna) * digitos_por_tile, (coluna) * digitos_por_tile + digitos_por_tile)
+        cadeia tcerca_v = tx.extrair_subtexto(temp, digitos_parte * 3, digitos_parte * 4)
+        mapa_cerca_vertical[linha][coluna] = tp.cadeia_para_inteiro(tcerca_v, 16)
+
+        linha++
+      }
+      texto_linha = a.ler_linha(arquivo)
+      para (coluna = 0; coluna < NUMERO_COLUNAS; coluna++) {
+        cadeia temp = tx.extrair_subtexto(texto_linha, coluna * digitos_por_tile, coluna * digitos_por_tile + digitos_por_tile)
+        cadeia tcerca_h = tx.extrair_subtexto(temp, digitos_parte * 3, digitos_parte * 4)
+        mapa_cerca_horizontal[linha][coluna] = tp.cadeia_para_inteiro(tcerca_h, 16)
+      }
+      // No arquivo os tiles est√£o por 4 Hexadecimais, sendo cada um para um mapa diferente,
+      // assim cada fun√ß√£o acima quebra o n√∫mero no arquivo
+      // e coloca para cada lugar no seu respectivo mapa
+      pontos_minimos_instrucoes = tp.cadeia_para_inteiro(a.ler_linha(arquivo), 16)
+      pontos_loops_minimos = tp.cadeia_para_inteiro(a.ler_linha(arquivo), 16)
+      pontos_loop_dentro_minimo = tp.cadeia_para_inteiro(a.ler_linha(arquivo), 16)
+      a.fechar_arquivo(arquivo)
+    } senao {
+      acabou_fases = verdadeiro
+    }
+  }
+
+  funcao direcao_inicial(inteiro d) {
+    // Define a dire√ß√£o do personagem com base no que est√° no arquivo da fase
+    d = d / 10
+    escolha (d) {
+      caso 1: direcao = leste pare
+      caso 2: direcao = norte pare
+      caso 3: direcao = sul pare
+      caso 4: direcao = oeste pare
+    }
+  }
+
+  funcao jogar() {
+    // Come√ßa a jogar
+    faca {
+      // iniciar_sincronia_da_taxa_de_atualizacao()
+      pega_comando() // Fun√ß√£o que permite pegar um comando e colocar no quadro
+      desenhar() // Fun√ß√£o que desenha o que precisa na tela
+      acha_mouse() // Atualiza a posi√ß√£o do mouse
+      reseta_cursor()
+      // finalizar_sincronia_da_taxa_de_atualizacao()
+      se (deu_reset()) {
+        resetar() // Se o objeto da lixeira for clicado o quadro de comandos √© limpo
+      }
+    } enquanto (nao deu_play()) // Permitir√° pegar comandos at√© que se d√™ play
+    posicao_inicial() // Retorna o personagem √† sua posi√ß√£o inicial
+    rodar_caminho() // Roda os comandos no quadro
+  }
+
+  funcao logico deu_play() {
+    // Verifica o clique no bot√£o PLAY
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e pegou_comando == falso) {
+      objeto_clicado = BOTAO_PLAY
+      retorne falso
+    }
+    se ((objeto_clicado == BOTAO_PLAY e mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) == falso) {
+      // Se clicou e quando desclicou o mouse ainda estava no bot√£o PLAY, retorna verdadeiro, ou seja, clicou verdadeiramente
+      objeto_clicado = 0
+      pontos_play++
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao logico deu_reset() {
+    // Verifica o clique no bot√£o RESET
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[0], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e pegou_comando == falso) {
+      objeto_clicado = BOTAO_RESET
+      retorne falso
+    }
+    se ((objeto_clicado == BOTAO_RESET e mouse_esta_sobre_objeto(posicao_botoes[0], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[0], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) == falso) {
+      // Se clicou e quando desclicou o mouse ainda estava no bot√£o RESET, retorna verdadeiro, ou seja, clicou verdadeiramente
+      pontos_limpou++
+      objeto_clicado = 0
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao logico deu_parar() {
+    // Verifica o clique no bot√£o PARAR
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e pegou_comando == falso) {
+      objeto_clicado = BOTAO_PARAR
+      retorne falso
+    }
+    se ((objeto_clicado == BOTAO_PARAR e mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) e objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_botoes[1], posicao_botoes[2], tam_botoes[0], tam_botoes[1])) == falso) {
+      // Se clicou e quando desclicou o mouse ainda estava no bot√£o PARAR, retorna verdadeiro, ou seja, clicou verdadeiramente
+      objeto_clicado = 0
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao pega_comando() {
+    // Verifica se um comando foi pego pelo mouse
+    se (mouse_esta_sobre_comandos() e nao pegou_comando e nao clicou) {
+      objeto_clicado = comando_que_foi_clicado()
+      se (objeto_clicado != 0) {
+        clicou = verdadeiro
+        click_timing = u.tempo_decorrido()
+      }
+    }
+    se (um_comando_esta_selecionado() e (objeto_foi_clicado(pegou_comando) == falso)) {
+      se (mouse_esta_sobre_objeto(posicao_quadro[0], posicao_quadro[1], tam_quadro_programavel[0], tam_quadro_programavel[1])) {
+        // Se tem um comando e est√° em cima do quadro, o comando √© colocado no quadro
+        coloca_comando_no_quadro()
+      }
+      pegou_comando = falso
+      objeto_clicado = 0
+    }
+    se (mouse_esta_sobre_comandos() e (nao pegou_comando) e clicou e (u.tempo_decorrido() - click_timing < 500)) {
+      objeto_clicado = comando_que_foi_clicado()
+      se (objeto_clicado != 0) {
+        coloca_comando_no_quadro()
+        clicou = falso
+        click_timing = 1000
+      }
+    }
+    se (u.tempo_decorrido() - click_timing >= 500) {
+      clicou = falso
+    }
+  }
+
+  funcao logico um_comando_esta_selecionado() {
+    // Verifica se tem um comando no mouse
+    se (objeto_clicado == COMANDO_SOBE) {
+      retorne verdadeiro
+    }
+
+    se (objeto_clicado == COMANDO_DESCE) {
+      retorne verdadeiro
+    }
+
+    se (objeto_clicado == COMANDO_DIREITA) {
+      retorne verdadeiro
+    }
+
+    se (objeto_clicado == COMANDO_ESQUERDA) {
+      retorne verdadeiro
+    }
+
+    se (objeto_clicado == COMANDO_LOOP) {
+      retorne verdadeiro
+    }
+
+    retorne falso
+  }
+
+  funcao coloca_comando_no_quadro() {
+    // Pega o comando e coloca no quadro
+    // Dependendo da posi√ß√£o onde √© colocado, ele pode receber o fator de estar dentro do loop ou n√£o
+    // Se j√° se tem um comando no local onde √© colocado, uma posi√ß√£o √© aberta no local para se colocar o novo comando
+    // Se √© um loop a ser colocado, deve-se alocar 2 posi√ß√µes no quadro para colocar o in√≠cio e o fim do loop
+    inteiro fator_numero_de_loops = 1
+    pontos_instrucoes++
+    para (inteiro i = 0; i < tam_matriz_quadro[0]; i++) {
+      para (inteiro j = 0; j < tam_matriz_quadro[1]; j++) {
+        se (mouse_esta_sobre_objeto(j * tam_comandos[0] + posicao_quadro[0], i * tam_comandos[1] + posicao_quadro[1], tam_comandos[0], tam_comandos[1])) {
+          se (mat_pos_quadro_programavel[i][j] != 0) {
+            abrir_espaco_matriz(i, j)
+            se (j + 1 > 6) {
+              se (mat_pos_quadro_programavel[i + 1][0] % 10 == COMANDO_LOOP_fim ou mat_pos_quadro_programavel[i + 1][0] > fator_dentro_loop) {
+                fator_numero_de_loops = (mat_pos_quadro_programavel[i + 1][0] / fator_dentro_loop)
+                se (mat_pos_quadro_programavel[i + 1][0] % 10 == COMANDO_LOOP_fim) {
+                  fator_numero_de_loops = (mat_pos_quadro_programavel[i + 1][0] / fator_dentro_loop) + 1
+                }
+                se (objeto_clicado == COMANDO_LOOP) {
+                  abrir_espaco_matriz(i + 1, 0)
+                  mat_pos_quadro_programavel[i][j] = COMANDO_LOOP_inicio + (fator_dentro_loop * fator_numero_de_loops)
+                  mat_pos_quadro_programavel[i + 1][0] = COMANDO_LOOP_fim + (fator_dentro_loop * fator_numero_de_loops)
+                  pontos_loops++
+                  pontos_loop_dentro++
+                  retorne
+                }
+                mat_pos_quadro_programavel[i][j] = objeto_clicado + (fator_dentro_loop * fator_numero_de_loops)
+                pontos_loop_dentro++
+                retorne
+              }
+              se (objeto_clicado == COMANDO_LOOP) {
+                abrir_espaco_matriz(i + 1, 0)
+                mat_pos_quadro_programavel[i][j] = COMANDO_LOOP_inicio
+                mat_pos_quadro_programavel[i + 1][0] = COMANDO_LOOP_fim
+                pontos_loops++
+                retorne
+              }
+              mat_pos_quadro_programavel[i][j] = objeto_clicado
+              retorne
+            }
+            se (mat_pos_quadro_programavel[i][j + 1] % 10 == COMANDO_LOOP_fim ou mat_pos_quadro_programavel[i][j + 1] > fator_dentro_loop) {
+              fator_numero_de_loops = (mat_pos_quadro_programavel[i][j + 1] / fator_dentro_loop)
+              se (mat_pos_quadro_programavel[i][j + 1] % 10 == COMANDO_LOOP_fim) {
+                fator_numero_de_loops = (mat_pos_quadro_programavel[i][j + 1] / fator_dentro_loop) + 1
+              }
+              se (objeto_clicado == COMANDO_LOOP) {
+                abrir_espaco_matriz(i, j + 1)
+                mat_pos_quadro_programavel[i][j] = COMANDO_LOOP_inicio + (fator_dentro_loop * fator_numero_de_loops)
+                mat_pos_quadro_programavel[i][j + 1] = COMANDO_LOOP_fim + (fator_dentro_loop * fator_numero_de_loops)
+                pontos_loops++
+                pontos_loop_dentro++
+                retorne
+              }
+              mat_pos_quadro_programavel[i][j] = objeto_clicado + (fator_dentro_loop * fator_numero_de_loops)
+              pontos_loop_dentro++
+              retorne
+            }
+            se (objeto_clicado == COMANDO_LOOP) {
+              abrir_espaco_matriz(i, j + 1)
+              mat_pos_quadro_programavel[i][j] = COMANDO_LOOP_inicio
+              mat_pos_quadro_programavel[i][j + 1] = COMANDO_LOOP_fim
+              pontos_loops++
+              retorne
+            }
+            mat_pos_quadro_programavel[i][j] = objeto_clicado
+            retorne
+          }
+        }
+        se (mat_pos_quadro_programavel[i][j] == 0) {
+          se (objeto_clicado == COMANDO_LOOP) {
+            se (j + 1 > 6) {
+              mat_pos_quadro_programavel[i][j] = COMANDO_LOOP_inicio
+              mat_pos_quadro_programavel[i + 1][0] = COMANDO_LOOP_fim
+              pontos_loops++
+              retorne
+            }
+            mat_pos_quadro_programavel[i][j] = COMANDO_LOOP_inicio
+            mat_pos_quadro_programavel[i][j + 1] = COMANDO_LOOP_fim
+            pontos_loops++
+            retorne
+          }
+          mat_pos_quadro_programavel[i][j] = objeto_clicado
+          retorne
+        }
+      }
+    }
+  }
+
+  funcao abrir_espaco_matriz(inteiro i, inteiro j) {
+    // Permite abrir um espa√ßo no quadro de comandos caso j√° se tenha um comando no local onde ser√° colocado o novo
+    para (inteiro k = tam_matriz_quadro[0] - 1; k >= i; k--) {
+      para (inteiro l = tam_matriz_quadro[1] - 1; l >= 0; l--) {
+        se (k == i e l == j) {
+          retorne
+        }
+        se (l - 1 < 0) {
+          mat_pos_quadro_programavel[k][l] = mat_pos_quadro_programavel[k - 1][6]
+        } senao {
+          mat_pos_quadro_programavel[k][l] = mat_pos_quadro_programavel[k][l - 1]
+        }
+      }
+    }
+  }
+
+  funcao rodar_caminho() {
+    // Movimenta o personagem de acordo com os comandos no quadro
+    posicao_inicial() // Coloca na posi√ß√£o inicial
+    comecou_a_rodar = verdadeiro // Define que o personagem est√° se movimentando
+    acha_char() // Atualiza as vari√°veis com a posi√ß√£o do personagem
+    faca {
+      reseta_cursor()
+      se (nao eh_um_loop()) { // Se o comando atual n√£o for um in√≠cio ou fim de loop
+
+        roda_char_() // Troca a dire√ß√£o dele
+        acha_char() // Atualiza a posi√ß√£o do personagem
+        se (verifica_tile()) { // Verifica colis√µes
+          proximo_tile() // A posi√ß√£o do personagem no mapa vai ao pr√≥ximo tile antes da imagem
+          pode_andar = verdadeiro
+        } senao {
+          pode_andar = falso
+        }
+        para (inteiro a = 0; a < 31; a++) { // O personagem anda 31 vezes a vari√°vel quanto_anda
+          se (pode_andar) {
+            mover() // Move a imagem do personagem
+          }
+          se (a == 16) { // Essa condi√ß√£o permite que o char n√£o seja desenhado sobre um objeto antes de chegar no tile pr√≥ximo
+            acha_char() // Atualiza a posi√ß√£o do personagem
+          }
+          desenhar() // Redesenha a tela
+          parou = deu_parar()
+          se (parou) {
+            pare
+          }
+        }
+      }
+      acha_mouse() // Atualiza posi√ß√£o do mouse
+
+      se (parou) {
+        pare
+      }
+    } enquanto (nao terminou_rodar_comandos()) // Continuar√° a andar enquanto n√£o chegar ao fim do quadro de comandos
+    parou = falso
+    indice_imagem = 0
+    // Se chegou ao fim n√£o precisa mais andar
+    comecou_a_rodar = falso
+    se (venceu()) { // Verifica se o personagem est√° no tile final, se sim √© pulado para a pr√≥xima fase
+      proxima_fase()
+    }
+  }
+
+  funcao acha_mouse() {
+    // Atualiza com as posi√ß√µes x e y do mouse
+    posicao_x_mouse = mo.posicao_x()
+    posicao_y_mouse = mo.posicao_y()
+  }
+
+  funcao reseta_cursor() {
+    // Permite que a reverifica√ß√£o "se o mouse est√° sobre objeto" de cada um dos objetos possa mudar o cursor caso seja falso
+    em_cima_de_um_objeto = falso
+  }
+
+  funcao logico eh_um_loop() {
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == COMANDO_LOOP_inicio) {
+      // Se o comando atual √© o in√≠cio de um loop, a posi√ß√£o dele √© colocada na pilha
+      pilha_de_posicao_dos_loops_x[topo_pilha_de_posicao] = pos_quadro_x
+      pilha_de_posicao_dos_loops_y[topo_pilha_de_posicao] = pos_quadro_y
+      topo_pilha_de_posicao++
+      retorne verdadeiro
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == COMANDO_LOOP_fim) {
+      se (pilha_de_posicao_fim_x[topo_pilha_de_numero_de_loops] != pos_quadro_x ou pilha_de_posicao_fim_y[topo_pilha_de_numero_de_loops] != pos_quadro_y) {
+        // Se o comando atual √© o fim de um loop e for diferente do topo da pilha da posi√ß√£o dos loops finais, ent√£o ele √© adicionado √† pilha dos finais
+        topo_pilha_de_numero_de_loops++
+        pilha_de_numero_de_loops[topo_pilha_de_numero_de_loops] = (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10000) / 10
+        pilha_de_posicao_fim_x[topo_pilha_de_numero_de_loops] = pos_quadro_x
+        pilha_de_posicao_fim_y[topo_pilha_de_numero_de_loops] = pos_quadro_y
+      }
+      se (pilha_de_numero_de_loops[topo_pilha_de_numero_de_loops] == 0) {
+        // Se o comando atual √© o fim de um loop e o n√∫mero de vezes para retornar acabou, ent√£o as pilhas s√£o diminu√≠das e retorna para o loop n√£o se repetir
+        se (topo_pilha_de_posicao > 0) {
+          topo_pilha_de_posicao--
+        }
+        se (topo_pilha_de_numero_de_loops > 0) {
+          topo_pilha_de_numero_de_loops--
+        }
+        retorne verdadeiro
+      }
+      // Diminui o n√∫mero do loop e retorna a posi√ß√£o na pilha de posi√ß√£o de loops
+      pilha_de_numero_de_loops[topo_pilha_de_numero_de_loops] -= 1
+      pos_quadro_y = pilha_de_posicao_dos_loops_y[topo_pilha_de_posicao - 1]
+      pos_quadro_x = pilha_de_posicao_dos_loops_x[topo_pilha_de_posicao - 1]
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao logico terminou_rodar_comandos() {
+    // Verifica se chegou ao fim dos comandos colocados no quadro
+    se (pos_quadro_x == tam_matriz_quadro[1] - 1) {
+      // Se chegou ao fim da linha, vai para a pr√≥xima
+      pos_quadro_y++
+      pos_quadro_x = 0
+    } senao se (pos_quadro_y == tam_matriz_quadro[0] - 1 e pos_quadro_x == tam_matriz_quadro[1] - 1) {
+      // Se chegou √† √∫ltima linha e √† √∫ltima coluna, termina
+      retorne verdadeiro
+    } senao {
+      // Passa para a pr√≥xima coluna
+      pos_quadro_x++
+    }
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] == 0) {
+      // Se n√£o tem comandos, termina
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao roda_char_() {
+    // Direciona o personagem ao lado do comando atual
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == SOBE) {
+      incrementohorizontal = 0.0
+      incrementovertical = -quantoanda
+      direcao = norte
+    }
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == DESCE) {
+      incrementohorizontal = 0.0
+      incrementovertical = quantoanda
+      direcao = sul
+    }
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == ESQUERDA) {
+      incrementohorizontal = -quantoanda
+      incrementovertical = 0.0
+      direcao = oeste
+    }
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == DIREITA) {
+      incrementohorizontal = quantoanda
+      incrementovertical = 0.0
+      direcao = leste
+    }
+  }
+
+  funcao ajusta_matriz_cercas() {
+    // Estende os tiles das cercas para cobrirem o tamanho que precisam
+    // as cercas s√£o divididas em 2 e 4 partes
+    para (inteiro i = 0; i < 9; i++) {
+      para (inteiro j = 0; j < 8; j++) {
+        escolha (mapa_cerca_horizontal[i][j]) {
+          caso 1: mapa_cerca_horizontal[i][j + 1] = 11 pare
+
+          caso 3: mapa_cerca_horizontal[i][j + 1] = 13
+            mapa_cerca_horizontal[i][j + 2] = 23
+            mapa_cerca_vertical[i - 1][j + 3] = 33
+            mapa_cerca_vertical[i - 2][j + 3] = 43 pare
+        }
+        escolha (mapa_cerca_vertical[j][i]) {
+          caso 4: mapa_cerca_vertical[j + 1][i] = 14 pare
+
+          caso 6: mapa_cerca_vertical[j + 1][i] = 16
+            mapa_cerca_vertical[j + 2][i] = 26
+            mapa_cerca_horizontal[j + 3][i - 1] = 36
+            mapa_cerca_horizontal[j + 3][i - 2] = 46 pare
+        }
+      }
+    }
+  }
+
+  funcao desenhar() {
+    // Fun√ß√µes de desenho
+    iniciar_sincronia_da_taxa_de_atualizacao()
+    g.limpar()
+    g.definir_cor(0x99FF66)
+    g.desenhar_retangulo(0, 0, 800, 600, falso, verdadeiro)
+    ajusta_matriz_cercas()
+    desenha_mapa()
+    mexe_quadro()
+    desenha_quadro()
+    desenha_comandos()
+    desenha_exemplo()
+    desenha_botoes()
+    desenha_comando_no_mouse()
+    conta_fps()
+    pontos_tempo = u.tempo_decorrido() / 1000 - tempo_inicial / 1000
+    desenha_pontuacao()
+    desenha_mouse()
+    g.renderizar()
+    finalizar_sincronia_da_taxa_de_atualizacao()
+  }
+
+  funcao desenha_mouse() {
+    acha_mouse()
+    se ((posicao_x_mouse > 0 e posicao_y_mouse > 0) e (posicao_x_mouse < 800 e posicao_y_mouse < 600)) {
+      se (pegou_comando) {
+        g.desenhar_porcao_imagem(posicao_x_mouse, posicao_y_mouse, 50, 0, 22, 28, img_mouse)
+      } senao se (em_cima_de_um_objeto) {
+        g.desenhar_porcao_imagem(posicao_x_mouse - 11, posicao_y_mouse, 24, 0, 25, 28, img_mouse)
+      } senao {
+        g.desenhar_porcao_imagem(posicao_x_mouse, posicao_y_mouse, 0, 0, 25, 28, img_mouse)
+      }
+    }
+  }
+
+  funcao desenha_mapa() {
+    // Desenha o mapa e seus objetos
+    g.desenhar_imagem(154, 88, img_mapa)
+    desenha_saida()
+    para (inteiro i = 0; i < 8; i++) {
+      para (inteiro j = 0; j < 8; j++) { // Passa por todos os mapas para desenhar cada tile necess√°rio
+        posicao_objeto(j, i)
+        desenha_cerca(mapa_cerca_horizontal[i][j])
+        desenha_cerca(mapa_cerca_vertical[i][j])
+        desenha_tile(mapa[i][j])
+        // debug_mapa(mat_pos_quadro_comandos[i][j])
+        // g.renderizar()
+        // u.aguarde(100)
+        se (posicao_maty == i e posicao_matx == j) {
+          desenha_char()
+        }
+      }
+    }
+
+    para (inteiro z = 0; z < 8; z++) {
+      posicao_objeto(8, z)
+      desenha_cerca(mapa_cerca_vertical[z][8])
+      posicao_objeto(z, 8)
+      desenha_cerca(mapa_cerca_horizontal[8][z])
+    }
+  }
+
+  funcao desenha_saida() {
+    // A sa√≠da precisa ser desenhada antes de tudo, pois, como est√° presa no ch√£o, todo objeto a sobrep√µe
+    para (inteiro i = 0; i < 8; i++) {
+      para (inteiro j = 0; j < 8; j++) {
+        se (mapa[i][j] == 4) {
+          posicao_objeto(j, i)
+          se (posicao_matx == j e posicao_maty == i) {
+            g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa[0], posicao_isometrica_objeto_y + posicao_mapa[1] + 2, 284, 0, 71, 125, img_objects)
+          } senao {
+            g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa[0], posicao_isometrica_objeto_y + posicao_mapa[1] + 2, 213, 0, 71, 125, img_objects)
+          }
+        }
+      }
+    }
+  }
+
+  funcao desenha_tile(inteiro s) {
+    // Desenha objeto no tile dependendo do n√∫mero que estiver no mapa
+    escolha (s) {
+      caso 1: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa[0], posicao_isometrica_objeto_y + posicao_mapa[1], 142, 0, 71, 125, img_objects) pare
+      caso 2: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa[0], posicao_isometrica_objeto_y + posicao_mapa[1], 0, 0, 71, 117, img_objects) pare
+      caso 3: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa[0], posicao_isometrica_objeto_y + posicao_mapa[1], 71, 0, 71, 125, img_objects) pare
+    }
+  }
+
+  funcao desenha_cerca(inteiro s) {
+    // Desenha a cerca que estiver no tile do mapa de cercas
+    escolha (s) {
+      // Os n√∫meros para saber o quanto cortar da cerca e quanto levant√°-la foram baseados em tentativa e erro
+
+      caso 1: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1], 6, 128, 32, 78, img_objects) pare
+      caso 11: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 17, 35, 128, 32, 78, img_objects) pare
+      caso 2: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1], 75, 128, 44, 62, img_objects) pare
+      caso 3: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1], 118, 128, 34, 95, img_objects) pare
+      caso 13: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 16, 147, 128, 32, 95, img_objects) pare
+      caso 23: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 33, 176, 128, 32, 95, img_objects) pare
+      caso 33: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 32, 239, 128, -31, 95, img_objects) pare
+      caso 43: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 18, 268, 128, -31, 95, img_objects) pare
+      caso 4: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1], 269, 223, -32, 78, img_objects) pare
+      caso 14: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 17, 237, 223, -32, 78, img_objects) pare
+      caso 5: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1], 202, 223, -44, 62, img_objects) pare
+      caso 6: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1], 156, 223, -34, 95, img_objects) pare
+      caso 16: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 17, 126, 223, -32, 95, img_objects) pare
+      caso 26: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 34, 96, 223, -32, 95, img_objects) pare
+      caso 36: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 36, 34, 223, 31, 95, img_objects) pare
+      caso 46: g.desenhar_porcao_imagem(posicao_isometrica_objeto_x + posicao_mapa_cerca[0], posicao_isometrica_objeto_y + posicao_mapa_cerca[1] - 18, 4, 223, 31, 95, img_objects) pare
+    }
+  }
+
+  funcao posicao_objeto(inteiro x, inteiro y) {
+    // Consegue as posi√ß√µes em 2D e as transforma em posi√ß√µes isom√©tricas para o objeto
+    posicao_objeto_x = x * tamtile[0]
+    posicao_objeto_y = y * tamtile[1]
+    objeto_doisD_para_isometrico()
+  }
+
+  funcao desenha_char() {
+    // Desenha o char a partir do mapa de posi√ß√µes dos sprites do char declarado no come√ßo, com isso, posi√ß√µes e dire√ß√£o, pode-se trocar as vari√°veis da posi√ß√£o
+    // da imagem do char na folha de sprites de acordo com a dire√ß√£o que estiver o char atualmente
+    g.desenhar_porcao_imagem(char_isometrico_x + posicao_mapa_char[0] + 55, char_isometrico_y + posicao_mapa_char[1] + 115, sprite[direcao][indice_imagem * 2], sprite[direcao][indice_imagem * 2 + 1], -32, -80, imagem_chars)
+    se (comecou_a_rodar) {
+      se (imagemporturnos % 5 == 0) {
+        indice_imagem = (indice_imagem + 1) % 5
+      }
+      imagemporturnos++
+    }
+  }
+
+  funcao desenha_quadro() {
+    se (fator_mexer_quadro > tam_quadro_programavel[1] / 2 - 1.5) {
+      fator_mexer_quadro = 0 // Permite que quando chegar no fim da imagem do quadro, retorne ao come√ßo dela
+    }
+    se (fator_mexer_quadro < 0) {
+      fator_mexer_quadro = tam_quadro_programavel[1] / 2 - 1.5 // Permite que quando voltar no come√ßo da imagem do quadro, retorne ao fim dela
+    }
+    // 36 √© a altura da placa "programa"
+    g.desenhar_imagem(posicao_quadro[0], posicao_quadro[1] - 36, img_quadros_adjacentes) // Placa programa
+    g.desenhar_porcao_imagem(posicao_quadro[0], posicao_quadro[1], 0, fator_mexer_quadro, tam_quadro_programavel[0], tam_quadro_programavel[1] / 2, img_quadros) // Metade do quadro parte de cima
+    g.desenhar_porcao_imagem(posicao_quadro[0], posicao_quadro[1] + tam_quadro_programavel[1] / 2, 0, fator_mexer_quadro, tam_quadro_programavel[0], tam_quadro_programavel[1] / 2, img_quadros) // Metade do quadro parte de baixo
+    g.desenhar_imagem(posicao_setas[0], posicao_setas[1], img_setas)
+    para (inteiro i = 0; i < tam_matriz_quadro[0]; i++) {
+      para (inteiro j = 0; j < tam_matriz_quadro[1]; j++) {
+        desenha_comando_no_quadro(mat_pos_quadro_programavel[i][j], i, j)
+      }
+    }
+  }
+
+  funcao desenha_comando_no_quadro(inteiro s, inteiro i, inteiro j) {
+    // Desenha os comandos do quadro que forem sendo colocados
+    real fator_saiu_do_quadro = 0.0
+    real fator_saiu_por_cima = 0.0
+    // Os c√°lculos abaixo definem se um comando est√° dentro ou fora da √°rea do quadro quando ele √© movido pelas setas no programa
+    // os fatores v√£o ser usados na hora de imprimir os comandos no quadro, pois eles definir√£o o quanto ser√° das imagens caso
+    // apenas uma parte delas precise ser desenhada
+    se ((i * (tam_comandos[1]) + fator_mexer_matriz_comandos) < 0) {
+      fator_saiu_do_quadro = (i * (tam_comandos[1]) + fator_mexer_matriz_comandos)
+      se (-fator_saiu_do_quadro > tam_comandos[1]) {
+        fator_saiu_do_quadro = -tam_comandos[1]
+      }
+      fator_saiu_por_cima = fator_saiu_do_quadro
+    }
+    se ((i * (tam_comandos[1]) + fator_mexer_matriz_comandos) > tam_quadro_programavel[1] - tam_comandos[1]) {
+      fator_saiu_do_quadro = (tam_quadro_programavel[1] - (i * (tam_comandos[1]) + fator_mexer_matriz_comandos)) - tam_comandos[1]
+      se (fator_saiu_do_quadro < -tam_comandos[1]) {
+        fator_saiu_do_quadro = -tam_comandos[1]
+      }
+    }
+    // A condi√ß√£o abaixo define se um comando est√° dentro do loop e desenha um risco atr√°s dele para dar a impress√£o de continuidade do loop
+    se (s > fator_dentro_loop) {
+      g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 1 * tam_comandos[0], 2 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor)
+    }
+    // A escolha abaixo desenha o comando a partir de sua posi√ß√£o e o quanto est√° dentro ou fora do quadro
+    escolha (s % 10) {
+      caso ESQUERDA: g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 0 * tam_comandos[0], 0 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor) pare
+      caso DESCE: g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 0 * tam_comandos[0], 1 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor) pare
+      caso SOBE: g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 1 * tam_comandos[0], 0 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor) pare
+      caso DIREITA: g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 1 * tam_comandos[0], 1 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor) pare
+      caso COMANDO_LOOP_inicio: g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 0 * tam_comandos[0], 2 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor) pare
+      caso COMANDO_LOOP_fim: g.desenhar_porcao_imagem(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 2 * tam_comandos[0], 2 * tam_comandos[1] - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_comandos_menor) pare
+    }
+    // Coment√°rio com a fun√ß√£o para verificar os n√∫meros do quadro de comandos
+    // debug_quadro_comandos(s, posicao_quadro[0]+(j*tam_comandos[0]), posicao_quadro[1]+(i*(tam_comandos[1])+fator_mexer_matriz_comandos))
+
+    // Verificam se os bot√µes excluir e n√∫mero de loops foram clicados e modificam o quadro
+    se (comecou_a_rodar == falso) {
+      verifica_botao_excluir(i, j, fator_saiu_por_cima, fator_saiu_do_quadro)
+    }
+    verifica_botoes_numero_loop(i, j, fator_saiu_por_cima, fator_saiu_do_quadro)
+    // Desenha a borda do comando atual sendo executado
+    se (j == pos_quadro_x e i == pos_quadro_y e comecou_a_rodar == verdadeiro) {
+      g.desenhar_porcao_imagem(posicao_quadro[0] + (pos_quadro_x * tam_comandos[0]), posicao_quadro[1] + (pos_quadro_y * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 0, 0 - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro, img_borda)
+    }
+  }
+
+  funcao desenha_comandos() {
+    // Desenha a imagem dos comandos que podem ser pegos (s√£o os comandos que ficam com o personagem √† direita)
+    g.desenhar_imagem(posicao_quadro[0] + tam_quadro_programavel[0] + tam_setas[0], posicao_quadro[1], img_comandos)
+  }
+
+  funcao desenha_comando_no_mouse() {
+    // Desenha o objeto que foi clicado e est√° sendo arrastado pelo mouse, no mouse
+    acha_mouse()
+    se (objeto_clicado == ESQUERDA) {
+      g.desenhar_porcao_imagem(posicao_x_mouse - (tam_mat_comandos[0] / 2), posicao_y_mouse - (tam_mat_comandos[1] / 2), 0 * tam_mat_comandos[0] + 35, 0 * tam_mat_comandos[1] + 50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
+    }
+    se (objeto_clicado == DESCE) {
+      g.desenhar_porcao_imagem(posicao_x_mouse - (tam_mat_comandos[0] / 2), posicao_y_mouse - (tam_mat_comandos[1] / 2), 0 * tam_mat_comandos[0] + 35, 1 * tam_mat_comandos[1] + 50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
+    }
+    se (objeto_clicado == SOBE) {
+      g.desenhar_porcao_imagem(posicao_x_mouse - (tam_mat_comandos[0] / 2), posicao_y_mouse - (tam_mat_comandos[1] / 2), 1 * tam_mat_comandos[0] + 35, 0 * tam_mat_comandos[1] + 50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
+    }
+    se (objeto_clicado == DIREITA) {
+      g.desenhar_porcao_imagem(posicao_x_mouse - (tam_mat_comandos[0] / 2), posicao_y_mouse - (tam_mat_comandos[1] / 2), 1 * tam_mat_comandos[0] + 35, 1 * tam_mat_comandos[1] + 50, tam_mat_comandos[0], tam_mat_comandos[1], img_comandos)
+    }
+    se (objeto_clicado == COMANDO_LOOP) {
+      g.desenhar_porcao_imagem(posicao_x_mouse - (tam_mat_comandos[0] / 2), posicao_y_mouse - (tam_mat_comandos[1] / 2), 0 * tam_mat_comandos[0], 2 * tam_mat_comandos[1] + 50, tam_mat_comandos[0] * 3 - 20, tam_mat_comandos[1], img_comandos)
+    }
+  }
+
+  funcao desenha_exemplo() {
+    // Desenha o personagem exemplo, que fica junto ao quadro de comandos √† direita
+    g.desenhar_porcao_imagem(posicao_comandos[0] + tam_mat_comandos[0] + 20, posicao_comandos[1] + tam_mat_comandos[1] + 10, sprite[direcao_exemplo][indice_imagem_exemplo * 2], sprite[direcao_exemplo][indice_imagem_exemplo * 2 + 1], -32, -80, imagem_exemplo)
+    se (mouse_esta_sobre_comandos()) {
+      se (imagemporturnos_exemplo % 4 == 0) {
+        indice_imagem_exemplo = (indice_imagem_exemplo + 1) % 5
+      }
+      imagemporturnos_exemplo++
+    }
+  }
+
+  funcao desenha_botoes() {
+    // Desenha os bot√µes play e excluir
+    g.desenhar_porcao_imagem(posicao_botoes[0], posicao_botoes[2], 34, 0, tam_botoes[0], tam_botoes[1], img_botoes)
+    se (comecou_a_rodar) {
+      g.desenhar_imagem(posicao_botoes[1], posicao_botoes[2], img_botao_parar)
+    } senao {
+      g.desenhar_porcao_imagem(posicao_botoes[1] + 5, posicao_botoes[2], 0, 0, tam_botoes[0], tam_botoes[1], img_botoes)
+    }
+  }
+
+  funcao desenha_pontuacao() {
+    // Desenha as pontua√ß√µes no topo
+    cadeia texto_pontuacao = "Tempo: " + pontos_tempo + " | Instru√ß√µes: " + pontos_instrucoes + " | Loops: " + pontos_loops + " | Deletados: " + pontos_deletados + " | Limpou: " + pontos_limpou + " | Plays: " + pontos_play + " | Comandos no loop: " + pontos_loop_dentro
+
+    inteiro fator_centralizar = 400
+    fator_centralizar -= (tx.numero_caracteres(texto_pontuacao) / 2) * 7.5
+
+    g.desenhar_imagem(0, 0, img_quadro_pontuacao)
+    g.definir_cor(g.COR_PRETO)
+    g.definir_tamanho_texto(17.0)
+    g.desenhar_texto(fator_centralizar, 10, texto_pontuacao)
+    g.definir_cor(0x99FF66)
+  }
+
+  funcao desenha_numero_loop(inteiro x, inteiro y, inteiro numero, real fator_saiu_do_quadro, real fator_saiu_por_cima) {
+    // Descobre o n√∫mero do loop e o desenha ao lado do pr√≥prio
+
+    inteiro numeros[] = {0, 0, 0, 0}, j
+    inteiro fator_centralizar = 0, fator_separar = 0
+
+    para (inteiro i = u.numero_elementos(numeros) - 1; i >= 0; i--) {
+      // √â retirado cada final do n√∫mero recebido e colocado em um vetor, para cada um ser desenhado separadamente
+      numeros[i] = numero % 10
+      numero = numero / 10
+    }
+    para (j = 0; j < u.numero_elementos(numeros); j++) {
+      // Necess√°rio para o desenho n√£o come√ßar com zeros na frente, o j ter√° a posi√ß√£o certa a se come√ßar a desenhar
+      se (numeros[j] != 0) {
+        pare
+      }
+    }
+
+    se (j < u.numero_elementos(numeros) e j != 0) {
+      fator_centralizar = 10 / j
+    }
+
+    para (inteiro g = j; g < u.numero_elementos(numeros); g++) {
+      g.desenhar_porcao_imagem(x + fator_separar * 10 - fator_centralizar, y, numeros[g] * 10, 0 - fator_saiu_por_cima, 10, 20 + fator_saiu_do_quadro, img_numeros)
+      fator_separar++
+    }
+  }
+
+  funcao mexe_quadro() {
+    // Define quanto os comandos ir√£o se mexer e quanto o quadro tamb√©m ir√°.
+    // se est√° no limite do in√≠cio ou do fim do quadro, ambos n√£o poder√£o se mover
+    se (nao pegou_comando) {
+      se (fator_mexer_matriz_comandos < 0) {
+        se (esta_clicando_na_seta() == SOBE) {
+          fator_mexer_quadro -= 2
+          fator_mexer_matriz_comandos += 2
+        }
+      }
+      se ((21 * (tam_comandos[1]) + fator_mexer_matriz_comandos) > tam_quadro_programavel[1] - tam_comandos[1]) {
+        se (esta_clicando_na_seta() == DESCE) {
+          fator_mexer_quadro += 2
+          fator_mexer_matriz_comandos -= 2
+        }
+      }
+    }
+  }
+
+  funcao verifica_botoes_numero_loop(inteiro i, inteiro j, real fator_saiu_por_cima, real fator_saiu_do_quadro) {
+    // Verifica se o comando do fim do loop foi clicado nos bot√µes + e -, e desenha o for necess√°rio.
+    inteiro numero = mat_pos_quadro_programavel[i][j]
+    se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_fim) {
+      se (mouse_esta_sobre_objeto(posicao_quadro[0] + (j * tam_comandos[0]) + 11, posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima + 13, 16, 16) e nao pegou_comando e comecou_a_rodar == falso) {
+        se ((objeto_foi_clicado(verdadeiro) e (mat_pos_quadro_programavel[i][j] % (fator_dentro_loop / 10) > 10))) {
+          objeto_clicado = BOTAO_DIMINUIR_LOOP
+        }
+        se ((objeto_foi_clicado(verdadeiro) == falso e (mat_pos_quadro_programavel[i][j] % (fator_dentro_loop / 10) > 10)) e objeto_clicado == BOTAO_DIMINUIR_LOOP) {
+          objeto_clicado = 0
+          mat_pos_quadro_programavel[i][j] -= 10
+        }
+      }
+
+      se (mouse_esta_sobre_objeto(posicao_quadro[0] + (j * tam_comandos[0]) + 46, posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima + 13, 16, 16) e nao pegou_comando e comecou_a_rodar == falso) {
+        se (objeto_foi_clicado(verdadeiro)) {
+          objeto_clicado = BOTAO_AUMENTAR_LOOP
+        }
+        se (objeto_foi_clicado(verdadeiro) == falso e objeto_clicado == BOTAO_AUMENTAR_LOOP) {
+          objeto_clicado = 0
+          mat_pos_quadro_programavel[i][j] += 10
+        }
+      }
+
+      se (numero > fator_dentro_loop) {
+        numero = numero % fator_dentro_loop
+      }
+      desenha_numero_loop(posicao_quadro[0] + (j * tam_comandos[0]) + 30, posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, numero / 10, fator_saiu_do_quadro, fator_saiu_por_cima)
+    }
+  }
+
+  funcao verifica_botao_excluir(inteiro i, inteiro j, real fator_saiu_por_cima, real fator_saiu_do_quadro) {
+    // Verifica se o x do comando foi clicado e assim tenta exclu√≠-lo do local; se for um loop, ele tamb√©m levar√° o come√ßo do loop
+    // por√©m n√£o ser√£o retirados os comandos dentro do loop
+    se (mat_pos_quadro_programavel[i][j] != 0) {
+      se ((mouse_esta_sobre_objeto(posicao_quadro[0] + (j * tam_comandos[0]), posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, tam_comandos[0], tam_comandos[1] + fator_saiu_do_quadro) e mat_pos_quadro_programavel[i][j] != 0) e pegou_comando == falso) {
+        g.desenhar_imagem(posicao_quadro[0] + (j * tam_comandos[0]) + tam_comandos[0] - 17, posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, img_botao_excluir)
+        se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_quadro[0] + (j * tam_comandos[0]) + tam_comandos[0] - 17, posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 17.0, 17.0))) {
+          objeto_clicado = BOTAO_EXCLUIR
+        }
+        se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_quadro[0] + (j * tam_comandos[0]) + tam_comandos[0] - 17, posicao_quadro[1] + (i * (tam_comandos[1]) + fator_mexer_matriz_comandos) - fator_saiu_por_cima, 17.0, 17.0)) == falso e objeto_clicado == BOTAO_EXCLUIR) {
+          pontos_instrucoes--
+          pontos_deletados++
+          objeto_clicado = 0
+          se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_inicio ou mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_fim) {
+            retirar_loop(i, j, mat_pos_quadro_programavel[i][j] % 10)
+          } senao {
+            retirar_comando(i, j)
+          }
+        }
+      }
+    }
+  }
+
+  funcao inteiro esta_clicando_na_seta() {
+    // Retorna se alguma seta que move o quadro foi clicada
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_setas[0], posicao_setas[1], tam_setas[0], tam_setas[1]))) {
+      retorne SOBE
+    }
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_setas[0], posicao_setas[2], tam_setas[0], tam_setas[1]))) {
+      retorne DESCE
+    }
+    retorne 0
+  }
+
+  funcao logico mouse_esta_sobre_comandos() {
+    // Retorna se o mouse est√° sobre algum dos comandos √† direita
+    se (mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])) {
+      direcao_exemplo = oeste
+      retorne verdadeiro
+    }
+    se (mouse_esta_sobre_objeto(posicao_comandos[0] + tam_mat_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])) {
+      direcao_exemplo = norte
+      retorne verdadeiro
+    }
+    se (mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1] + tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])) {
+      direcao_exemplo = sul
+      retorne verdadeiro
+    }
+    se (mouse_esta_sobre_objeto(posicao_comandos[0] + tam_mat_comandos[0], posicao_comandos[1] + tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1])) {
+      direcao_exemplo = leste
+      retorne verdadeiro
+    }
+    se (mouse_esta_sobre_objeto(posicao_comandos[0] - 35, posicao_comandos[1] + 2 * tam_mat_comandos[1], tam_mat_comandos[0] * 2, tam_mat_comandos[1])) {
+      retorne verdadeiro
+    }
+    indice_imagem_exemplo = 0
+    retorne falso
+  }
+
+  funcao inteiro comando_que_foi_clicado() {
+    // Verifica se algum comando foi clicado e retorna qual
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))) {
+      pegou_comando = verdadeiro
+      retorne COMANDO_ESQUERDA
+    }
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0] + tam_mat_comandos[0], posicao_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))) {
+      pegou_comando = verdadeiro
+      retorne COMANDO_SOBE
+    }
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0], posicao_comandos[1] + tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))) {
+      pegou_comando = verdadeiro
+      retorne COMANDO_DESCE
+    }
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0] + tam_mat_comandos[0], posicao_comandos[1] + tam_mat_comandos[1], tam_mat_comandos[0], tam_mat_comandos[1]))) {
+      pegou_comando = verdadeiro
+      retorne COMANDO_DIREITA
+    }
+    se (objeto_foi_clicado(mouse_esta_sobre_objeto(posicao_comandos[0] - 35, posicao_comandos[1] + 2 * tam_mat_comandos[1], tam_mat_comandos[0] * 2, tam_mat_comandos[1]))) {
+      pegou_comando = verdadeiro
+      retorne COMANDO_LOOP
+    }
+    retorne 0
+  }
+
+  funcao logico mouse_esta_sobre_objeto(real posicao_x_objeto, real posicao_y_objeto, real tamanho_x_objeto, real tamanho_y_objeto) {
+    // Fun√ß√£o gen√©rica que retorna se o mouse est√° sobre um objeto, precisa-se saber a posi√ß√£o e o tamanho do objeto
+    acha_mouse()
+    se (posicao_x_mouse > posicao_x_objeto e posicao_x_mouse < posicao_x_objeto + tamanho_x_objeto) {
+      se (posicao_y_mouse > posicao_y_objeto e posicao_y_mouse < posicao_y_objeto + tamanho_y_objeto) {
+        em_cima_de_um_objeto = verdadeiro
+        retorne verdadeiro
+      }
+    }
+    retorne falso
+  }
+
+  funcao logico objeto_foi_clicado(logico esta_no_objeto) {
+    // Fun√ß√£o gen√©rica que retorna se o objeto foi clicado, precisa-se da confirma√ß√£o se o mouse est√° sobre o objeto
+    // utilizada normalmente com a fun√ß√£o mouse_esta_sobre_objeto()
+    se (esta_no_objeto e mo.botao_pressionado(mo.BOTAO_ESQUERDO)) {
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao logico verifica_tile() {
+    // Verifica o tile
+    acha_char()
+    retorne verifica_proximo(posicao_maty, posicao_matx)
+  }
+
+  funcao logico verifica_proximo(inteiro y, inteiro x) {
+    // Verifica se o pr√≥ximo tile est√° apto para andar
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == DIREITA) {
+      se (x + 1 < 8) {
+        se ((mapa[y][x + 1] == 0 ou mapa[y][x + 1] == 4) e mapa_cerca_vertical[y][x + 1] % 10 == 0) {
+          retorne verdadeiro
+        }
+      }
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == ESQUERDA) {
+      se (x - 1 > -1) {
+        se ((mapa[y][x - 1] == 0 ou mapa[y][x - 1] == 4) e mapa_cerca_vertical[y][x] % 10 == 0) {
+          retorne verdadeiro
+        }
+      }
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == SOBE) {
+      se (y - 1 > -1) {
+        se ((mapa[y - 1][x] == 0 ou mapa[y - 1][x] == 4) e mapa_cerca_horizontal[y][x] % 10 == 0) {
+          retorne verdadeiro
+        }
+      }
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == DESCE) {
+      se (y + 1 < 8) {
+        se ((mapa[y + 1][x] == 0 ou mapa[y + 1][x] == 4) e mapa_cerca_horizontal[y + 1][x] % 10 == 0) {
+          retorne verdadeiro
+        }
+      }
+    }
+
+    retorne falso
+  }
+
+  funcao proximo_tile() {
+    // Faz o char andar para o pr√≥ximo tile
+    se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == DIREITA) {
+      mapa_char[posicao_maty][posicao_matx + 1] = 1
+      mapa_char[posicao_maty][posicao_matx] = 0
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == ESQUERDA) {
+      mapa_char[posicao_maty][posicao_matx - 1] = 1
+      mapa_char[posicao_maty][posicao_matx] = 0
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == SOBE) {
+      mapa_char[posicao_maty - 1][posicao_matx] = 1
+      mapa_char[posicao_maty][posicao_matx] = 0
+    } senao se (mat_pos_quadro_programavel[pos_quadro_y][pos_quadro_x] % 10 == DESCE) {
+      mapa_char[posicao_maty + 1][posicao_matx] = 1
+      mapa_char[posicao_maty][posicao_matx] = 0
+    }
+  }
+
+  funcao objeto_doisD_para_isometrico() {
+    // Transforma as posi√ß√µes 2D de um objeto para isom√©tricas
+    posicao_isometrica_objeto_x = posicao_objeto_x - posicao_objeto_y
+    posicao_isometrica_objeto_y = (posicao_objeto_x + posicao_objeto_y) / 1.75
+  }
+
+  funcao char_doisD_para_isometrico() {
+    // Transforma as posi√ß√µes do char de 2D para isom√©tricas
+    char_isometrico_x = char_x - char_y
+    char_isometrico_y = (char_x + char_y) / 1.75
+  }
+
+  funcao mover() {
+    // Faz o incremento na posi√ß√£o da imagem do char
+    char_x += incrementohorizontal
+    char_y += incrementovertical
+    char_doisD_para_isometrico()
+  }
+
+  funcao acha_char() {
+    // Encontra a posi√ß√£o do char e a coloca em vari√°veis
+    para (inteiro i = 0; i < 8; i++) {
+      para (inteiro j = 0; j < 8; j++) {
+        se (mapa_char[i][j] == 1) {
+          posicao_maty = i
+          posicao_matx = j
+        }
+      }
+    }
+  }
+
+  funcao logico venceu() {
+    // Verifica se o char chegou ao fim do mapa
+    acha_char()
+    se (mapa[posicao_maty][posicao_matx] == 4) {
+      retorne verdadeiro
+    }
+    retorne falso
+  }
+
+  funcao resetar() {
+    // Retorna o char ao in√≠cio e limpa a matriz de comandos
+    posicao_inicial()
+    limpar_caminho_matriz()
+  }
+
+  funcao retirar_comando(inteiro i, inteiro j) {
+    // Fun√ß√£o que retira um comando do quadro
+    se (mat_pos_quadro_programavel[i][j] > fator_dentro_loop e (mat_pos_quadro_programavel[i][j] % 10 != COMANDO_LOOP_inicio e mat_pos_quadro_programavel[i][j] % 10 != COMANDO_LOOP_fim)) {
+      pontos_loop_dentro--
+    }
+    para (; i < tam_matriz_quadro[0]; i++) {
+      para (; j < tam_matriz_quadro[1]; j++) {
+        se (j == tam_matriz_quadro[1] - 1) {
+          mat_pos_quadro_programavel[i][j] = mat_pos_quadro_programavel[i + 1][0]
+        } senao {
+          mat_pos_quadro_programavel[i][j] = mat_pos_quadro_programavel[i][j + 1]
+        }
+        se (mat_pos_quadro_programavel[i][j] == 0) {
+          retorne
+        }
+      }
+      j = 0
+    }
+  }
+
+  funcao retirar_loop(inteiro i, inteiro j, inteiro tipo_a_deletar) {
+    // Fun√ß√£o que retira um loop do quadro.
+    // o in√≠cio e o final do loop s√£o retirados sem retirar os comandos dentro dele
+    inteiro pular_loop_interno = 0
+    pontos_loops--
+    se (mat_pos_quadro_programavel[i][j] > fator_dentro_loop e mat_pos_quadro_programavel[i][j] - fator_dentro_loop < fator_dentro_loop) {
+      pontos_loop_dentro--
+    }
+    retirar_comando(i, j)
+    se (tipo_a_deletar == COMANDO_LOOP_inicio) {
+      para (; i < tam_matriz_quadro[0]; i++) {
+        para (; j < tam_matriz_quadro[1]; j++) {
+          se (mat_pos_quadro_programavel[i][j] > fator_dentro_loop) {
+            mat_pos_quadro_programavel[i][j] -= fator_dentro_loop
+            se (mat_pos_quadro_programavel[i][j] < fator_dentro_loop e mat_pos_quadro_programavel[i][j] % 10 != COMANDO_LOOP_fim) {
+              pontos_loop_dentro--
+            }
+          }
+          se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_inicio) {
+            pular_loop_interno++
+          } senao se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_fim e pular_loop_interno > 0) {
+            pular_loop_interno--
+          } senao se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_fim e pular_loop_interno == 0) {
+            retirar_comando(i, j)
+            retorne
+          }
+        }
+        j = 0
+      }
+    } senao {
+      se (j == 0) {
+        j = 6
+        i--
+      } senao {
+        j--
+      }
+      para (; i >= 0; i--) {
+        para (; j >= 0; j--) {
+          se (mat_pos_quadro_programavel[i][j] > fator_dentro_loop) {
+            mat_pos_quadro_programavel[i][j] -= fator_dentro_loop
+            se (mat_pos_quadro_programavel[i][j] < fator_dentro_loop e mat_pos_quadro_programavel[i][j] % 10 != COMANDO_LOOP_inicio) {
+              pontos_loop_dentro--
+            }
+          }
+          se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_fim) {
+            pular_loop_interno++
+          } senao se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_inicio e pular_loop_interno > 0) {
+            pular_loop_interno--
+          } senao se (mat_pos_quadro_programavel[i][j] % 10 == COMANDO_LOOP_inicio e pular_loop_interno == 0) {
+            retirar_comando(i, j)
+            retorne
+          }
+        }
+        j = 6
+      }
+    }
+  }
+
+  funcao limpar_caminho_matriz() {
+    // Limpa o quadro de comandos
+    para (inteiro i = 0; i < u.numero_linhas(mat_pos_quadro_programavel); i++) {
+      para (inteiro j = 0; j < u.numero_colunas(mat_pos_quadro_programavel); j++) {
+        pontos_instrucoes = 0
+        mat_pos_quadro_programavel[i][j] = 0
+      }
+    }
+  }
+
+  funcao posicao_inicial() {
+    // Retorna o char para sua posi√ß√£o inicial
+    acha_char()
+
+    char_x = char_posicao_original_x_matriz * tamtile[0]
+    char_y = char_posicao_original_y_matriz * tamtile[1]
+
+    mapa_char[posicao_maty][posicao_matx] = 0
+    mapa_char[char_posicao_original_y_matriz][char_posicao_original_x_matriz] = 1
+    acha_char()
+    pos_quadro_x = 0
+    pos_quadro_y = 0
+
+    char_doisD_para_isometrico()
+  }
+
+  funcao definir_posicao_original() {
+    // Define a posi√ß√£o inicial do char
+    acha_char()
+    char_posicao_original_x_matriz = posicao_matx
+    char_posicao_original_y_matriz = posicao_maty
+  }
+
+  funcao debug_mapa(inteiro s) {
+    // Essa fun√ß√£o permite desenhar os n√∫meros que lhe forem enviados
+    // ela √© chamada no desenho do campo, √© normalmente utilizada para verificar se os n√∫meros nas matrizes est√£o certos
+    g.definir_cor(g.COR_PRETO)
+    g.desenhar_texto(posicao_isometrica_objeto_x + posicao_mapa[0], posicao_isometrica_objeto_y + posicao_mapa[1], tp.inteiro_para_cadeia(s, 10))
+    g.definir_cor(0x99FF66)
+  }
+
+  funcao debug_quadro_comandos(inteiro s, inteiro x, inteiro y) {
+    g.definir_cor(g.COR_PRETO)
+    g.desenhar_texto(x, y, tp.inteiro_para_cadeia(s, 10))
+    g.definir_cor(0x99FF66)
+  }
+
+  funcao proxima_fase() {
+    // Inicia a pr√≥xima fase
+    calcula_pontos()
+    nivel++
+    limpar_caminho_matriz()
+    iniciar_jogo()
+  }
+
+  funcao calcula_pontos() {
+    pontuacoes[nivel - 1] = 1 - ((pontos_instrucoes - pontos_minimos_instrucoes) * 0.01) - (pontos_deletados * 0.01) - (pontos_limpou * 0.01) - (pontos_play * 0.01) - ((pontos_loops - pontos_loops_minimos) * 0.02) - ((pontos_loop_dentro - pontos_loop_dentro_minimo) * 0.02) - (pontos_tempo * 0.0005)
+  }
+
+  funcao tela_venceu() {
+    real pontuacao_final = 0.0
+
+    para (inteiro i = 0; i < u.numero_elementos(pontuacoes); i++) {
+      pontuacao_final += pontuacoes[i]
+    }
+    pontuacao_final = pontuacao_final / u.numero_elementos(pontuacoes)
+    enquanto (objeto_foi_clicado(mouse_esta_sobre_objeto(286, 526, 230, 50)) == falso) {
+      g.desenhar_imagem(0, 0, img_fundo)
+      g.desenhar_imagem(100, 270, imagem_char)
+      g.definir_cor(g.COR_PRETO)
+      g.definir_tamanho_texto(24.0)
+      g.desenhar_imagem(370, 327, endgame)
+      g.desenhar_texto(590, 485, "" + m.arredondar(pontuacao_final * 10, 2))
+      g.desenhar_imagem(-80, 0, happy)
+      g.desenhar_imagem(400, -11, happy2)
+      desenha_mouse()
+      g.renderizar()
+      reseta_cursor()
+    }
+  }
+
+  funcao inteiro selecao_de_personagem() {
+    // Desenha a tela de sele√ß√£o de personagem
+    // e retorna o personagem selecionado
+    inteiro char_selecionado = 0
+    cadeia pasta_selecao = "./selecao_personagem/"
+    mo.ocultar_cursor()
+    img_fundo = g.carregar_imagem(pasta_selecao + "tela_fundo.png")
+    img_boy = g.carregar_imagem(pasta_selecao + "personagem_boy.png")
+    img_girl = g.carregar_imagem(pasta_selecao + "personagem_girl.png")
+    selecao_boy = g.carregar_imagem(pasta_selecao + "personagem_boy_selecao.png")
+    selecao_girl = g.carregar_imagem(pasta_selecao + "personagem_girl_selecao.png")
+    img_ajuda = g.carregar_imagem(pasta_selecao + "tela_ajuda.png")
+
+    enquanto (char_selecionado == 0) {
+      reseta_cursor()
+      g.desenhar_imagem(0, 0, img_fundo)
+      g.desenhar_imagem(14, 135, img_boy)
+      g.desenhar_imagem(487, 150, img_girl)
+      se (mouse_esta_sobre_objeto(14.0, 135.0, 395.0, 465.0)) {
+        g.desenhar_imagem(14, 135, selecao_boy)
+        se (objeto_foi_clicado(verdadeiro)) {
+          objeto_clicado = BOY
+        }
+        se (nao objeto_foi_clicado(verdadeiro) e objeto_clicado == BOY) {
+          objeto_clicado = 0
+          retorne BOY
+        }
+      }
+      se (mouse_esta_sobre_objeto(487.0, 150.0, 298.0, 465.0)) {
+        g.desenhar_imagem(487, 150, selecao_girl)
+        se (objeto_foi_clicado(verdadeiro)) {
+          objeto_clicado = GIRL
+        }
+        se (nao objeto_foi_clicado(verdadeiro) e objeto_clicado == GIRL) {
+          objeto_clicado = 0
+          retorne GIRL
+        }
+      }
+      desenha_mouse()
+      g.renderizar()
+    }
+    retorne 0
+  }
+
+  funcao carregar_personagem(inteiro char) {
+    // Vai para a tela de tutorial e carrega as imagens do personagem selecionado
+    g.limpar()
+    g.desenhar_imagem(0, 0, img_ajuda)
+    g.desenhar_imagem(286, 526, img_carregando)
+    g.renderizar()
+    cadeia pasta = "./girl/"
+    se (char == 1) {
+      pasta = "./boy/"
+    }
+    imagem_charf = g.carregar_imagem(pasta + "char_f.png")
+    imagem_chara = g.carregar_imagem(pasta + "char_a.png")
+    imagem_chars = g.carregar_imagem(pasta + "chars.png")
+    imagem_char = g.carregar_imagem(pasta + "personagem.png")
+    imagem_exemplo = g.carregar_imagem(pasta + "chars.png")
+
+    enquanto (objeto_foi_clicado(mouse_esta_sobre_objeto(286, 526, 230, 50)) == falso) {
+      g.limpar()
+      g.desenhar_imagem(0, 0, img_ajuda)
+      g.desenhar_imagem(286, 526, img_pronto)
+      desenha_mouse()
+      g.renderizar()
+      reseta_cursor()
+    }
+  }
+
+  funcao carregar_imagens() {
+    // Carrega as imagens necess√°rias
+    cadeia pasta_objetos = "./objetos/"
+    img_mapa = g.carregar_imagem("./mapa/mapa_vazio.png")
+    img_objects = g.carregar_imagem(pasta_objetos + "objects.png")
+    img_quadros = g.carregar_imagem(pasta_objetos + "quadro.png")
+    img_quadros_adjacentes = g.carregar_imagem(pasta_objetos + "quadros_adjacentes.png")
+    img_comandos = g.carregar_imagem(pasta_objetos + "comandos.png")
+    img_comandos_menor = g.carregar_imagem(pasta_objetos + "comandos_menor.png")
+    img_botoes = g.carregar_imagem(pasta_objetos + "botoes.png")
+    img_botao_excluir = g.carregar_imagem(pasta_objetos + "botao_excluir.png")
+    img_botao_parar = g.carregar_imagem(pasta_objetos + "botao_parar.png")
+    img_setas = g.carregar_imagem(pasta_objetos + "setas.png")
+    img_numeros = g.carregar_imagem(pasta_objetos + "numeros.png")
+    img_quadro_pontuacao = g.carregar_imagem(pasta_objetos + "quadro_pontuacao.png")
+    img_borda = g.carregar_imagem(pasta_objetos + "comando_ativado_borda.png")
+    img_mouse = g.carregar_imagem(pasta_objetos + "mouse.png")
+    img_carregando = g.carregar_imagem(pasta_objetos + "botao_carregando.png")
+    img_pronto = g.carregar_imagem(pasta_objetos + "botao_pronto.png")
+    img_continue = g.carregar_imagem(pasta_objetos + "botao_continue.png")
+    happy = g.carregar_imagem(pasta_objetos + "happy.gif")
+    happy2 = g.carregar_imagem(pasta_objetos + "happy2.gif")
+    endgame = g.carregar_imagem(pasta_objetos + "endgame.png")
+  }
+
+  funcao inicializar() {
+    se (TAXA_DE_ATUALIZACAO > 0) {
+      tempo_quadro = 1000 / TAXA_DE_ATUALIZACAO
+    }
+    // Inicia o modo gr√°fico
+    g.iniciar_modo_grafico(verdadeiro)
+    g.definir_dimensoes_janela(800, 600)
+    g.definir_titulo_janela("Programe")
+  }
+
+  funcao inicio() {
+    // Fun√ß√£o inicial
+    // joga para as fun√ß√µes correspondentes
+    inicializar()
+    carregar_imagens()
+    carregar_personagem(selecao_de_personagem())
+    telainicial()
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1310; 
- * @DOBRAMENTO-CODIGO = [0, 173, 179, 188, 197, 208, 217, 240, 244, 249, 268, 280, 285, 297, 318, 330, 385, 398, 418, 436, 454, 471, 509, 540, 645, 668, 727, 734, 740, 782, 809, 839, 869, 892, 913, 945, 968, 978, 1005, 1013, 1028, 1054, 1110, 1116, 1142, 1156, 1170, 1185, 1219, 1244, 1286, 1317, 1331, 1362, 1393, 1408, 1419, 1427, 1476, 1501, 1508, 1515, 1523, 1537, 1548, 1555, 1583, 1668, 1681, 1698, 1706, 1715, 1722, 1731, 1736, 1761, 1813, 1843, 1870, 1882];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */

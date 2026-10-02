@@ -1,44 +1,40 @@
-
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	Este exemplo demonstra como utilizar as funÁıes da biblioteca "Graficos" para
- * 	iniciar o ambiente grafico do Portugol.
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar as fun√ß√µes da biblioteca "Graficos" para
+ * iniciar o ambiente gr√°fico do Portugol: abrir a janela, definir o seu tamanho e o
+ * seu t√≠tulo, desenhar e exibir o resultado na tela.
  */
- 
-programa
-{
-	inclua biblioteca Graficos --> g
-	
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Graficos --> g
+  inclua biblioteca Util --> u
+
+  funcao inicio() {
+    // Abre a janela do ambiente gr√°fico. O par√¢metro verdadeiro faz com que a
+    // janela fique sempre vis√≠vel, √† frente das outras janelas
+    g.iniciar_modo_grafico(verdadeiro)
+
+    // Define o tamanho da janela (largura e altura, em pixels) e o seu t√≠tulo
+    g.definir_dimensoes_janela(400, 300)
+    g.definir_titulo_janela("Iniciando o modo gr√°fico")
+
+    // Pinta o fundo da janela: a fun√ß√£o "limpar" preenche a janela com a cor atual
+    g.definir_cor(g.COR_BRANCO)
+    g.limpar()
+
+    // Desenha um ret√¢ngulo e um texto. As coordenadas s√£o contadas a partir do
+    // canto superior esquerdo da janela
+    g.definir_cor(g.COR_AZUL)
+    g.desenhar_retangulo(50, 50, 300, 200, verdadeiro, verdadeiro)
+
+    g.definir_cor(g.COR_BRANCO)
+    g.definir_tamanho_texto(20.0)
+    g.desenhar_texto(110, 140, "Ol√°, Portugol!")
+
+    // Os desenhos s√≥ aparecem na janela depois que a fun√ß√£o "renderizar" √© chamada
+    g.renderizar()
+
+    // Aguarda 5 segundos e encerra o modo gr√°fico, fechando a janela
+    u.aguarde(5000)
+    g.encerrar_modo_grafico()
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 859; 
- * @DOBRAMENTO-CODIGO = [1];
- */

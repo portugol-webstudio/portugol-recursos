@@ -1,40 +1,30 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como interromper um som que estÃ¡ sendo reproduzido,
+ * utilizando a funÃ§Ã£o "interromper_som" da biblioteca "Sons". O som Ã© reproduzido
+ * em repetiÃ§Ã£o e interrompido depois de alguns segundos. Os sons ficam na mesma
+ * pasta do exemplo.
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Sons --> s
+  inclua biblioteca Util --> u
+
+  funcao inicio() {
+    inteiro som = s.carregar_som("chimbal.mp3")
+
+    // O parÃ¢metro verdadeiro faz com que o som se repita atÃ© ser interrompido.
+    // A funÃ§Ã£o "reproduzir_som" retorna o endereÃ§o desta reproduÃ§Ã£o, que Ã©
+    // usado para interrompÃª-la depois
+    inteiro reproducao = s.reproduzir_som(som, verdadeiro)
+
+    para (inteiro segundos = 3; segundos >= 1; segundos--) {
+      escreva("O som serÃ¡ interrompido em ", segundos, "...\n")
+      u.aguarde(1000)
+    }
+
+    s.interromper_som(reproducao)
+    escreva("Som interrompido!\n")
+
+    s.liberar_som(som)
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

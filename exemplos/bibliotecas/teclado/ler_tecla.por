@@ -1,40 +1,45 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar as funÃ§Ãµes "ler_tecla" e "caracter_tecla" da
+ * biblioteca "Teclado". A funÃ§Ã£o "ler_tecla" pausa o programa atÃ© que uma tecla seja
+ * digitada (pressionada e solta) e retorna o cÃ³digo dessa tecla. A funÃ§Ã£o
+ * "caracter_tecla" obtÃ©m o caractere correspondente a um cÃ³digo de tecla.
+ *
+ * A biblioteca "Teclado" sÃ³ funciona com o modo grÃ¡fico iniciado.
+ *
+ * Pressione ESC para encerrar o programa.
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Graficos --> g
+  inclua biblioteca Teclado --> t
+
+  funcao inicio() {
+    inteiro tecla = 0
+    cadeia digitado = ""
+
+    g.iniciar_modo_grafico(verdadeiro)
+    g.definir_dimensoes_janela(500, 300)
+    g.definir_titulo_janela("Ler tecla")
+
+    faca {
+      g.definir_cor(g.COR_PRETO)
+      g.limpar()
+
+      g.definir_cor(g.COR_BRANCO)
+      g.desenhar_texto(20, 20, "Digite algumas letras (ESC para sair):")
+      g.desenhar_texto(20, 60, digitado)
+      g.desenhar_texto(20, 100, "CÃ³digo da Ãºltima tecla: " + tecla)
+      g.renderizar()
+
+      // O programa fica parado nesta linha atÃ© que uma tecla seja digitada
+      tecla = t.ler_tecla()
+
+      // Converte o cÃ³digo da tecla no caractere correspondente
+      se (tecla >= t.TECLA_A e tecla <= t.TECLA_Z) {
+        digitado = digitado + t.caracter_tecla(tecla)
+      }
+    } enquanto (tecla != t.TECLA_ESC)
+
+    g.encerrar_modo_grafico()
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

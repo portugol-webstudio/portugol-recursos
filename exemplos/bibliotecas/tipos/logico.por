@@ -1,82 +1,49 @@
-
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	Este exemplo demonstra como utilizar as funÁıes da biblioteca "Tipos" para verificar
- * 	e converter dados do tipo caracter para outros tipos e vice-versa.
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar as fun√ß√µes da biblioteca "Tipos" para verificar
+ * e converter dados do tipo logico para outros tipos e vice-versa.
  */
- 
-programa
-{
-	inclua biblioteca Tipos --> tp
-	
-	funcao inicio()
-	{
-		caracter car
-		
-		cadeia cad1 = "Ol·"
-		cadeia cad2 = "A"
 
-		inteiro num1 = 34
-		inteiro num2 = 9
+programa {
+  inclua biblioteca Tipos --> tp
 
-		// Aqui utilizamos a funÁ„o "cadeia_e_caracter" para verificar se uma cadeia
-		// È representa um caracter. A cadeia sÛ ir· representar um caracter se o seu
-		// tamanho for exatamente igual a 1.
-		//
-		// Neste caso, ser· retornado falso, pois o valor contido na vari·vel possui
-		// mais de um caracter
-		se (tp.cadeia_e_caracter(cad1))
-		{
-			escreva("A cadeia \"", cad1, "\" representa um caracter")
-		}
+  funcao inicio() {
+    cadeia resposta = "verdadeiro"
+    caracter opcao = 'n'
+    logico valor
 
+    // Aqui utilizamos a fun√ß√£o "cadeia_e_logico" para verificar se uma cadeia
+    // representa um valor l√≥gico, isto √©, se o seu conte√∫do √© exatamente
+    // "verdadeiro" ou "falso"
+    se (tp.cadeia_e_logico(resposta)) {
+      // J√° sabemos que esta cadeia representa um valor l√≥gico. Agora usamos
+      // a fun√ß√£o "cadeia_para_logico" para convert√™-la
+      valor = tp.cadeia_para_logico(resposta)
+      escreva("A cadeia \"", resposta, "\" foi convertida no valor l√≥gico ", valor, "\n")
+    }
 
-		// Aqui repetimos o teste feito anteriormente, mas neste caso, ser· retornado 
-		// verdadeiro, pois o valor contido na vari·vel possui apenas um caracter
-		se (tp.cadeia_e_caracter(cad2))
-		{
-			escreva("A cadeia \"", cad2, "\" representa um caracter")
+    // Uma cadeia como "sim" n√£o representa um valor l√≥gico
+    se (nao tp.cadeia_e_logico("sim")) {
+      escreva("A cadeia \"sim\" n√£o representa um valor l√≥gico\n")
+    }
 
-			// Agora que j· sabemos que esta cadeia representa um caracter, podemos
-			// convertÍ-lo em um caracter e utiliz·-lo normalmente
+    // Um caractere tamb√©m pode representar um valor l√≥gico: 'S' ou 's' para
+    // verdadeiro, e 'N' ou 'n' para falso. Isso √© √∫til em perguntas de sim ou n√£o
+    se (tp.caracter_e_logico(opcao)) {
+      valor = tp.caracter_para_logico(opcao)
+      escreva("\nO caractere '", opcao, "' representa o valor l√≥gico ", valor, "\n")
+    }
 
-			car = tp.cadeia_para_caracter(cad2)
+    // Os n√∫meros inteiros tamb√©m podem ser convertidos: valores menores ou
+    // iguais a 0 se tornam falso, e valores maiores ou iguais a 1 se tornam verdadeiro
+    escreva("\nO n√∫mero 0 convertido em l√≥gico √©: ", tp.inteiro_para_logico(0), "\n")
+    escreva("O n√∫mero 5 convertido em l√≥gico √©: ", tp.inteiro_para_logico(5), "\n")
 
-			escolha (car)
-			{
-				caso 
-			}
-		}
+    // Por √∫ltimo, um valor l√≥gico pode ser convertido para os outros tipos
+    valor = verdadeiro
 
-		
-
-	}
+    escreva("\nO valor l√≥gico ", valor, " convertido em:\n")
+    escreva("  cadeia: \"", tp.logico_para_cadeia(valor), "\"\n")
+    escreva("  caracter: '", tp.logico_para_caracter(valor), "'\n")
+    escreva("  inteiro: ", tp.logico_para_inteiro(valor), "\n")
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 1659; 
- * @DOBRAMENTO-CODIGO = [1];
- */

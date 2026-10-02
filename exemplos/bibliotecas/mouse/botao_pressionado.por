@@ -1,40 +1,62 @@
-
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar a fun√ß√£o "botao_pressionado" da biblioteca
+ * "Mouse" para saber quais bot√µes do mouse est√£o pressionados em cada instante.
+ * Enquanto um bot√£o estiver pressionado, o ret√¢ngulo correspondente fica verde.
+ *
+ * A biblioteca "Mouse" s√≥ funciona com o modo gr√°fico iniciado.
+ *
+ * Pressione ESC para encerrar o programa.
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Graficos --> g
+  inclua biblioteca Mouse --> m
+  inclua biblioteca Teclado --> t
+  inclua biblioteca Util --> u
+
+  funcao inicio() {
+    g.iniciar_modo_grafico(verdadeiro)
+    g.definir_dimensoes_janela(500, 400)
+    g.definir_titulo_janela("Bot√µes pressionados")
+
+    enquanto (nao t.tecla_pressionada(t.TECLA_ESC)) {
+      g.definir_cor(g.COR_PRETO)
+      g.limpar()
+
+      // A fun√ß√£o "botao_pressionado" testa o bot√£o informado neste instante,
+      // por isso o teste √© repetido a cada passagem pelo la√ßo
+      desenhar_botao(40, "Esquerdo", m.botao_pressionado(m.BOTAO_ESQUERDO))
+      desenhar_botao(190, "Meio", m.botao_pressionado(m.BOTAO_MEIO))
+      desenhar_botao(340, "Direito", m.botao_pressionado(m.BOTAO_DIREITO))
+
+      // A fun√ß√£o "algum_botao_pressionado" testa todos os bot√µes de uma vez
+      g.definir_cor(g.COR_BRANCO)
+
+      se (m.algum_botao_pressionado()) {
+        g.desenhar_texto(40, 300, "H√° algum bot√£o pressionado")
+      } senao {
+        g.desenhar_texto(40, 300, "Nenhum bot√£o pressionado")
+      }
+
+      g.desenhar_texto(40, 360, "Pressione ESC para sair")
+
+      g.renderizar()
+      u.aguarde(10)
+    }
+
+    g.encerrar_modo_grafico()
+  }
+
+  funcao desenhar_botao(inteiro x, cadeia nome, logico pressionado) {
+    se (pressionado) {
+      g.definir_cor(g.COR_VERDE)
+    } senao {
+      g.definir_cor(g.criar_cor(80, 80, 80))
+    }
+
+    g.desenhar_retangulo(x, 100, 120, 120, verdadeiro, verdadeiro)
+
+    g.definir_cor(g.COR_BRANCO)
+    g.desenhar_texto(x + 10, 240, nome)
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

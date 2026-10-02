@@ -1,40 +1,31 @@
-
-/* CLIQUE NO SINAL DE "+", ¿ ESQUERDA, PARA EXIBIR A DESCRI«√O DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÌ
- * 
- * Este arquivo de cÛdigo fonte È livre para utilizaÁ„o, cÛpia e/ou modificaÁ„o
- * desde que este cabeÁalho, contendo os direitos autorais e a descriÁ„o do programa, 
- * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vÌdeoaulas do Portugol 
- * Studio para auxili·-lo:
- * 
- * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * DescriÁ„o:
- * 
- * 	
- * 
- * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
- * Data: 18/07/2014
+/**
+ * Este exemplo demonstra como utilizar a fun√ß√£o "selecionar_arquivo" da biblioteca
+ * "Arquivos". Ela abre uma janela para que o usu√°rio escolha um arquivo e retorna o
+ * caminho do arquivo escolhido. Os formatos de arquivo aceitos s√£o informados em um
+ * vetor, no formato "descri√ß√£o|extens√£o1,extens√£o2".
  */
- 
-programa
-{
-	funcao inicio()
-	{
-		
-	}
+
+programa {
+  inclua biblioteca Arquivos --> a
+
+  funcao inicio() {
+    // Cada posi√ß√£o do vetor descreve um formato aceito: a descri√ß√£o exibida na
+    // janela, seguida de "|" e das extens√µes, separadas por v√≠rgula
+    cadeia formatos[] = {
+      "Arquivos de texto|txt",
+      "Imagens|png,jpg,gif"
+    }
+
+    // O segundo par√¢metro indica se a op√ß√£o "Todos os arquivos" deve ser
+    // oferecida na janela
+    cadeia caminho = a.selecionar_arquivo(formatos, verdadeiro)
+
+    // Se o usu√°rio fechar a janela ou cancelar a sele√ß√£o, a fun√ß√£o retorna
+    // uma cadeia vazia
+    se (caminho == "") {
+      escreva("Nenhum arquivo foi selecionado\n")
+    } senao {
+      escreva("Voc√™ selecionou o arquivo:\n", caminho, "\n")
+    }
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seÁ„o do arquivo guarda informaÁıes do Portugol Studio.
- * VocÍ pode apag·-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 568; 
- */

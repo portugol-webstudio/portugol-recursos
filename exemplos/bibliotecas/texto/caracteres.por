@@ -1,85 +1,63 @@
-
-/* CLIQUE NO SINAL DE "+", À ESQUERDA, PARA EXIBIR A DESCRIÇÃO DO EXEMPLO
- *  
- * Copyright (C) 2014 - UNIVALI - Universidade do Vale do Itajaí
- * 
- * Este arquivo de código fonte é livre para utilização, cópia e/ou modificação
- * desde que este cabeçalho, contendo os direitos autorais e a descrição do programa, 
+/*
+ * Copyright (C) 2014 - UNIVALI - Universidade do Vale do ItajaÃ­
+ *
+ * Este arquivo de cÃ³digo fonte Ã© livre para utilizaÃ§Ã£o, cÃ³pia e/ou modificaÃ§Ã£o
+ * desde que este cabeÃ§alho, contendo os direitos autorais e a descriÃ§Ã£o do programa,
  * seja mantido.
- * 
- * Se tiver dificuldade em compreender este exemplo, acesse as vídeoaulas do Portugol 
- * Studio para auxiliá-lo:
- * 
+ *
+ * Se tiver dificuldade em compreender este exemplo, acesse as vÃ­deoaulas do Portugol
+ * Studio para auxiliÃ¡-lo:
+ *
  * https://www.youtube.com/watch?v=K02TnB3IGnQ&list=PLb9yvNDCid3jQAEbNoPHtPR0SWwmRSM-t
- * 
- * Descrição:
- * 
- * 	Este exemplo demonstra o uso da função "obter_caracter" da biblioteca "Texto" para
- * 	obter um caracter específico dentro de um dado do tipo cadeia. Neste exemplo, o
- * 	usuário deve informar um valor e o programa irá verificar se o valor digitado é
- * 	um número binário válido.
- * 
+ *
+ * DescriÃ§Ã£o:
+ *
+ *   Este exemplo demonstra o uso da funÃ§Ã£o "obter_caracter" da biblioteca "Texto" para
+ *   obter um caractere especÃ­fico dentro de um dado do tipo cadeia. Neste exemplo, o
+ *   usuÃ¡rio deve informar um valor e o programa irÃ¡ verificar se o valor digitado Ã©
+ *   um nÃºmero binÃ¡rio vÃ¡lido.
+ *
  * Autores:
- * 
- * 	Luiz Fernando Noschang (noschang@univali.br)
- * 	
+ *
+ *   Luiz Fernando Noschang (noschang@univali.br)
+ *
  * Data: 18/07/2014
  */
- 
-programa
-{
-	inclua biblioteca Texto --> tx
-	
-	funcao inicio()
-	{
-		cadeia numero
-		caracter digito
-		logico binario = verdadeiro
 
-		escreva("Informe um número no formato binário (Ex.: 1101001): ")
-		leia(numero)
+programa {
+  inclua biblioteca Texto --> tx
 
-		// Usamos um laço para percorrer todos os caracteres da cadeia. Começando 
-		// no caracter 0 e indo até o último caracter, tx.numero_caracteres(numero) - 1
-		para (inteiro indice = 0; indice <= tx.numero_caracteres(numero) - 1; indice++)
-		{
-			// Obtemos o caracter na posição indicada pelo índice
-			digito = tx.obter_caracter(numero, indice)
+  funcao inicio() {
+    cadeia numero
+    caracter digito
+    logico binario = verdadeiro
 
-			// Verificamos o caracter nesta posição. Se não for 0 nem 1, 
-			// então o número não é binário		
-			se (digito != '0' e digito != '1')
-			{
-				binario = falso
+    escreva("Informe um nÃºmero no formato binÃ¡rio (Ex.: 1101001): ")
+    leia(numero)
 
-				// Já sabemos que o número não é binário, então não precisamos continuar
-				// verificando. Por isso interrompemos o laço com o comando "pare"
-				pare
-			}
-		}
+    // Usamos um laÃ§o para percorrer todos os caracteres da cadeia. ComeÃ§ando
+    // no caractere 0 e indo atÃ© o Ãºltimo caractere, tx.numero_caracteres(numero) - 1
+    para (inteiro indice = 0; indice <= tx.numero_caracteres(numero) - 1; indice++) {
+      // Obtemos o caractere na posiÃ§Ã£o indicada pelo Ã­ndice
+      digito = tx.obter_caracter(numero, indice)
 
-		limpa()
+      // Verificamos o caractere nesta posiÃ§Ã£o. Se nÃ£o for 0 nem 1,
+      // entÃ£o o nÃºmero nÃ£o Ã© binÃ¡rio
+      se (digito != '0' e digito != '1') {
+        binario = falso
 
-		se (binario)
-		{
-			escreva("O número informado é binário\n")
-		}
-		senao
-		{
-			escreva("O número informado não é binário\n")
-		}
-	}	
+        // JÃ¡ sabemos que o nÃºmero nÃ£o Ã© binÃ¡rio, entÃ£o nÃ£o precisamos continuar
+        // verificando. Por isso interrompemos o laÃ§o com o comando "pare"
+        pare
+      }
+    }
+
+    limpa()
+
+    se (binario) {
+      escreva("O nÃºmero informado Ã© binÃ¡rio\n")
+    } senao {
+      escreva("O nÃºmero informado nÃ£o Ã© binÃ¡rio\n")
+    }
+  }
 }
-
-/* $$$ Portugol Studio $$$ 
- * 
- * Esta seção do arquivo guarda informações do Portugol Studio.
- * Você pode apagá-la se estiver utilizando outro editor.
- * 
- * @POSICAO-CURSOR = 991; 
- * @DOBRAMENTO-CODIGO = [1];
- * @PONTOS-DE-PARADA = ;
- * @SIMBOLOS-INSPECIONADOS = ;
- * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
- * @FILTRO-ARVORE-TIPOS-DE-SIMBOLO = variavel, vetor, matriz, funcao;
- */
